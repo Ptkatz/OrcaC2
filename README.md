@@ -6,7 +6,7 @@
 
 由三部分组成：`Orca_Server`(服务端)、`Orca_Master`(控制端)、`Orca_Puppet`(被控端)。
 
-<img src="https://i.imgur.com/zQzBHAS.jpeg" alt="logo.jpg" style="zoom: 50%;" />
+<img src="https://i.imgur.com/zQzBHAS.jpeg" alt="logo.jpg" style="zoom: 33%;" />
 
 ## 特性&功能
 
