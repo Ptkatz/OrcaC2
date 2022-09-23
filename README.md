@@ -232,7 +232,7 @@ https://github.com/niudaii/crack
 
 ## 已知Bug
 
-- 使用`assembly invoke`功能调用部分C#程序时会出错，在工作中务必先进行试验，建议使用`3rd_party`下的C#程序
+- 使用`assembly invoke`功能调用部分C#程序时会出错，在工作中务必先进行试验
 - 在linux下使用隐藏执行(`-hide`)时，调用`pty`功能时程序崩溃！
 - 利用smb命令执行（`smb exec`）上线时，无法使用屏幕截图与屏幕控制功能
 
