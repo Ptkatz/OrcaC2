@@ -1,0 +1,106 @@
+cheatsheet:
+  -
+    cmd: uname -a
+    description: get version info
+    privilege: user
+
+  -
+    cmd: cat /proc/version
+    description: get kernel info
+    privilege: user
+
+  -
+    cmd: cat /etc/passwd
+    description: list all users
+    privilege: user
+
+  -
+    cmd: cat /etc/group
+    description: list all groups
+    privilege: user
+
+  -
+    cmd: cat /etc/shadow
+    description: list all users hashes
+    privilege: root
+
+  -
+    cmd: last
+    description: logged in user info
+    privilege: user
+
+  -
+    cmd: env
+    description: print environment variables
+    privilege: user
+
+  -
+    cmd: history
+    description: print history command
+    privilege: user
+
+  -
+    cmd: cat /etc/*-release
+    description: get linux distribution info
+    privilege: user
+
+  -
+    cmd: crontab -l
+    description: displays scheduled jobs for current user
+    privilege: user
+
+  -
+    cmd: ls -la /etc/cron*
+    description: displays scheduled tasks file
+    privilege: user
+
+  -
+    cmd: ps -aux
+    description: list process info
+    privilege: user
+
+  -
+    cmd: ifconfig -a
+    description: list network interface info
+    privilege: user
+
+  -
+    cmd: arp -a
+    description: display all ARP cache info
+    privilege: user
+
+  -
+    cmd: route
+    description: display routing table info
+    privilege: user
+
+  -
+    cmd: netstat -ano
+    description: list local port open information
+    privilege: user
+
+  -
+    cmd: iptables -L
+    description: list iptable config rules
+    privilege: user
+
+  -
+    cmd: cat /etc/services
+    description: list port service mapping
+    privilege: user
+
+  -
+    cmd: cat /etc/my.conf
+    description: view mysql conf
+    privilege: user
+
+  -
+    cmd: find / -perm -u=s -type f 2>/dev/null
+    description: view suid files
+    privilege: user
+
+  -
+    cmd: find / -ctime +1 -ctime -5
+    description: view files from the last five days
+    privilege: user
+
