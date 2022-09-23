@@ -47,7 +47,7 @@
 
 ### Linux系统下编译
 
-```shell
+```console
 $ git clone https://github.com/Ptkatz/OrcaC2.git
 $ cd OrcaC2
 $ chmod +x install.sh
