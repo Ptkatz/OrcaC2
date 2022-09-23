@@ -6,12 +6,12 @@ import (
 	"Orca_Puppet/define/colorcode"
 	"Orca_Puppet/define/config"
 	"Orca_Puppet/define/debug"
+	"Orca_Puppet/pkg/go-engine/loggo"
+	"Orca_Puppet/pkg/go-engine/proxy"
 	"Orca_Puppet/tools/crypto"
 	"Orca_Puppet/tools/util"
 	"encoding/json"
 	"fmt"
-	"github.com/esrrhs/go-engine/src/loggo"
-	"github.com/esrrhs/go-engine/src/proxy"
 )
 
 func proxyClientStartCmd(sendUserId, decData string) {

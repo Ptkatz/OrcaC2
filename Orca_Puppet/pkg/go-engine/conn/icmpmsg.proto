@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package = "conn";
+
+message IcmpMsg {
+    enum TYPE {
+        PONG_PROTO = 0;
+        PING_PROTO = 8;
+        CLIENT_SEND_FLAG = 1;
+        SERVER_SEND_FLAG = 2;
+        MAGIC = 0xBADD;
+    }
+
+    string id = 1;
+    bytes data = 2;
+    TYPE magic = 3;
+    TYPE flag = 4;
+}

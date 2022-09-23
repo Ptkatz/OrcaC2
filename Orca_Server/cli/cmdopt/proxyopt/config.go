@@ -1,6 +1,6 @@
 package proxyopt
 
-import "github.com/esrrhs/go-engine/src/proxy"
+import "Orca_Server/pkg/go-engine/proxy"
 
 type ProxyServerParam struct {
 	Proto  string

