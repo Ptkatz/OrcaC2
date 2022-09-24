@@ -10,8 +10,8 @@ mkdir -p out/master out/server out/puppet
 cd Orca_Master && go build -o ../out/master/Orca_Master -ldflags "-s -w" && cd ..
 cd Orca_Server && go build -o ../out/server/Orca_Server -ldflags "-s -w" && cd ..
 cd Orca_Puppet && go build -o ../out/puppet/Orca_Puppet_linux_x64 -ldflags "-s -w" && cd ..
-set GOARCH=amd64
-set GOOS=windows
+export GOARCH=amd64
+export GOOS=windows
 cd Orca_Puppet && go build -o ../out/puppet/Orca_Puppet_win_x64.exe -ldflags "-s -w" && cd ..
 
 cp -r Orca_Master/3rd_party out/master/3rd_party
