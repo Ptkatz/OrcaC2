@@ -45,7 +45,7 @@
 
 
 
-### Linux系统下编译
+### Kali_Linux系统下编译
 
 ```console
 $ git clone https://github.com/Ptkatz/OrcaC2.git
