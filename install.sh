@@ -14,6 +14,6 @@ export GOARCH=amd64
 export GOOS=windows
 cd Orca_Puppet && go build -o ../out/puppet/Orca_Puppet_win_x64.exe -ldflags "-s -w" && cd ..
 
-cp -r Orca_Master/3rd_party out/master/3rd_party
-cp -r Orca_Server/db out/server/db
-cp -r Orca_Server/conf out/server/conf
+cp -r Orca_Master/3rd_party out/master/
+cp -r Orca_Server/db out/server/
+cp -r Orca_Server/conf out/server/
