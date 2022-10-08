@@ -13,6 +13,7 @@ func InitNeedPidMap() {
 	NeedPidMap["CreateRemoteThread"] = true
 	NeedPidMap["BananaPhone"] = false
 	NeedPidMap["RtlCreateUserThread"] = true
+	NeedPidMap["EtwpCreateEtwThread"] = false
 }
 
 func JudgeLoadType(loadFunc string, pid int) int {

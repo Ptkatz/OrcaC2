@@ -4,6 +4,8 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	uuid "github.com/satori/go.uuid"
+	"io"
+	"os"
 	"strings"
 )
 
@@ -36,4 +38,13 @@ func Md5(s string) string {
 	m := md5.New()
 	m.Write([]byte(s))
 	return hex.EncodeToString(m.Sum(nil))
+}
+
+// 获取文件md5值
+func GetFileMd5Sum(fileName string) string {
+	pFile, _ := os.Open(fileName)
+	defer pFile.Close()
+	md5a := md5.New()
+	io.Copy(md5a, pFile)
+	return hex.EncodeToString(md5a.Sum(nil))
 }

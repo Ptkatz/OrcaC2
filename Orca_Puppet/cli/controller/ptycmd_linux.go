@@ -33,7 +33,7 @@ func ptyCmd(sendUserId string) {
 	go func() {
 		for range ch {
 			if err := pty.InheritSize(os.Stdin, ptmx); err != nil {
-				log.Printf("error resizing pty: %s", err)
+				debug.DebugPrint("error resizing pty: " + err.Error())
 			}
 		}
 	}()

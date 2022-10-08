@@ -14,4 +14,5 @@ func InitLoaderMap() {
 	LoaderMap["createremotethread"] = loader.RunCreateRemoteThread
 	LoaderMap["bananaphone"] = loader.RunBananaPhone
 	LoaderMap["rtlcreateuserthread"] = loader.RunRtlCreateUserThread
+	LoaderMap["etwpcreateetwthread"] = loader.EtwpCreateEtwThread
 }

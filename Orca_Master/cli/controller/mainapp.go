@@ -54,6 +54,7 @@ func init() {
 	App.AddCommand(sshCmd)
 	App.AddCommand(portCmd)
 	App.AddCommand(smbCmd)
+	App.AddCommand(generateCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)

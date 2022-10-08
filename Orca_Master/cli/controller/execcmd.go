@@ -151,7 +151,8 @@ var execPECmd = &grumble.Command{
 		// 将pe文件转shellcode
 		savePath := "tmp/bin"
 		if !fileopt.IsDir(savePath) {
-			err := os.Mkdir(savePath, 0666)
+			err := os.Mkdir("tmp", 0666)
+			err = os.Mkdir(savePath, 0666)
 			if err != nil {
 				return fmt.Errorf("%s", err)
 			}

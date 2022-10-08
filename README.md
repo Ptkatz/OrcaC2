@@ -7,8 +7,9 @@
 由三部分组成：`Orca_Server`(服务端)、`Orca_Master`(控制端)、`Orca_Puppet`(被控端)。
 
 <p align="center">
-  <img src="https://i.imgur.com/OXMHJqi.jpg" width=400 height=400 alt="ST"/>
+  <img src="https://camo.githubusercontent.com/901feedaecaae6c639aa78d381759233dbfa9ccad2f67545e3471b3e41903382/68747470733a2f2f692e696d6775722e636f6d2f4f584d484a71692e6a7067" width=400 height=400 alt="ST"/>
 </p>
+
 
 
 
@@ -125,14 +126,15 @@ Orca[admin] » help
 OrcaC2 command line tool
 
 Commands:
-  clear     clear the screen
-  exit      exit the shell
-  help      use 'help [command]' for command help
-  list, ls  list hosts
-  port      use port scan or port brute
-  proxy     activate the proxy function
-  select    select the host id waiting to be operated
-  ssh       connects to target host over the SSH protocol
+  clear            clear the screen
+  exit             exit the shell
+  generate, build  generate puppet
+  help             use 'help [command]' for command help
+  list, ls         list hosts
+  port             use port scan or port brute
+  proxy            activate the proxy function
+  select           select the host id waiting to be operated
+  ssh              connects to target host over the SSH protocol
 
 Orca[admin] » ls
 +----+---------------+----------------+---------------------------------+-----------+-------+
@@ -147,26 +149,27 @@ Orca[admin] → 127.0.0.1 » help
 OrcaC2 command line tool
 
 Commands:
-  assembly     manage the CLR and execute .NET assemblies
-  back         back to the main menu
-  clear        clear the screen
-  close        close the selected remote client
-  exec         execute shellcode or pe in memory
-  exit         exit the shell
-  file         execute file upload or download
-  getadmin     bypass uac to get system administrator privileges
-  help         use 'help [command]' for command help
-  info         get basic information of remote host
-  keylogger    get information entered by the remote host through the keyboard
-  list, ls     list hosts
-  port         use port scan or port brute
-  process, ps  manage remote host processes
-  proxy        activate the proxy function
-  screen       screenshot and screensteam
-  select       select the host id waiting to be operated
-  shell, sh    send command to remote host
-  smb          lateral movement through the ipc$ pipe
-  ssh          connects to target host over the SSH protocol
+  assembly         manage the CLR and execute .NET assemblies
+  back             back to the main menu
+  clear            clear the screen
+  close            close the selected remote client
+  exec             execute shellcode or pe in memory
+  exit             exit the shell
+  file             execute file upload or download
+  generate, build  generate puppet
+  getadmin         bypass uac to get system administrator privileges
+  help             use 'help [command]' for command help
+  info             get basic information of remote host
+  keylogger        get information entered by the remote host through the keyboard
+  list, ls         list hosts
+  port             use port scan or port brute
+  process, ps      manage remote host processes
+  proxy            activate the proxy function
+  screen           screenshot and screensteam
+  select           select the host id waiting to be operated
+  shell, sh        send command to remote host
+  smb              lateral movement through the ipc$ pipe
+  ssh              connects to target host over the SSH protocol
 
 Orca[admin] → 127.0.0.1 »
 ```
@@ -176,7 +179,7 @@ Orca[admin] → 127.0.0.1 »
 ## TODO
 
 - [ ] 支持Websocket SSL
-- [ ] Dump Hash
+- [ ] Dump Lsass
 - [ ] Powershell模块加载
 - [ ] 完善Linux-memfd无文件执行
 - [ ] 内网中间人攻击
@@ -186,7 +189,7 @@ Orca[admin] → 127.0.0.1 »
 - [ ] WireGuard搭建隧道接入内网
 - [ ] 对MacOS系统更多支持
 - [ ] 根据payload生成被控端加载器
-- [ ] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
+- [x] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
 - [ ] 多端口监听器
 - [ ] ...
 
@@ -223,6 +226,8 @@ https://github.com/C-Sto/goWMIExec
 https://github.com/4dogs-cn/TXPortMap
 
 https://github.com/niudaii/crack
+
+https://github.com/anthemtotheego/C_Shot
 
 
 

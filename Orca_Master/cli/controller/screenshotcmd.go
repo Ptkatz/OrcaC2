@@ -52,7 +52,8 @@ var screenShotCmd = &grumble.Command{
 		// 保存截图路径
 		savePath := "tmp/screenshot"
 		if !fileopt.IsDir(savePath) {
-			err := os.Mkdir(savePath, 0666)
+			err := os.Mkdir("tmp", 0666)
+			err = os.Mkdir(savePath, 0666)
 			if err != nil {
 				return fmt.Errorf("%s", err)
 			}
