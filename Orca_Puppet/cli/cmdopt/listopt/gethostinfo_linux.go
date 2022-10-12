@@ -6,11 +6,8 @@ import (
 	"os"
 	"os/user"
 	"regexp"
-	"runtime"
 	"strings"
 )
-
-var sysType string = runtime.GOOS
 
 // 获取操作系统信息
 func GetOsName() string {
