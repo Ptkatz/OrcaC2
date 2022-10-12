@@ -1,5 +1,5 @@
-//go:build windows
-// +build windows
+//go:build amd64 && windows
+// +build amd64,windows
 
 package assemblyopt
 

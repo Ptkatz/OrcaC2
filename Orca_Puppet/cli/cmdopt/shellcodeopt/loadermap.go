@@ -12,7 +12,6 @@ var LoaderMap = make(map[string]loadFunc)
 func InitLoaderMap() {
 	LoaderMap["createthread"] = loader.RunCreateThread
 	LoaderMap["createremotethread"] = loader.RunCreateRemoteThread
-	LoaderMap["bananaphone"] = loader.RunBananaPhone
 	LoaderMap["rtlcreateuserthread"] = loader.RunRtlCreateUserThread
 	LoaderMap["etwpcreateetwthread"] = loader.EtwpCreateEtwThread
 }

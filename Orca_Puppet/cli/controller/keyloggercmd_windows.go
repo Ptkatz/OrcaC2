@@ -1,3 +1,6 @@
+//go:build amd64 && windows
+// +build amd64,windows
+
 package controller
 
 import (

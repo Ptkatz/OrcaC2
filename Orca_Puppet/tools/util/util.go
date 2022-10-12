@@ -9,7 +9,6 @@ import (
 	"io"
 	"math/rand"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -65,15 +64,19 @@ func ConvertByte2String(byte []byte, charset Charset) string {
 }
 
 func GetExecPath() (string, error) {
-	file, err := exec.LookPath(os.Args[0])
+
+	pid := int32(os.Getpid())
+	processes, err := process.Processes()
 	if err != nil {
 		return "", err
 	}
-	filepath.Abs(file)
-	if err != nil {
-		return "", err
+	for _, p := range processes {
+		if p.Pid == pid {
+			return p.Cmdline()
+		}
 	}
-	return filepath.Abs(file)
+	return "", err
+
 }
 
 func GetRandomProcessName() string {

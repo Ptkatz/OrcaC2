@@ -69,7 +69,7 @@ var shellCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
-		case <-time.After(10 * time.Minute):
+		case <-time.After(10 * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil
 		}

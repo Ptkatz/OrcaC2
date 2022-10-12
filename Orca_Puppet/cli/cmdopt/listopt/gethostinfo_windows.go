@@ -11,6 +11,7 @@ import (
 )
 
 var sysType = runtime.GOOS
+var sysArch = runtime.GOARCH
 
 // 获取当前执行身份 (user/admin/system)
 func GetExecPrivilege() string {

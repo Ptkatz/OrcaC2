@@ -6,6 +6,7 @@ import (
 	"Orca_Puppet/define/config"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net"
 	"strings"
 )
@@ -30,7 +31,7 @@ func GetHostInfo() string {
 	ip, _ := GetIP()
 	connPort, _ := GetConnPort()
 	os := GetOsName()
-	version := sysType + ":" + config.Version
+	version := fmt.Sprintf("%s:%s:%s", sysType, config.Version, sysArch)
 	privilege := GetExecPrivilege()
 
 	hostInfo := HostInfo{

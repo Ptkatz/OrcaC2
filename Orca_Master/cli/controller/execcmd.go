@@ -45,11 +45,7 @@ var execShellcodeCmd = &grumble.Command{
 		f.Int("i", "pid", 0, "the program pid that needs to be injected, the default is the pid of explorer.exe")
 	},
 	Run: func(c *grumble.Context) error {
-		if SelectId == -1 {
-			colorcode.PrintMessage(colorcode.SIGN_ERROR, "please select the id first")
-			return nil
-		}
-
+		
 		file := c.Flags.String("file")
 		loadFunc := strings.ToLower(c.Flags.String("type"))
 		pid := c.Flags.Int("pid")

@@ -115,6 +115,7 @@ func GetSystemInfo() SystemInfo {
 
 func GetClientInfo() ClientInfo {
 	var sysType = runtime.GOOS
+	var sysArch = runtime.GOARCH
 	currentPid := strconv.Itoa(os.Getpid())
 	onlineIp, err := listopt.GetIP()
 	if err != nil {
@@ -128,7 +129,7 @@ func GetClientInfo() ClientInfo {
 		ClientId:   common.ClientId,
 		Uptime:     common.Uptime,
 		Privilege:  listopt.GetExecPrivilege(),
-		Version:    sysType + ":" + config.Version,
+		Version:    fmt.Sprintf("%s:%s:%s", sysType, config.Version, sysArch),
 		Hostname:   listopt.GetHostName(),
 		CurrentPid: currentPid,
 		OnlineIp:   onlineIp,

@@ -8,6 +8,12 @@ cd Orca_Server\ && go build -o ..\out\server\Orca_Server_win_x64.exe -ldflags "-
 cd Orca_Puppet\ && go build -o ..\out\master\puppet\Orca_Puppet_win_x64.exe -ldflags "-s -w" && cd ..
 cd Orca_Loader\windows && gcc stub.c lib\x64\winhttp.lib -s -w -o stub_win_x64.exe && cd ..\..
 
+set GOOS=windows
+set GOARCH=386
+cd Orca_Puppet\ && go build -o ..\out\master\puppet\Orca_Puppet_win_x86.exe -ldflags "-s -w" && cd ..
+
+echo x86-stub.c needs to be compiled using visualstudio (msvc).
+
 xcopy /s /y Orca_Master\3rd_party\ out\master\3rd_party\
 xcopy /s /y Orca_Server\db\ out\server\db\
 xcopy /s /y Orca_Server\conf\ out\server\conf\

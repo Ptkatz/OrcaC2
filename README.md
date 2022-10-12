@@ -11,8 +11,6 @@
 </p>
 
 
-
-
 ## 特性&功能
 
 - Websocket通信，json格式传输数据，消息与数据采用AES-CBC加密+Base64编码
@@ -99,7 +97,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master.exe -u admin -p 123456 -H 127.0.0.1:6000
-OrcaC2 Master 0.10.0
+OrcaC2 Master 0.10.2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
                          {E777777779###########F7'

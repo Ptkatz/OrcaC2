@@ -19,8 +19,8 @@ var keyloggerCmd = &grumble.Command{
 		f.Int("t", "timeout", 5, "maximum time for a keylogger to eavesdrop (unit: minutes)")
 	},
 	Run: func(c *grumble.Context) error {
-		if SelectId == -1 {
-			colorcode.PrintMessage(colorcode.SIGN_ERROR, "please select the id first")
+		if SelectVer[len(SelectVer)-3:] == "386" {
+			colorcode.PrintMessage(colorcode.SIGN_ERROR, "this feature does not support x86 architecture")
 			return nil
 		}
 		timeout := c.Flags.Int("timeout")

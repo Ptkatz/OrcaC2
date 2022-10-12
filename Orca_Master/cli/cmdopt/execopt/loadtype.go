@@ -11,7 +11,6 @@ var NeedPidMap = make(map[string]bool)
 func InitNeedPidMap() {
 	NeedPidMap["CreateThread"] = false
 	NeedPidMap["CreateRemoteThread"] = true
-	NeedPidMap["BananaPhone"] = false
 	NeedPidMap["RtlCreateUserThread"] = true
 	NeedPidMap["EtwpCreateEtwThread"] = false
 }
