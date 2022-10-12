@@ -8,8 +8,12 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"runtime"
 	"strings"
 )
+
+var sysType = runtime.GOOS
+var sysArch = runtime.GOARCH
 
 // 获取上线IP
 func GetIP() (string, error) {
