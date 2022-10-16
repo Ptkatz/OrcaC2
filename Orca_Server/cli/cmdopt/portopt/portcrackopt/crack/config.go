@@ -5,6 +5,7 @@ var (
 		21:    "ftp",
 		22:    "ssh",
 		135:   "wmi",
+		161:   "snmp",
 		445:   "smb",
 		1433:  "mssql",
 		1521:  "oracle",
@@ -22,6 +23,7 @@ var (
 		"wmi":       true,
 		"wmihash":   true,
 		"smb":       true,
+		"snmp":      true,
 		"mssql":     true,
 		"oracle":    true,
 		"mysql":     true,
@@ -50,6 +52,7 @@ var (
 		"redis":     {""},
 		"memcached": {""},
 		"mongodb":   {"admin", "root"},
+		"snmp":      {"public"},
 	}
 
 	TemplatePass = []string{"{user}", "{user}!@#123", "{user}!@#456", "{user}#123", "{user}*PWD", "{user}1", "{user}11", "{user}12#$", "{user}123", "{user}123456", "{user}@111", "{user}@123", "{user}@123#4", "{user}@2016", "{user}@2017", "{user}@2018", "{user}@2019", "{user}@2020", "{user}@2021", "{user}@2022", "{user}_123"}

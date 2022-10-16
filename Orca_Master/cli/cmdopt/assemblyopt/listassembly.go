@@ -18,7 +18,6 @@ type AssemblyYaml struct {
 }
 
 type AssemblyStruct struct {
-	Id          int    `yaml:"id"`
 	Name        string `yaml:"name"`
 	Description string `yaml:"description"`
 	Author      string `yaml:"author"`
@@ -74,7 +73,6 @@ func SettleLoadedAssembly(msg string) []AssemblyStruct {
 		for i, name := range assemblyNames {
 			n := len(assemblyYaml.AssemblyStructs)
 			x := n + i - 1
-			assemblyYaml.AssemblyStructs[x].Id = x
 			assemblyYaml.AssemblyStructs[x].Name = name
 			assemblyYaml.AssemblyStructs[x].Author = "Unknown"
 			assemblyYaml.AssemblyStructs[x].Loaded = "loaded"

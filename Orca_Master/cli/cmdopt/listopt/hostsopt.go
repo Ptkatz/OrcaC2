@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type HostList struct {
@@ -40,9 +41,10 @@ func PrintTable(hostlists []HostList, identity int) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(48)
 
-	table.SetHeader([]string{"id", "Hostname", "Ip", "Os", "Privilege", "Port"})
+	table.SetHeader([]string{"id", "Hostname", "Ip", "Os", "Arch", "Privilege", "Port"})
 	for i, host := range hostlists {
-		data = append(data, []string{strconv.Itoa(i + 1), host.Hostname, host.Ip, host.Os, host.Privilege, host.ConnPort})
+		verSplit := strings.Split(host.Version, ":")
+		data = append(data, []string{strconv.Itoa(i + 1), host.Hostname, host.Ip, host.Os, verSplit[2], host.Privilege, host.ConnPort})
 	}
 
 	for _, raw := range data {

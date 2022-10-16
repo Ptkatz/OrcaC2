@@ -58,6 +58,9 @@ func SettleMsg(message string, ws *wsc.Wsc) {
 		case "execShell_ret":
 			common.ExecShellMsgChan <- message
 			return
+		case "execPowershell_ret":
+			common.ExecShellMsgChan <- message
+			return
 		case "execPty_ret":
 			common.ExecPtyMsgChan <- message
 			return

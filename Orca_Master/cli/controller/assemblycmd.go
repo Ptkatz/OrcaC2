@@ -55,7 +55,7 @@ var assemblyLoadCmd = &grumble.Command{
 		// 检测输入的.net程序路径
 		var exePath string
 		file := c.Args.String("file")
-		file = strings.Trim(file, " ")
+		file = strings.TrimSpace(file)
 		if file[len(file)-4:len(file)] != ".exe" {
 			file = file + ".exe"
 		}
@@ -156,7 +156,7 @@ var assemblyInvokeCmd = &grumble.Command{
 					loadedAssemblyNames = append(loadedAssemblyNames, assemblyStruct.Name)
 				}
 			}
-		case <-time.After(10 * time.Second):
+		case <-time.After(5 * time.Second):
 			return nil
 		}
 

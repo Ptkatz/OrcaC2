@@ -9,6 +9,20 @@
 <p align="center">
   <img src="https://camo.githubusercontent.com/901feedaecaae6c639aa78d381759233dbfa9ccad2f67545e3471b3e41903382/68747470733a2f2f692e696d6775722e636f6d2f4f584d484a71692e6a7067" width=400 height=400 alt="ST"/>
 </p>
+<p align="center">
+    <img src="https://img.shields.io/github/license/Ptkatz/OrcaC2">
+    <img src="https://img.shields.io/github/v/release/Ptkatz/OrcaC2?color=brightgreen">
+    <img src="https://img.shields.io/github/go-mod/go-version/Ptkatz/OrcaC2?filename=Orca_Master%2Fgo.mod&color=6ad7e5">
+</p>
+<p align="center">
+    <img src="https://img.shields.io/github/stars/Ptkatz/OrcaC2?style=social">
+    🐳
+    <img src="https://img.shields.io/github/forks/Ptkatz/OrcaC2?style=social">
+</p>
+
+
+
+
 
 
 ## 特性&功能
@@ -25,10 +39,11 @@
 - 隐藏进程（在使用`ps`命令时显示进程名为进程列表中任意进程，并能够删除自身程序）（控制端为linux系统）
 - 绕过UAC，获取管理员权限（控制端为Windows系统）
 - CLR内存加载.Net程序集（控制端为Windows系统）
+- 远程加载Powershell模块（控制端为Windows系统）
 - 远程Shellcode、PE加载（支持的注入方式：CreateThread、CreateRemoteThread、BananaPhone、RtlCreateUserThread）（控制端为Windows系统）
 - 正/反向代理、socks5正/反向代理（支持的协议：tcp、rudp(可靠udp)、ricmp(可靠icmp)、rhttp(可靠http)、kcp、quic）
 - 多协程端口扫描（指纹识别端口信息）
-- 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb）
+- 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb、snmp）
 - 远程ssh命令执行/文件上传/文件下载/ssh隧道
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
 
@@ -96,8 +111,9 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 连接成功：
 
 ```console
-C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master.exe -u admin -p 123456 -H 127.0.0.1:6000
-OrcaC2 Master 0.10.2
+C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
+OrcaC2 Master 0.10.3
+https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
                          {E777777779###########F7'
@@ -118,7 +134,7 @@ OrcaC2 Master 0.10.2
                 7N;;F7    l# "9h    "7L;g]    gF777#,
                                                        by: Ptkatz
 
-2022/09/24 00:03:01 [*] login success
+2022/10/16 19:29:53 [*] login success
 Orca[admin] » help
 
 OrcaC2 command line tool
@@ -130,19 +146,20 @@ Commands:
   help             use 'help [command]' for command help
   list, ls         list hosts
   port             use port scan or port brute
+  powershell       manage powershell script
   proxy            activate the proxy function
   select           select the host id waiting to be operated
   ssh              connects to target host over the SSH protocol
 
-Orca[admin] » ls
-+----+---------------+----------------+---------------------------------+-----------+-------+
-| ID |   HOSTNAME    |       IP       |               OS                | PRIVILEGE | PORT  |
-+----+---------------+----------------+---------------------------------+-----------+-------+
-|  1 | ULYSSES/blood | 127.0.0.1      | Microsoft Windows 11 Home China | user      |  5434 |
-|  2 | Ulysses/root  | 172.27.157.191 | Kali GNU/Linux Rolling          | root      | 35510 |
-+----+---------------+----------------+---------------------------------+-----------+-------+
+Orca[admin] » list
++----+---------------+-----------------+------------------------------------------+-------+-----------+-------+
+| ID |   HOSTNAME    |       IP        |                    OS                    | ARCH  | PRIVILEGE | PORT  |
++----+---------------+-----------------+------------------------------------------+-------+-----------+-------+
+|  1 | PTKATZ/ptkatz | 10.10.10.10     | Microsoft Windows Server 2016 Datacenter | amd64 | user      | 49704 |
+|  2 | kali/root     | 192.168.123.243 | Kali GNU/Linux Rolling                   | amd64 | root      | 35872 |
++----+---------------+-----------------+------------------------------------------+-------+-----------+-------+
 Orca[admin] » select 1
-Orca[admin] → 127.0.0.1 » help
+Orca[admin] → 10.10.10.10 » help
 
 OrcaC2 command line tool
 
@@ -161,6 +178,7 @@ Commands:
   keylogger        get information entered by the remote host through the keyboard
   list, ls         list hosts
   port             use port scan or port brute
+  powershell       manage powershell script
   process, ps      manage remote host processes
   proxy            activate the proxy function
   screen           screenshot and screensteam
@@ -169,7 +187,7 @@ Commands:
   smb              lateral movement through the ipc$ pipe
   ssh              connects to target host over the SSH protocol
 
-Orca[admin] → 127.0.0.1 »
+Orca[admin] → 10.10.10.10 »
 ```
 
 
@@ -178,7 +196,7 @@ Orca[admin] → 127.0.0.1 »
 
 - [ ] 支持Websocket SSL
 - [ ] Dump Lsass
-- [ ] Powershell模块加载
+- [x] Powershell模块加载
 - [ ] 完善Linux-memfd无文件执行
 - [ ] 内网中间人攻击
 - [ ] Linux系统的屏幕截图
@@ -186,7 +204,7 @@ Orca[admin] → 127.0.0.1 »
 - [ ] Webshell管理
 - [ ] WireGuard搭建隧道接入内网
 - [ ] 对MacOS系统更多支持
-- [ ] 根据payload生成被控端加载器
+- [x] 根据payload生成被控端加载器
 - [x] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
 - [ ] 多端口监听器
 - [ ] ...
@@ -243,10 +261,10 @@ https://github.com/anthemtotheego/C_Shot
 
 ## 免责声明
 
-本工具仅面向**合法授权**的企业安全建设行为，如您需要测试本工具的可用性，请自行搭建靶机环境。
+本工具仅面向***合法授权***的企业安全建设行为，如您需要测试本工具的可用性，请自行搭建靶机环境。
 
-在使用本工具进行检测时，您应确保该行为符合当地的法律法规，并且已经取得了足够的授权。***\*请勿对非授权目标进行扫描。\****
+在使用本工具进行检测时，您应确保该行为符合当地的法律法规，并且已经取得了足够的授权。***请勿对非授权目标进行扫描。***
 
 如您在使用本工具的过程中存在任何非法行为，您需自行承担相应后果，本人将不承担任何法律及连带责任。
 
-在安装并使用本工具前，请您***\*务必审慎阅读、充分理解各条款内容\****，限制、免责条款或者其他涉及您重大权益的条款可能会以加粗、加下划线等形式提示您重点注意。 除非您已充分阅读、完全理解并接受本协议所有条款，否则，请您不要安装并使用本工具。您的使用行为或者您以其他任何明示或者默示方式表示接受本协议的，即视为您已阅读并同意本协议的约束。
+在安装并使用本工具前，请您***务必审慎阅读、充分理解各条款内容***，限制、免责条款或者其他涉及您重大权益的条款可能会以加粗、加下划线等形式提示您重点注意。 除非您已充分阅读、完全理解并接受本协议所有条款，否则，请您不要安装并使用本工具。您的使用行为或者您以其他任何明示或者默示方式表示接受本协议的，即视为您已阅读并同意本协议的约束。

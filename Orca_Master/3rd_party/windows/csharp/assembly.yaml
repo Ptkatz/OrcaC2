@@ -1,91 +1,76 @@
 assembly:
   -
-    id: 1
     name: Ladon
     description: Multi-threaded plug-in comprehensive scanning artifact for large-scale network penetration. 
     author: K8gege
 
   -
-    id: 2
     name: winPEAS
     description: PEASS Privilege Escalation Awesome Scripts (winPEAS). 
     author: carlospolop
 
 
   -
-    id: 3
     name: Seatbelt
     description: Performs a number of security oriented host-survey "safety checks".
     author: GhostPack
 
   - 
-    id: 4
     name: Rubeus
     description: C# toolset for raw Kerberos interaction and abuses.
     author: GhostPack
 
   - 
-    id: 5
     name: SharpKatz
     description: PURE C# port of significant MimiKatz functionality such as logonpasswords, dcsync, etc.
     author: b4rtik
 
   - 
-    id: 6
     name: SharpMiniDump
     description: C# tool to Create a minidump of the LSASS process from memory.
     author: b4rtik
 
   -
-    id: 7
     name: SharpUp
     description: C# port of PowerUp that will perform numerous privilege escalation checks. 
     author: GhostPack
 
   -
-    id: 8
     name: SharpBypassUAC
     description: Currently supports the eventvwr, fodhelper, computerdefaults, sdclt, slui, and DiskCleanup UAC bypasses.
     author: FatRodzianko
 
   -
-    id: 9
     name: SweetPotato
     description: Local Service to SYSTEM privilege escalation from Windows 7 to Windows 10 / Server 2019.
     author: CCob
 
   -
-    id: 10
     name: SauronEye
     description: C# search tool find specific files containing specific keywords (.doc, .docx, .xls, .xlsx). 
     author: vivami
 
   -
-    id: 11
     name: SharpWifiGrabber
     description: Sharp Wifi Password Grabber retrieves in clear-text the Wi-Fi Passwords from all WLAN Profiles saved on a workstation.
     author: r3nhat
 
   -
-    id: 12
     name: SharpCheckInfo
     description: Collect target host information, including recently opened files, system environment variables and recycle bin files, etc.
     author: uknowsec
 
   -
-    id: 13
     name: SharpEDRChecker
     description: An EDR detection tool
     author: PwnDexter
 
   -
-    id: 14
     name: SharpDecryptPwd
     description: SharpDecryptPwd source, To Decrypt Navicat,Xmanager,Filezilla,Foxmail,WinSCP,etc
     author: uknowsec
 
   -
-    id: 14
     name: SharpAVKB
     description: Windows Anti-Virus comparison and KB patch number comparison
     author: uknowsec

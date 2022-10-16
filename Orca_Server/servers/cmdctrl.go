@@ -447,6 +447,13 @@ func fileUploadCmd(clientId, decData string) {
 		}
 	}
 	saveFile, _ := filepath.Abs("files/" + fileMetaInfo.SaveFileName)
+	dir, _ := filepath.Split(saveFile)
+	if !fileopt.IsDir(dir) {
+		err = os.Mkdir(dir, 0666)
+		if err != nil {
+			fmt.Errorf("%s", err)
+		}
+	}
 	sliceNum := fileMetaInfo.SliceNum
 	md5sum := fileMetaInfo.Md5sum
 
@@ -475,4 +482,23 @@ func fileUploadCmd(clientId, decData string) {
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(setting.CommonSetting.CryptoKey))
 		SendMessage2Client(clientId, "Server", retcode.FAIL, "fileUpload_ret", &outputMsg)
 	}
+}
+
+func powershellListCmd(clientId, decData string) {
+	type PowershellLoaded struct {
+		Name   string
+		Loaded bool
+	}
+	var powershellLoadeds []PowershellLoaded
+	json.Unmarshal([]byte(decData), &powershellLoadeds)
+	for i, _ := range powershellLoadeds {
+		filename, _ := filepath.Abs(fmt.Sprintf("files/powershell/%s.ps1", powershellLoadeds[i].Name))
+		if fileopt.IsFile(filename) {
+			powershellLoadeds[i].Loaded = true
+		}
+	}
+	data, _ := json.Marshal(powershellLoadeds)
+	retData := string(data)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "powershellList_ret", &retData)
+
 }

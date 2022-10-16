@@ -1,12 +1,11 @@
 package crack
 
 import (
+	"Orca_Puppet/cli/cmdopt/portopt/portcrackopt/crack/plugins"
 	"Orca_Puppet/define/colorcode"
 	"Orca_Puppet/tools/util"
 	"fmt"
 	"github.com/cheggaaa/pb/v3"
-	"github.com/niudaii/crack/pkg/crack"
-	"github.com/niudaii/crack/pkg/crack/plugins"
 	"strings"
 	"sync"
 	"time"
@@ -60,11 +59,11 @@ func (r *Runner) Crack(addr *IpAddr, userDict []string, passDict []string) (resu
 	taskHashMap := map[string]bool{}
 	// GenTask
 	if len(userDict) == 0 {
-		userDict = crack.UserMap[addr.Protocol]
+		userDict = UserMap[addr.Protocol]
 	}
 	if len(passDict) == 0 {
-		passDict = append(passDict, crack.TemplatePass...)
-		passDict = append(passDict, crack.CommonPass...)
+		passDict = append(passDict, TemplatePass...)
+		passDict = append(passDict, CommonPass...)
 	}
 	for _, user := range userDict {
 		for _, pass := range passDict {

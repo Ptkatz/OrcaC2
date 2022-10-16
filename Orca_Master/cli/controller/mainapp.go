@@ -30,6 +30,7 @@ func init() {
 		Flags: func(f *grumble.Flags) {
 			logo := config.Logo
 			color.Green("OrcaC2 Master " + config.Version)
+			color.Green("https://github.com/Ptkatz/OrcaC2")
 			color.Green(logo)
 			f.String("H", "host", "127.0.0.1:6000", "host of TeamServer IP:Port addresses")
 			f.String("u", "username", "", "enter username to login to the TeamServer")
@@ -55,6 +56,7 @@ func init() {
 	App.AddCommand(portCmd)
 	App.AddCommand(smbCmd)
 	App.AddCommand(generateCmd)
+	App.AddCommand(powershellCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)
@@ -90,6 +92,11 @@ func init() {
 	smbCmd.AddCommand(smbShowCmd)
 	smbCmd.AddCommand(smbUploadCmd)
 	smbCmd.AddCommand(smbExecCmd)
+	powershellCmd.AddCommand(powershellLoadCmd)
+	powershellCmd.AddCommand(powershellListCmd)
+	powershellCmd.AddCommand(powershellInvokeCmd)
+	powershellListCmd.AddCommand(powershellListScriptsCmd)
+	powershellListCmd.AddCommand(powershellListOptionsCmd)
 	RemoveCommand()
 }
 

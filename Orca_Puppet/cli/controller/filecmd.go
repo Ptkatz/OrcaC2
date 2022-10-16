@@ -12,6 +12,7 @@ import (
 	"Orca_Puppet/tools/util"
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -30,6 +31,16 @@ func fileUploadCmd(sendUserId, decData string) {
 		return
 	}
 	saveFile := fileMetaInfo.SaveFileName
+	dir, _ := filepath.Split(saveFile)
+	if !fileopt.IsDir(dir) {
+		err = os.Mkdir(dir, 0666)
+		if err != nil {
+			common.SendFailMsg(sendUserId, common.ClientId, "file dir create error", "")
+			debug.DebugPrint(sendUserId + "file dir create error")
+			setchannel.DeleteFileSliceDataChan(sendUserId)
+			return
+		}
+	}
 	sliceNum := fileMetaInfo.SliceNum
 	md5sum := fileMetaInfo.Md5sum
 

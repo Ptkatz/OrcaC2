@@ -35,5 +35,4 @@ func PrintShellOutput(message string) {
 		return
 	}
 	fmt.Println(output)
-
 }
