@@ -28,7 +28,7 @@ var powershellLoadCmd = &grumble.Command{
 	Name: "load",
 	Help: "upload powershell to server",
 	Args: func(a *grumble.Args) {
-		a.String("file", "powershell script path")
+		a.String("script", "powershell script name")
 	},
 	Usage: "powershell load [-h | --help] <file>",
 	Completer: func(prefix string, args []string) []string {
@@ -45,10 +45,13 @@ var powershellLoadCmd = &grumble.Command{
 	},
 	Run: func(c *grumble.Context) error {
 		var scriptPath string
-		file := c.Args.String("file")
-		file = strings.TrimSpace(file)
-		if file[len(file)-4:len(file)] != ".ps1" {
-			file = file + ".ps1"
+		yamlFile, _ := filepath.Abs("3rd_party/windows/powershell/powershell.yaml")
+		powershellYaml := powershellopt.ReadYamlFile(yamlFile)
+		scriptName := c.Args.String("script")
+		scriptName = strings.TrimSpace(scriptName)
+		file := powershellopt.GetPowershellFileName(scriptName, powershellYaml.PowershellStructs)
+		if file == "" {
+			file = scriptName
 		}
 		if filepath.IsAbs(file) {
 			scriptPath = file
@@ -60,7 +63,8 @@ var powershellLoadCmd = &grumble.Command{
 			return nil
 		}
 		// 发送文件元信息
-		data := fileopt.GetFileMetaInfo(scriptPath, "powershell/"+file)
+		_, uploadFile := filepath.Split(file)
+		data := fileopt.GetFileMetaInfo(scriptPath, "powershell/"+uploadFile)
 		retData := fileopt.SendFileMetaMsg("Server", data, "fileUpload")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "file upload failed")
@@ -155,6 +159,9 @@ var powershellInvokeCmd = &grumble.Command{
 	Name:  "invoke",
 	Help:  "invoke powershell script",
 	Usage: "powershell invoke [-h | --help] <param>",
+	Flags: func(f *grumble.Flags) {
+		f.Int("d", "delay", 1, "get echo delay time (s)")
+	},
 	Args: func(a *grumble.Args) {
 		a.StringList("param", "powershell parameters")
 	},
@@ -195,6 +202,7 @@ var powershellInvokeCmd = &grumble.Command{
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "this feature only support windows system")
 			return nil
 		}
+		delay := c.Flags.Int("delay")
 		args := c.Args.StringList("param")
 		if len(args) == 0 {
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "Please enter the parameters of the powershell")
@@ -203,7 +211,11 @@ var powershellInvokeCmd = &grumble.Command{
 		initCmd := strings.Join(args, " ")
 		yamlFile, _ := filepath.Abs("3rd_party/windows/powershell/powershell.yaml")
 		powershellYaml := powershellopt.ReadYamlFile(yamlFile)
-		url := fmt.Sprintf("http://%s/files/powershell/%s.ps1", api.HOST, args[0])
+		file := powershellopt.GetPowershellFileName(args[0], powershellYaml.PowershellStructs)
+		if file == "" {
+			_, file = filepath.Split(args[0])
+		}
+		url := fmt.Sprintf("http://%s/files/powershell/%s", api.HOST, file)
 		cmdStr := powershellopt.PowershellCmdParse(powershellYaml, initCmd, url)
 		retData := shellopt.SendExecShellMsg(SelectClientId, cmdStr)
 		if retData.Code != retcode.SUCCESS {
@@ -214,7 +226,7 @@ var powershellInvokeCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
-		case <-time.After(10 * time.Second):
+		case <-time.After(time.Duration(10+delay) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil
 		}

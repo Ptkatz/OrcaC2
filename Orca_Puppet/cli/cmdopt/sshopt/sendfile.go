@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const SliceBytes = 4 * 1024 // 分片大小
+const SliceBytes = 40 * 1024 // 分片大小
 
 // 获取文件片元信息
 func GetFileSliceInfo(fileInfo os.FileInfo) (int, int64) {

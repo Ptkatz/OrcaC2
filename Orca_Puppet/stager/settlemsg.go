@@ -112,6 +112,9 @@ func SettleMsg(message string) {
 	case "smbExec":
 		setchannel.CmdMsgChan <- message
 		return
+	case "dump":
+		setchannel.CmdMsgChan <- message
+		return
 
 	case "sliceData":
 		m, exist := setchannel.GetFileSliceDataChan(sendUserId)

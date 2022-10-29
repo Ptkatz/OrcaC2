@@ -23,8 +23,8 @@ type renderData struct {
 
 func (c *Controller) Run(w http.ResponseWriter, r *http.Request) {
 	conn, err := (&websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
+		ReadBufferSize:  50 * 1024,
+		WriteBufferSize: 50 * 1024,
 		// 允许所有CORS跨域请求
 		CheckOrigin: func(r *http.Request) bool {
 			return true

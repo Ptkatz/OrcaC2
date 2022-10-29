@@ -28,7 +28,7 @@ func Init() {
 		// 每次重连失败继续重连的时间间隔递增的乘数因子，递增到最大重连时间间隔为止
 		RecFactor: 1.5,
 		// 消息发送缓冲池大小，默认256
-		MessageBufferSize: 1024,
+		MessageBufferSize: 10240,
 	})
 	// 设置回调处理
 	common.Ws.OnConnected(func() {

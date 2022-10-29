@@ -13,7 +13,7 @@ type SmbUploadStruct struct {
 	FileMetaInfo fileopt.FileMetaInfo
 }
 
-const SliceBytes = 4 * 1024 // 分片大小
+const SliceBytes = 40 * 1024 // 分片大小
 
 // 获取文件元信息，并加密
 func GetFileMetaInfo(uploadFile, saveFile string) string {

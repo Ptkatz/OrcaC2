@@ -19,6 +19,7 @@ var shellCmd = &grumble.Command{
 	Usage:   "shell [-h | --help] [-l | --list] <command>",
 	Flags: func(f *grumble.Flags) {
 		f.Bool("l", "list", false, "list command cheatsheet")
+		f.Int("d", "delay", 1, "get echo delay time (s)")
 	},
 	Args: func(a *grumble.Args) {
 		a.StringList("command", "command sent to remote host")
@@ -42,6 +43,7 @@ var shellCmd = &grumble.Command{
 		return []string{}
 	},
 	Run: func(c *grumble.Context) error {
+		delay := c.Flags.Int("delay")
 		listFlag := c.Flags.Bool("list")
 		if listFlag {
 			var yamlFile string
@@ -69,7 +71,7 @@ var shellCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
-		case <-time.After(10 * time.Second):
+		case <-time.After(time.Duration(10+delay) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil
 		}

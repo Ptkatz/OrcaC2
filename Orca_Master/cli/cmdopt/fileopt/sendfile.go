@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-const SliceBytes = 4 * 1024 // 分片大小
+const SliceBytes = 40 * 1024 // 分片大小
 
 // 获取文件大小
 func GetFileSize(path string) int64 {

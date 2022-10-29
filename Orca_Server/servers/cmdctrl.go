@@ -487,12 +487,13 @@ func fileUploadCmd(clientId, decData string) {
 func powershellListCmd(clientId, decData string) {
 	type PowershellLoaded struct {
 		Name   string
+		File   string
 		Loaded bool
 	}
 	var powershellLoadeds []PowershellLoaded
 	json.Unmarshal([]byte(decData), &powershellLoadeds)
 	for i, _ := range powershellLoadeds {
-		filename, _ := filepath.Abs(fmt.Sprintf("files/powershell/%s.ps1", powershellLoadeds[i].Name))
+		filename, _ := filepath.Abs(fmt.Sprintf("files/powershell/%s", powershellLoadeds[i].File))
 		if fileopt.IsFile(filename) {
 			powershellLoadeds[i].Loaded = true
 		}

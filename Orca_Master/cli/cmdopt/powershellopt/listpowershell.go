@@ -20,6 +20,7 @@ type PowershellYaml struct {
 
 type PowershellStruct struct {
 	Name        string                `yaml:"name"`
+	File        string                `yaml:"file"`
 	Arch        string                `yaml:"arch"`
 	Privilege   string                `yaml:"privilege"`
 	Author      string                `yaml:"author"`
@@ -39,6 +40,7 @@ type PowershellCmdOption struct {
 
 type PowershellLoaded struct {
 	Name   string
+	File   string
 	Loaded bool
 }
 
@@ -47,10 +49,20 @@ func InitPowershellLoaded(powershellYaml PowershellYaml) []PowershellLoaded {
 	for _, ps := range powershellYaml.PowershellStructs {
 		powershellLoadeds = append(powershellLoadeds, PowershellLoaded{
 			Name:   ps.Name,
+			File:   ps.File,
 			Loaded: false,
 		})
 	}
 	return powershellLoadeds
+}
+
+func GetPowershellFileName(name string, powershellStructs []PowershellStruct) string {
+	for _, powershellStruct := range powershellStructs {
+		if name == powershellStruct.Name {
+			return powershellStruct.File
+		}
+	}
+	return ""
 }
 
 func GetPowershellLoadeds(message string) []PowershellLoaded {

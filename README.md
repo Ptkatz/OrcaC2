@@ -40,12 +40,13 @@
 - 绕过UAC，获取管理员权限（控制端为Windows系统）
 - CLR内存加载.Net程序集（控制端为Windows系统）
 - 远程加载Powershell模块（控制端为Windows系统）
-- 远程Shellcode、PE加载（支持的注入方式：CreateThread、CreateRemoteThread、BananaPhone、RtlCreateUserThread）（控制端为Windows系统）
+- 远程Shellcode、PE加载（支持的注入方式：CreateThread、CreateRemoteThread、RtlCreateUserThread、EtwpCreateEtwThread）（控制端为Windows系统）
 - 正/反向代理、socks5正/反向代理（支持的协议：tcp、rudp(可靠udp)、ricmp(可靠icmp)、rhttp(可靠http)、kcp、quic）
 - 多协程端口扫描（指纹识别端口信息）
 - 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb、snmp）
 - 远程ssh命令执行/文件上传/文件下载/ssh隧道
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
+- 使用MiniDumpWriteDump API 提取Lsass.dmp
 
 
 
@@ -112,7 +113,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.3
+OrcaC2 Master 0.10.4
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
@@ -168,6 +169,7 @@ Commands:
   back             back to the main menu
   clear            clear the screen
   close            close the selected remote client
+  dump             extract the lsass.dmp
   exec             execute shellcode or pe in memory
   exit             exit the shell
   file             execute file upload or download
@@ -195,7 +197,7 @@ Orca[admin] → 10.10.10.10 »
 ## TODO
 
 - [ ] 支持Websocket SSL
-- [ ] Dump Lsass
+- [x] Dump Lsass
 - [x] Powershell模块加载
 - [ ] 完善Linux-memfd无文件执行
 - [ ] 内网中间人攻击

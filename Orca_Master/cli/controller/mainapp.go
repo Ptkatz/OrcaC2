@@ -57,6 +57,7 @@ func init() {
 	App.AddCommand(smbCmd)
 	App.AddCommand(generateCmd)
 	App.AddCommand(powershellCmd)
+	App.AddCommand(dumpCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)
@@ -115,6 +116,7 @@ func AddCommand() {
 		App.Commands().Add(assemblyCmd)
 		App.Commands().Add(execCmd)
 		App.Commands().Add(getAdminCmd)
+		App.Commands().Add(dumpCmd)
 	}
 	if SelectVer[:5] == "linux" {
 		App.Commands().Add(ptyCmd)
@@ -135,6 +137,7 @@ func RemoveCommand() {
 	App.Commands().Remove("close")
 	App.Commands().Remove("info")
 	App.Commands().Remove("smb")
+	App.Commands().Remove("dump")
 }
 
 func filterStringWithPrefix(strs []string, prefix string) []string {

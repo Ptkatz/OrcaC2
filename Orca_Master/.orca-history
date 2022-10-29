@@ -1,0 +1,76 @@
+ls
+select 1
+close
+ls
+select 2
+close
+ls
+select 1
+getadmin
+ls
+select 2
+sh Dir
+s
+ls
+select 2
+ls
+sh dir
+select 1
+ls
+getadmin -c whoami -e
+getadmin -c whoami -e -d 2
+ls
+select 2
+ls
+select 1
+close
+ls
+select 2
+ls
+select 1
+getadmin -c whoami -e
+getadmin
+ls
+getadmin
+ls
+select 1
+getadmin
+ls
+select 1
+getadmin
+ls
+select 1
+select 2
+ls
+close
+ls
+select 1
+getadmin -c dir c:\\ -e
+getadmin -c dir "c:\\" -e
+getadmin -c "dir c:\\" -e
+getadmin
+ls
+lsa
+;ls
+ls
+select 1
+close
+ls
+select 2
+ls
+getadmin
+ls
+l
+getadmin -c "whoami" -e
+ls
+select
+select 1
+close
+ls
+select 1
+sh Dir
+ls
+getadmin
+ls
+getadmin -c "whoami" -e
+getadmin -c "whoami" 

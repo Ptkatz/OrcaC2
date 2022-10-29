@@ -19,7 +19,7 @@ var getAdminCmd = &grumble.Command{
 	Flags: func(f *grumble.Flags) {
 		f.String("c", "cmd", "", "run the command as an administrator")
 		f.Bool("e", "echo", false, "get echo")
-		f.Int("d", "delay", 1, "get echo")
+		f.Int("d", "delay", 1, "get echo delay time (s)")
 	},
 	Run: func(c *grumble.Context) error {
 		type AdminMsg struct {
@@ -46,7 +46,7 @@ var getAdminCmd = &grumble.Command{
 		case msg := <-common.DefaultMsgChan:
 			outputMsg, _ := crypto.Decrypt(common.GetHttpRetData(msg), []byte(config.AesKey))
 			fmt.Println(outputMsg)
-		case <-time.After(10 * time.Second):
+		case <-time.After(time.Duration(10+delay) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil
 		}

