@@ -2,9 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#ifdef BUILDDLL
-__declspec(dllexport) void main();
-#endif
+__declspec(dllexport) int main();
 
 #define KEY 24
 
