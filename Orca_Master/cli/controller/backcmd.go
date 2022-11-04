@@ -23,5 +23,5 @@ func BackMainMenu() {
 	SelectVer = ""
 	sshopt.MySsh.Node = SelectClientId
 	RemoveCommand()
-	sshopt.InitSshOption()
+	sshopt.InitSshOption("Server")
 }

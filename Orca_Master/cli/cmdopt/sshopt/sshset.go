@@ -9,9 +9,9 @@ type SshOption struct {
 
 var MySsh SshOption
 
-func InitSshOption() {
+func InitSshOption(node string) {
 	MySsh = SshOption{
-		Node:    "Server",
+		Node:    node,
 		SSHHost: "",
 		SSHUser: "",
 		SSHPwd:  "",

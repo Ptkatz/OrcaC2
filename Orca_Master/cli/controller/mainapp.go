@@ -31,7 +31,7 @@ func init() {
 			f.String("u", "username", "", "enter username to login to the TeamServer")
 			f.String("p", "password", "", "enter password to login to the TeamServer")
 			f.String("c", "color", "green", "theme color (green｜blue｜red｜black｜magenta｜yellow｜cyan｜white)")
-			sshopt.InitSshOption()
+			sshopt.InitSshOption("Server")
 		},
 	})
 

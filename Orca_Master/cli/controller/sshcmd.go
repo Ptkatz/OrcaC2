@@ -75,7 +75,7 @@ var sshSetCmd = &grumble.Command{
 			_, _, retData := common.SettleRetDataEx(msg)
 			_, _, decData := common.SettleRetData(msg)
 			if retData.Code != retcode.SUCCESS {
-				sshopt.InitSshOption()
+				sshopt.InitSshOption(SelectClientId)
 			}
 			fmt.Println(decData)
 		case <-time.After(30 * time.Second):

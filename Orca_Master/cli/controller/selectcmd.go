@@ -47,7 +47,6 @@ var selectCmd = &grumble.Command{
 		App.SetPrompt("Orca[" + Uname + "] → " + SelectIp + " » ")
 		RemoveCommand()
 		AddCommand()
-		sshopt.InitSshOption()
 		return nil
 	},
 }
