@@ -39,6 +39,15 @@ var sshSetCmd = &grumble.Command{
 		host := c.Flags.String("host")
 		user := c.Flags.String("user")
 		pass := c.Flags.String("pass")
+		if host == "" {
+			host = sshopt.MySsh.SSHHost
+		}
+		if user == "" {
+			user = sshopt.MySsh.SSHUser
+		}
+		if pass == "" {
+			pass = sshopt.MySsh.SSHPwd
+		}
 		_, err := net.ResolveTCPAddr("tcp4", host)
 		if err != nil {
 			_, err := net.ResolveIPAddr("ip4", host)

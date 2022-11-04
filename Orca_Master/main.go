@@ -20,6 +20,10 @@ func main() {
 		host := flags.String("host")
 		username := flags.String("username")
 		password := flags.String("password")
+		colorStr := flags.String("color")
+		outputMsg := fmt.Sprintf("OrcaC2 Master %s\nhttps://github.com/Ptkatz/OrcaC2\n%s", config.Version, config.Logo)
+		controller.App.Config().PromptColor = colorcode.GetPromptColor(colorStr)
+		controller.App.Config().PromptColor.Println(outputMsg)
 		// 判断服务端ip与端口是否输入正确
 		_, err := net.ResolveTCPAddr("tcp4", host)
 		if err != nil {

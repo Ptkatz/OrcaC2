@@ -2,6 +2,8 @@ package colorcode
 
 import (
 	"fmt"
+	"github.com/fatih/color"
+	"strings"
 	"time"
 )
 
@@ -40,4 +42,28 @@ func OutputMessage(signStr string, message string) string {
 	var currentTime = time.Now().Format("2006/01/02 15:04:05")
 	timeSign := COLOR_GREY + currentTime + END
 	return fmt.Sprintf("%s %s %s\n", timeSign, signStr, message)
+}
+
+func GetPromptColor(colorStr string) *color.Color {
+	colorStr = strings.ToLower(colorStr)
+	switch colorStr {
+	case "green":
+		return color.New(color.FgGreen)
+	case "blue":
+		return color.New(color.FgBlue)
+	case "red":
+		return color.New(color.FgRed)
+	case "black":
+		return color.New(color.FgBlack)
+	case "magenta":
+		return color.New(color.FgMagenta)
+	case "yellow":
+		return color.New(color.FgYellow)
+	case "cyan":
+		return color.New(color.FgCyan)
+	case "white":
+		return color.New(color.FgWhite)
+	default:
+		return color.New(color.FgWhite)
+	}
 }

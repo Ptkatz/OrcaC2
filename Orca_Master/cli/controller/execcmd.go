@@ -45,7 +45,6 @@ var execShellcodeCmd = &grumble.Command{
 		f.Int("i", "pid", 0, "the program pid that needs to be injected, the default is the pid of explorer.exe")
 	},
 	Run: func(c *grumble.Context) error {
-		
 		file := c.Flags.String("file")
 		loadFunc := strings.ToLower(c.Flags.String("type"))
 		pid := c.Flags.Int("pid")
@@ -102,7 +101,7 @@ var execShellcodeCmd = &grumble.Command{
 var execPECmd = &grumble.Command{
 	Name: "pe",
 	Help: "execute pe in memory",
-	Usage: "exec shellcode [-h | --help] [-f | --file file] [-i | --pid pid]\n" +
+	Usage: "exec pe [-h | --help] [-p | --params params] [-f | --file file] [-i | --pid pid]\n" +
 		"  Notes: The file flag must be specified\n" +
 		"  eg: \n   exec shellcode -f \"C:\\Windows\\System32\\calc.exe\"\n   exec shellcode -f \"C:\\test.dll\" -p link -i 5432",
 	Flags: func(f *grumble.Flags) {

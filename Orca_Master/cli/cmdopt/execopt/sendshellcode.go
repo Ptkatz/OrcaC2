@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-const SliceBytes = 4 * 1024 // 分片大小
+const SliceBytes = 40 * 1024 // 分片大小
 
 type ShellcodeMetaInfo struct {
 	Fid        string // 操作文件ID，随机生成的UUID
@@ -92,5 +92,4 @@ func SendFileData(clientId string, uploadFile string) {
 	}
 	SendShellcodeSliceMsg(clientId, sliceData)
 	fmt.Println()
-
 }

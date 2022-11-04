@@ -15,7 +15,7 @@ type HostList struct {
 	ClientId  string `json:"clientId" gorm:"unique"` //唯一标识
 	Hostname  string `json:"hostname"`               //主机名
 	Ip        string `json:"ip"`                     //上线ip
-	ConnPort  string `json:"connPort"`               // 上线端口
+	ConnPort  string `json:"connPort"`               //上线端口
 	Privilege string `json:"privilege"`              //执行权限
 	Os        string `json:"os"`                     //系统版本
 	Version   string `json:"version"`                //上线客户端版本

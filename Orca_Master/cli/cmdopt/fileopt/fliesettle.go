@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"io"
 	"os"
-	"path/filepath"
 )
 
 var FileDataChan chan string
@@ -60,10 +59,10 @@ func IsLocalFileLegal(localFile string) bool {
 		colorcode.PrintMessage(colorcode.SIGN_ERROR, "please enter the file path")
 		return false
 	}
-	if !filepath.IsAbs(localFile) {
-		colorcode.PrintMessage(colorcode.SIGN_ERROR, "wrong file path")
-		return false
-	}
+	//if !filepath.IsAbs(localFile) {
+	//	colorcode.PrintMessage(colorcode.SIGN_ERROR, "wrong file path")
+	//	return false
+	//}
 	if !IsFile(localFile) {
 		colorcode.PrintMessage(colorcode.SIGN_ERROR, "local file is not exist")
 		return false

@@ -160,7 +160,7 @@ var powershellInvokeCmd = &grumble.Command{
 	Help:  "invoke powershell script",
 	Usage: "powershell invoke [-h | --help] <param>",
 	Flags: func(f *grumble.Flags) {
-		f.Int("d", "delay", 1, "get echo delay time (s)")
+		f.Int("t", "timeout", 1, "timeout (s)")
 	},
 	Args: func(a *grumble.Args) {
 		a.StringList("param", "powershell parameters")
@@ -202,7 +202,7 @@ var powershellInvokeCmd = &grumble.Command{
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "this feature only support windows system")
 			return nil
 		}
-		delay := c.Flags.Int("delay")
+		timeout := c.Flags.Int("timeout")
 		args := c.Args.StringList("param")
 		if len(args) == 0 {
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "Please enter the parameters of the powershell")
@@ -226,7 +226,7 @@ var powershellInvokeCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
-		case <-time.After(time.Duration(10+delay) * time.Second):
+		case <-time.After(time.Duration(10+timeout) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil
 		}

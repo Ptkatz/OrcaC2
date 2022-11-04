@@ -40,6 +40,21 @@ var smbSetCmd = &grumble.Command{
 		pass := c.Flags.String("pass")
 		hash := c.Flags.String("hash")
 		domain := c.Flags.String("domain")
+		if host == "" {
+			host = smbopt.MySmb.Host
+		}
+		if user == "" {
+			user = smbopt.MySmb.User
+		}
+		if pass == "" {
+			pass = smbopt.MySmb.Pwd
+		}
+		if hash == "" {
+			hash = smbopt.MySmb.Hash
+		}
+		if domain == "" {
+			domain = smbopt.MySmb.Domain
+		}
 		_, err := net.ResolveTCPAddr("tcp4", host)
 		if err != nil {
 			_, err := net.ResolveIPAddr("ip4", host)

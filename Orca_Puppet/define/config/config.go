@@ -5,6 +5,6 @@ var (
 )
 
 const (
-	Version  = "0.10.4"
+	Version  = "0.10.5"
 	SystemId = "OrcaC2_" + Version
 )

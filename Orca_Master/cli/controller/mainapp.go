@@ -3,7 +3,6 @@ package controller
 import (
 	"Orca_Master/cli/cmdopt/listopt"
 	"Orca_Master/cli/cmdopt/sshopt"
-	"Orca_Master/define/config"
 	"github.com/desertbit/grumble"
 	"github.com/fatih/color"
 	"strings"
@@ -28,16 +27,14 @@ func init() {
 		HistoryFile: ".orca-history",
 		PromptColor: color.New(color.FgGreen),
 		Flags: func(f *grumble.Flags) {
-			logo := config.Logo
-			color.Green("OrcaC2 Master " + config.Version)
-			color.Green("https://github.com/Ptkatz/OrcaC2")
-			color.Green(logo)
 			f.String("H", "host", "127.0.0.1:6000", "host of TeamServer IP:Port addresses")
 			f.String("u", "username", "", "enter username to login to the TeamServer")
 			f.String("p", "password", "", "enter password to login to the TeamServer")
+			f.String("c", "color", "green", "theme color (green｜blue｜red｜black｜magenta｜yellow｜cyan｜white)")
 			sshopt.InitSshOption()
 		},
 	})
+
 	App.AddCommand(listCmd)
 	App.AddCommand(selectCmd)
 	App.AddCommand(shellCmd)
@@ -58,6 +55,7 @@ func init() {
 	App.AddCommand(generateCmd)
 	App.AddCommand(powershellCmd)
 	App.AddCommand(dumpCmd)
+	App.AddCommand(pluginCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)
@@ -98,6 +96,8 @@ func init() {
 	powershellCmd.AddCommand(powershellInvokeCmd)
 	powershellListCmd.AddCommand(powershellListScriptsCmd)
 	powershellListCmd.AddCommand(powershellListOptionsCmd)
+	pluginCmd.AddCommand(mimikatzCmd)
+	pluginCmd.AddCommand(fscanCmd)
 	RemoveCommand()
 }
 
@@ -117,6 +117,7 @@ func AddCommand() {
 		App.Commands().Add(execCmd)
 		App.Commands().Add(getAdminCmd)
 		App.Commands().Add(dumpCmd)
+		App.Commands().Add(pluginCmd)
 	}
 	if SelectVer[:5] == "linux" {
 		App.Commands().Add(ptyCmd)
@@ -138,6 +139,7 @@ func RemoveCommand() {
 	App.Commands().Remove("info")
 	App.Commands().Remove("smb")
 	App.Commands().Remove("dump")
+	App.Commands().Remove("plugin")
 }
 
 func filterStringWithPrefix(strs []string, prefix string) []string {

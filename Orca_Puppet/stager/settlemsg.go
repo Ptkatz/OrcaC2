@@ -58,6 +58,9 @@ func SettleMsg(message string) {
 	case "shellcode":
 		setchannel.CmdMsgChan <- message
 		return
+	case "plugin":
+		setchannel.CmdMsgChan <- message
+		return
 	case "screenshot":
 		setchannel.CmdMsgChan <- message
 		return
