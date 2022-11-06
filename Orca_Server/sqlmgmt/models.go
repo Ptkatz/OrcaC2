@@ -42,11 +42,11 @@ func DelRecordByClientId(clientId string) {
 
 type UsersList struct {
 	gorm.Model
-	Username   string `json:"username" gorm:"unique"`
-	Password   string `json:"password"`
-	Login_ip   string `json:"login_ip"`
-	Login_time string `json:"login_time"`
-	Online     string `json:"online"`
+	Username  string `json:"username" gorm:"unique"`
+	Password  string `json:"password"`
+	LoginIp   string `json:"login_ip"`
+	LoginTime string `json:"login_time"`
+	Online    string `json:"online"`
 }
 
 type HostList struct {

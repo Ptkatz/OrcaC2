@@ -3,7 +3,7 @@ package config
 var AesKey = ""
 
 const (
-	Version  = "0.10.5"
+	Version  = "0.10.6"
 	SystemId = "OrcaC2_" + Version
 )
 

@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://github.com/shadow1ng/fscan/releases/tag/1.8.1
+HostUrl=https://objects.githubusercontent.com/github-production-release-asset-2e65be/312629343/9226e047-9f78-4572-9d65-d07aeb09e0be?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221106%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221106T081836Z&X-Amz-Expires=300&X-Amz-Signature=28df23d76e3dca39a7517d8e69c25bb2df58abe09a3aec936f54cf50957588ca&X-Amz-SignedHeaders=host&actor_id=112046443&key_id=0&repo_id=312629343&response-content-disposition=attachment%3B%20filename%3Dfscan_amd64&response-content-type=application%2Foctet-stream

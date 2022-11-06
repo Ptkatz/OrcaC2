@@ -49,7 +49,7 @@ func fileUploadCmd(sendUserId, decData string) {
 	pSaveFile, _ := os.OpenFile(saveFile, os.O_CREATE|os.O_RDWR, 0600)
 	defer pSaveFile.Close()
 
-	// 循环获取分片数据
+	// 循ls环获取分片数据
 	for i := 0; i < sliceNum+1; i++ {
 		select {
 		case metaData := <-m:

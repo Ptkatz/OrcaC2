@@ -117,7 +117,6 @@ func AddCommand() {
 		App.Commands().Add(execCmd)
 		App.Commands().Add(getAdminCmd)
 		App.Commands().Add(dumpCmd)
-		App.Commands().Add(pluginCmd)
 	}
 	if SelectVer[:5] == "linux" {
 		App.Commands().Add(ptyCmd)
@@ -139,7 +138,6 @@ func RemoveCommand() {
 	App.Commands().Remove("info")
 	App.Commands().Remove("smb")
 	App.Commands().Remove("dump")
-	App.Commands().Remove("plugin")
 }
 
 func filterStringWithPrefix(strs []string, prefix string) []string {

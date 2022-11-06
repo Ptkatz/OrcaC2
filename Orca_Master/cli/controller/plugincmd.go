@@ -38,6 +38,9 @@ var mimikatzCmd = &grumble.Command{
 		return filterStringWithPrefix(pluginopt.MimikatzOptions, prefix)
 	},
 	Run: func(c *grumble.Context) error {
+		if SelectVer[:7] != "windows" {
+			colorcode.PrintMessage(colorcode.SIGN_ERROR, "mimikatz is not supported on non-Windows systems")
+		}
 		var file string
 		if SelectId == -1 {
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "please select the id first")
@@ -120,10 +123,19 @@ var fscanCmd = &grumble.Command{
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "please select the id first")
 			return nil
 		}
-		if SelectVer[len(SelectVer)-5:] == "amd64" {
-			file = "3rd_party/windows/plugin/x64/fscan.bin"
-		} else {
-			file = "3rd_party/windows/plugin/Win32/fscan.bin"
+		if SelectVer[:7] == "windows" {
+			if SelectVer[len(SelectVer)-5:] == "amd64" {
+				file = "3rd_party/windows/plugin/x64/fscan.bin"
+			} else {
+				file = "3rd_party/windows/plugin/Win32/fscan.bin"
+			}
+		}
+		if SelectVer[:5] == "linux" {
+			if SelectVer[len(SelectVer)-5:] == "amd64" {
+				file = "3rd_party/linux/plugin/amd64/fscan_amd64"
+			} else {
+				file = "3rd_party/linux/plugin/386/fscan_386"
+			}
 		}
 		var params string
 		hosts := c.Flags.String("hosts")

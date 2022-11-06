@@ -77,6 +77,7 @@ var portScanCmd = &grumble.Command{
 		var resultEvents []*output.ResultEvent
 		portscanopt.Writer, _ = output.NewStandardWriter(false, false, outputFile, "")
 		startTime := time.Now()
+		colorcode.PrintMessage(colorcode.SIGN_NOTICE, colorcode.COLOR_SHINY+"scanning, please wait..."+colorcode.END)
 		select {
 		case msg := <-common.DefaultMsgChan:
 			_, _, retData := common.SettleRetDataEx(msg)

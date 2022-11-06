@@ -47,7 +47,7 @@
 - 远程ssh命令执行/文件上传/文件下载/ssh隧道
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
 - 使用MiniDumpWriteDump API 提取Lsass.dmp（控制端为Windows系统）
-- CreateProcessWithPipe方式加载执行mimikatz、fscan（控制端为Windows系统）
+- CreateProcessWithPipe方式加载执行mimikatz、fscan（控制端为Windows系统）；memfd方式加载执行fscan（控制端为linux系统）
 
 
 
@@ -77,6 +77,13 @@ $ ./install.sh
 ### Orca_Server端
 
 存在配置文件(`./conf/app.ini`)与数据库文件(`./db/team.db`、`./qqwry.dat`)的情况下双击即可运行
+
+参数说明：
+
+- -c:     指定配置文件路径
+- -au:    添加用户
+- -du:     删除用户
+- -mu:     修改用户的密码
 
 
 
@@ -115,7 +122,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.5
+OrcaC2 Master 0.10.6
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,

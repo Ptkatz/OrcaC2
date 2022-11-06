@@ -1,6 +1,3 @@
-//go:build windows
-// +build windows
-
 package pluginopt
 
 type ShellcodeMetaInfo struct {

@@ -1,10 +1,13 @@
 package setting
 
 import (
+	"Orca_Server/sqlmgmt"
 	"flag"
+	"github.com/AlecAivazis/survey/v2"
 	"github.com/go-ini/ini"
 	"log"
 	"net"
+	"os"
 	"sync"
 )
 
@@ -27,6 +30,24 @@ var cfg *ini.File
 
 func Setup() {
 	configFile := flag.String("c", "conf/app.ini", "-c conf/app.ini")
+	addUserFlag := flag.Bool("au", false, "add user")
+	delUserFlag := flag.Bool("du", false, "delete user")
+	modUserFlag := flag.Bool("mu", false, "Change the password")
+	flag.Parse()
+	if *addUserFlag {
+		addUser()
+		os.Exit(0)
+	}
+
+	if *delUserFlag {
+		delUser()
+		os.Exit(0)
+	}
+
+	if *modUserFlag {
+		modUserPwd()
+		os.Exit(0)
+	}
 
 	var err error
 	cfg, err = ini.Load(*configFile)
@@ -75,6 +96,67 @@ func getIntranetIp() string {
 
 		}
 	}
-
 	return ""
+}
+
+func addUser() {
+	username := ""
+	password := ""
+	repassword := ""
+	userprompt := &survey.Input{
+		Message: "请输入用户名: ",
+	}
+	survey.AskOne(userprompt, &username)
+	pwdprompt := &survey.Password{
+		Message: "请输入密码: ",
+	}
+	survey.AskOne(pwdprompt, &password)
+	pwdprompt = &survey.Password{
+		Message: "请再次输入密码: ",
+	}
+	survey.AskOne(pwdprompt, &repassword)
+	if password != repassword {
+		log.Fatalf("两次输入的密码不匹配！")
+		return
+	}
+	sqlmgmt.AddUser(username, password)
+	log.Println("用户添加成功！")
+}
+
+func delUser() {
+	usernames := sqlmgmt.GetUsernames()
+	selectUsername := ""
+	prompt := &survey.Select{
+		Message: "请选择要删除的指定用户：",
+		Options: usernames,
+	}
+	survey.AskOne(prompt, &selectUsername)
+	sqlmgmt.DelUser(selectUsername)
+	log.Println("用户删除成功！")
+}
+
+func modUserPwd() {
+	usernames := sqlmgmt.GetUsernames()
+	selectUsername := ""
+	password := ""
+	repassword := ""
+	prompt := &survey.Select{
+		Message: "请选择的指定用户：",
+		Options: usernames,
+	}
+	survey.AskOne(prompt, &selectUsername)
+	pwdprompt := &survey.Password{
+		Message: "请输入密码: ",
+	}
+	survey.AskOne(pwdprompt, &password)
+	pwdprompt = &survey.Password{
+		Message: "请再次输入密码: ",
+	}
+	survey.AskOne(pwdprompt, &repassword)
+	if password != repassword {
+		log.Fatalf("两次输入的密码不匹配！")
+		return
+	}
+	sqlmgmt.ModUserPwd(selectUsername, password)
+	log.Println("密码修改成功！")
 }
