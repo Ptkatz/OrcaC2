@@ -1,1 +1,15 @@
 ls
+port crack -i 172.16.2.130 --user Administrator --pass Admin12345
+port crack -i 172.16.2.130:445 --user Administrator --pass Admin12345
+select 1
+port crack -i 172.16.2.130:445 --user Administrator --pass Admin12345
+back
+port crack -i 172.16.2.130:445 --user Administrator --pass Admin12345
+port crack -i 192.168.123.119:445 --user Administrator --pass Admin12345
+port scan -i 192.168.123.0/24 -n 2000
+port crack -i 192.168.123.119:445 --user Administrator --pass Admin12345
+port crack -i 192.168.123.119:445 --
+port crack -i 192.168.123.119:445
+port crack -i 192.168.123.119:445 --user Administrator --pass Admin12345
+port crack -i 192.168.123.183:22
+port crack -i 192.168.123.183:22 -n 20

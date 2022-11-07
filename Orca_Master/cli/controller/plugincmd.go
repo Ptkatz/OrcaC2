@@ -193,7 +193,7 @@ var fscanCmd = &grumble.Command{
 			params += fmt.Sprintf("-hn %s ", hn)
 		}
 		if ports != "" {
-			params += fmt.Sprintf("-ports %s ", ports)
+			params += fmt.Sprintf("-p %s ", ports)
 		}
 		if pa != "" {
 			params += fmt.Sprintf("-pa %s ", pa)

