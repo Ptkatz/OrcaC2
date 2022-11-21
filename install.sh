@@ -1,3 +1,4 @@
+echo 若脚本执行失败请将脚本内ď命令一条条单独执行
 # 编译Master所安装的依赖库
 apt update -y && apt upgrade -y
 apt-get install -y libxt-dev libxcursor-dev libxrandr-dev libxinerama-dev libglx-dev libglx-dev xorg-dev

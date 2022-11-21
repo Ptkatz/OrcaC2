@@ -17,6 +17,7 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/gonutz/ide v0.0.0-20200517034207-df64a3832118
 	github.com/google/uuid v1.3.0
+	github.com/kbinani/screenshot v0.0.0-20210720154843-7d3a670d8329
 	github.com/lucas-clemente/quic-go v0.29.0
 	github.com/mattn/go-sqlite3 v1.14.15
 	github.com/niudaii/crack v0.0.0-20220920014252-5d16c2eed545
@@ -42,13 +43,15 @@ require (
 )
 
 require (
+	github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802 // indirect
+	github.com/gen2brain/shm v0.0.0-20200228170931-49f9650110c5 // indirect
+	github.com/jezek/xgb v0.0.0-20210312150743-0e0f116e1240 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
 require (
 	github.com/Binject/debug v0.0.0-20200830173345-f54480b6530f // indirect
-	github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc // indirect
 	github.com/VividCortex/ewma v1.1.1 // indirect
 	github.com/andres-erbsen/clock v0.0.0-20160526145045-9e14626cd129 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect

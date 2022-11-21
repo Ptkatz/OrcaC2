@@ -111,12 +111,12 @@ func AddCommand() {
 	App.Commands().Add(smbCmd)
 
 	if SelectVer[:7] == "windows" {
-		App.Commands().Add(screenCmd)
 		App.Commands().Add(keyloggerCmd)
 		App.Commands().Add(assemblyCmd)
 		App.Commands().Add(execCmd)
 		App.Commands().Add(getAdminCmd)
 		App.Commands().Add(dumpCmd)
+		App.Commands().Add(powershellCmd)
 	}
 	if SelectVer[:5] == "linux" {
 		App.Commands().Add(ptyCmd)
@@ -127,12 +127,12 @@ func RemoveCommand() {
 	App.Commands().Remove("shell")
 	App.Commands().Remove("file")
 	App.Commands().Remove("process")
-	App.Commands().Remove("screen")
 	App.Commands().Remove("keylogger")
 	App.Commands().Remove("assembly")
 	App.Commands().Remove("pty")
 	App.Commands().Remove("back")
 	App.Commands().Remove("getadmin")
+	App.Commands().Remove("powershell")
 	App.Commands().Remove("exec")
 	App.Commands().Remove("close")
 	App.Commands().Remove("info")

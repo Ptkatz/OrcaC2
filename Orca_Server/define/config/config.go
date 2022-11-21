@@ -1,6 +1,6 @@
 package config
 
-const Version = "0.10.6"
+const Version = "0.10.7"
 
 const Logo = "                                ,;;;;;;,                           \n" +
 	"                           {;g##7    9####h;;;;,,                  \n" +

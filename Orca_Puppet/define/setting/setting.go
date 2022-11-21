@@ -17,7 +17,7 @@ import (
 func SetUp() {
 	isDebug := flag.Bool("debug", false, "Enable debug")
 	isHide := flag.Bool("hide", false, "Enable hide")
-	host := flag.String("host", api.HOST, "server host")
+	host := flag.String("host", api.ParseHost(), "server host")
 	key := flag.String("key", config.AesKey, "decrypt key")
 	flag.Parse()
 	debug.IsDebug = *isDebug

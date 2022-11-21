@@ -3,6 +3,7 @@ package setting
 import (
 	"Orca_Server/sqlmgmt"
 	"flag"
+	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/go-ini/ini"
 	"log"
@@ -56,6 +57,11 @@ func Setup() {
 	}
 
 	mapTo("common", CommonSetting)
+	if len(CommonSetting.CryptoKey) > 16 {
+		CommonSetting.CryptoKey = CommonSetting.CryptoKey[:16]
+	} else if len(CommonSetting.CryptoKey) < 16 {
+		CommonSetting.CryptoKey = fmt.Sprintf("%016s", CommonSetting.CryptoKey)
+	}
 
 	GlobalSetting = &global{
 		LocalHost:  getIntranetIp(),

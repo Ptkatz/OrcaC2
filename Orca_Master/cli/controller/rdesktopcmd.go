@@ -29,6 +29,9 @@ var screenStreamCmd = &grumble.Command{
 }
 
 func runScreenStream() {
+	if SelectVer[:7] != "windows" {
+		colorcode.PrintMessage(colorcode.SIGN_ERROR, "screen stream is not supported on non-Windows systems")
+	}
 	// 发送请求获取屏幕分辨率
 	sx, sy := robotgo.GetScreenSize()
 	sx, sy = screenstreamopt.GetScreenSize(SelectClientId, common.ClientId)

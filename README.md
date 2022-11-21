@@ -61,7 +61,7 @@
 
 
 
-### Kali_Linux系统下编译
+### Linux系统下编译
 
 ```console
 $ git clone https://github.com/Ptkatz/OrcaC2.git
@@ -69,6 +69,8 @@ $ cd OrcaC2
 $ chmod +x install.sh
 $ ./install.sh
 ```
+
+> 若`install.sh`执行出错需将脚本中的命令一条条单独执行 
 
 
 
@@ -99,6 +101,8 @@ Orca_Puppet.exe -host <Server端IP:端口> -debug -hide
 - -debug:    打开调试信息，默认为false
 - -hide:     在Linux系统下可以伪造进程名，并删除自身程序文件
 
+> Puppet端可在Master端上使用`generate/build`命令生成
+
 
 
 ### Orca_Master端
@@ -122,7 +126,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.6
+OrcaC2 Master 0.10.7
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
@@ -202,8 +206,7 @@ Commands:
 Orca[admin] → 10.10.10.10 »
 ```
 
-Demo
-![demo](https://s132.convertio.me/p/WapioVojIQWiuXcVGWCnvg/f5998f5fc9a6cbaea4dec34f983f0d4b/bandicam-2022-11-07-18-22-41-462.gif)
+
 
 ## TODO
 
@@ -212,14 +215,14 @@ Demo
 - [x] Powershell模块加载
 - [ ] 完善Linux-memfd无文件执行
 - [ ] 内网中间人攻击
-- [ ] Linux系统的屏幕截图
+- [x] Linux系统的屏幕截图
 - [ ] 基于VNC的远程桌面
-- [ ] Webshell管理
 - [ ] WireGuard搭建隧道接入内网
 - [ ] 对MacOS系统更多支持
 - [x] 根据payload生成被控端加载器
 - [x] 使用C实现远程加载器加载被控端，解决被控端体积过大问题
 - [ ] 多端口监听器
+- [ ] 图形化
 - [ ] ...
 
 
