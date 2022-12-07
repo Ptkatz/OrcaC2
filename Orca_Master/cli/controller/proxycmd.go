@@ -57,7 +57,7 @@ var proxyServerStartCmd = &grumble.Command{
 		}
 		marshal, _ := json.Marshal(proxyServerParam)
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerStart", data)
+		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerStart", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -82,7 +82,7 @@ var proxyServerListCmd = &grumble.Command{
 	Help:  "list listening proxy servers",
 	Usage: "proxy server list [-h | --help]",
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -112,7 +112,7 @@ var proxyServerCloseCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		proxyId := c.Args.Int("id")
 		var uid string
-		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyServerList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -138,7 +138,7 @@ var proxyServerCloseCmd = &grumble.Command{
 			return nil
 		}
 		data, _ := crypto.Encrypt([]byte(uid), []byte(config.AesKey))
-		retData = common.SendSuccessMsg("Server", common.ClientId, "proxyServerClose", data)
+		retData = common.SendSuccessMsg("Server", common.ClientId, "proxyServerClose", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -213,7 +213,7 @@ var proxyClientStartCmd = &grumble.Command{
 		}
 		marshal, _ := json.Marshal(proxyClientParam)
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "proxyClientStart", data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "proxyClientStart", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -234,7 +234,7 @@ var proxyClientListCmd = &grumble.Command{
 	Help:  "list enabled proxy clients",
 	Usage: "proxy client list [-h | --help]",
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyClientList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyClientList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -261,7 +261,7 @@ var proxyClientCloseCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		proxyId := c.Args.Int("id")
 		var uid string
-		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyClientList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "proxyClientList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -287,12 +287,12 @@ var proxyClientCloseCmd = &grumble.Command{
 			return nil
 		}
 		data, _ := crypto.Encrypt([]byte(uid), []byte(config.AesKey))
-		retData = common.SendSuccessMsg(SelectClientId, common.ClientId, "proxyClientClose", data)
+		retData = common.SendSuccessMsg(SelectClientId, common.ClientId, "proxyClientClose", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
 		}
-		retData = common.SendSuccessMsg("Server", common.ClientId, "proxyClientClose", data)
+		retData = common.SendSuccessMsg("Server", common.ClientId, "proxyClientClose", data, "")
 		colorcode.PrintMessage(colorcode.SIGN_SUCCESS, "proxy listener closed successfully")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")

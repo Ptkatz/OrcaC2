@@ -21,7 +21,7 @@ var dumpCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		timeStr := strconv.FormatInt(time.Now().Unix(), 10)
 		data, _ := crypto.Encrypt([]byte(timeStr), []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "dump", data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "dump", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "get info request failed")
 			return nil

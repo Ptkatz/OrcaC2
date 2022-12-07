@@ -15,7 +15,7 @@ var infoCmd = &grumble.Command{
 	Help:  "get basic information of remote host",
 	Usage: "info [-h | --help]",
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "info", "")
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "info", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "get info request failed")
 			return nil

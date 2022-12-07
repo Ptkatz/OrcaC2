@@ -15,5 +15,5 @@ func infoCmd(sendUserId string) {
 		return
 	}
 	data, _ := crypto.Encrypt(infoData, []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "info_ret", data)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "info_ret", data, "")
 }

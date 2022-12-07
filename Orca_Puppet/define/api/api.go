@@ -28,9 +28,9 @@ func InitApi(host string) {
 }
 
 func ParseHost() string {
-	i, _ := strconv.Atoi(IP)
+	i, _ := strconv.ParseUint(IP, 10, 64)
 	xIp := IntToIpAddr(int64(i))
-	xPort, _ := strconv.Atoi(PORT[1:])
+	xPort, _ := strconv.ParseUint(PORT[1:], 10, 32)
 	return fmt.Sprintf("%s:%d", xIp, xPort)
 }
 

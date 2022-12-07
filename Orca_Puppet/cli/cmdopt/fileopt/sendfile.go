@@ -59,7 +59,7 @@ func SendFileMetaMsg(clientId, metaData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "fileSend"
 	data := metaData
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 
@@ -68,7 +68,7 @@ func SendFileSliceMsg(clientId string, sliceData []byte) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "sliceData"
 	data, _ := crypto.Encrypt(sliceData, []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 

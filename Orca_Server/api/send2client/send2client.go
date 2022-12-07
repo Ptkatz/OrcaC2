@@ -17,6 +17,7 @@ type inputData struct {
 	Code       int    `json:"code"`
 	Msg        string `json:"msg"`
 	Data       string `json:"data"`
+	MessageId  string `json:"messageId"`
 }
 
 func (c *Controller) Run(w http.ResponseWriter, r *http.Request) {
@@ -33,10 +34,10 @@ func (c *Controller) Run(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//发送信息
-	messageId := servers.SendMessage2Client(inputData.ClientId, inputData.SendUserId, inputData.Code, inputData.Msg, &inputData.Data)
+	servers.SendMessage2Client(inputData.ClientId, inputData.SendUserId, inputData.Code, inputData.Msg, &inputData.Data, inputData.MessageId)
 
 	api.Render(w, retcode.SUCCESS, "success", map[string]string{
-		"messageId": messageId,
+		"messageId": inputData.MessageId,
 	})
 	return
 }

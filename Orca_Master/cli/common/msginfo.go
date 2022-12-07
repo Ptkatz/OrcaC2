@@ -14,6 +14,8 @@ var AssemblyInvokeMsgChan = make(chan string)
 var ScreenSliceMsgChan = make(chan []byte)
 var KeyloggerDataChan = make(chan string)
 
+var MessageQueue []string
+
 // CmdInfo 消息结构
 type CmdInfo struct {
 	Context string //信息内容

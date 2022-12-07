@@ -24,7 +24,7 @@ var closeClientCmd = &grumble.Command{
 		var answer string
 		fmt.Scanln(&answer)
 		if answer == "y" || answer == "yes" {
-			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "closeClient", "")
+			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "closeClient", "", "")
 			if retData.Code != retcode.SUCCESS {
 				colorcode.PrintMessage(colorcode.SIGN_FAIL, "close client request failed")
 				return nil

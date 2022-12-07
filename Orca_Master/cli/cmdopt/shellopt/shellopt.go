@@ -9,7 +9,7 @@ import (
 )
 
 // 填充ClientInfo结构并发送execShell消息
-func SendExecShellMsg(clientId, cmdStr string) common.HttpRetData {
+func SendExecShellMsg(clientId, cmdStr, msgId string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "execShell"
 	cmdInfo := &common.CmdInfo{
@@ -18,7 +18,7 @@ func SendExecShellMsg(clientId, cmdStr string) common.HttpRetData {
 	}
 	cmdData, _ := json.Marshal(cmdInfo)
 	data, _ := crypto.Encrypt(cmdData, []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, msgId)
 	return retData
 }
 

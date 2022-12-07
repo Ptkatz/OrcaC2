@@ -137,5 +137,5 @@ func SendKeyboardInfoMsg(clientId, sendUserId string, keyboardInfo KeyboardInfo)
 		return common.HttpRetData{}
 	}
 	data := decKeyboardInfo
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }

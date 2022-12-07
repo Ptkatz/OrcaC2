@@ -34,7 +34,7 @@ func (c *Controller) Run(w http.ResponseWriter, r *http.Request) {
 
 	for _, clientId := range inputData.ClientIds {
 		//发送信息
-		_ = servers.SendMessage2Client(clientId, inputData.SendUserId, inputData.Code, inputData.Msg, &inputData.Data)
+		_ = servers.SendMessage2Client(clientId, inputData.SendUserId, inputData.Code, inputData.Msg, &inputData.Data, "")
 	}
 
 	api.Render(w, retcode.SUCCESS, "success", []string{})

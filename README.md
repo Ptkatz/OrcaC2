@@ -48,6 +48,7 @@
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
 - 使用MiniDumpWriteDump API 提取Lsass.dmp（控制端为Windows系统）
 - CreateProcessWithPipe方式加载执行mimikatz、fscan（控制端为Windows系统）；memfd方式加载执行fscan（控制端为linux系统）
+- 反弹meterpreter
 
 
 
@@ -126,7 +127,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.7
+OrcaC2 Master 0.10.8
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
@@ -177,6 +178,8 @@ Orca[admin] → 10.10.10.10 » help
 
 OrcaC2 command line tool
 
+OrcaC2 command line tool
+
 Commands:
   assembly         manage the CLR and execute .NET assemblies
   back             back to the main menu
@@ -197,11 +200,12 @@ Commands:
   powershell       manage powershell script
   process, ps      manage remote host processes
   proxy            activate the proxy function
+  reverse          reverse shell
   screen           screenshot and screensteam
   select           select the host id waiting to be operated
   shell, sh        send command to remote host
   smb              lateral movement through the ipc$ pipe
-  ssh              connects to target host over the SSH protocol
+  ssh              connects to target host over the SSH protocolst over the SSH protocol
 
 Orca[admin] → 10.10.10.10 »
 ```
@@ -258,6 +262,8 @@ https://github.com/niudaii/crack
 https://github.com/anthemtotheego/C_Shot
 
 https://github.com/ramoncjs3/DumpLsass
+
+https://github.com/EgeBalci/EGESPLOIT
 
 
 

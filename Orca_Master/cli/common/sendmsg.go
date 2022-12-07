@@ -5,7 +5,6 @@ import (
 	"Orca_Master/define/config"
 	"Orca_Master/define/retcode"
 	"Orca_Master/tools/crypto"
-	"Orca_Master/tools/util"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -28,13 +27,12 @@ func SendToClient(url string, payload []byte) []byte {
 	return body
 }
 
-func SendMsg(clientId, sendUserId, msg, data string, code int) HttpRetData {
+func SendMsg(clientId, sendUserId, msg, data, msgId string, code int) HttpRetData {
 	encMsg, _ := crypto.Encrypt([]byte(msg), []byte(config.AesKey))
-	messageId := util.GenUUID()
 	clientInfo := &ClientInfo{
 		ClientId:   clientId,
 		SendUserId: sendUserId,
-		MessageId:  messageId,
+		MessageId:  msgId,
 		Code:       code,
 		Msg:        encMsg,
 		Data:       &data,
@@ -49,10 +47,10 @@ func SendMsg(clientId, sendUserId, msg, data string, code int) HttpRetData {
 	return retData
 }
 
-func SendSuccessMsg(clientId, sendUserId, msg, data string) HttpRetData {
-	return SendMsg(clientId, sendUserId, msg, data, retcode.SUCCESS)
+func SendSuccessMsg(clientId, sendUserId, msg, data, msgId string) HttpRetData {
+	return SendMsg(clientId, sendUserId, msg, data, msgId, retcode.SUCCESS)
 }
 
-func SendFailMsg(clientId, sendUserId, msg, data string) HttpRetData {
-	return SendMsg(clientId, sendUserId, msg, data, retcode.FAIL)
+func SendFailMsg(clientId, sendUserId, msg, data, msgId string) HttpRetData {
+	return SendMsg(clientId, sendUserId, msg, data, msgId, retcode.FAIL)
 }

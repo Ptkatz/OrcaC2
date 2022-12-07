@@ -29,11 +29,11 @@ func sshConnTestCmd(sendUserId, decData string) {
 	if err != nil {
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, err.Error())
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshTestConn_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshTestConn_ret", retData, "")
 	} else {
 		output := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "ssh connection is successful")
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "sshTestConn_ret", retData)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "sshTestConn_ret", retData, "")
 	}
 }
 
@@ -51,13 +51,13 @@ func sshRunCmd(sendUserId, decData string) {
 		message := fmt.Sprintf("failed to run shell: %v", err)
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		var retData, _ = crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData, "")
 		return
 	}
 	message := fmt.Sprintf("'%v' back info: \n%v", cmd, backinfo)
 	output := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, message)
 	retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "sshRun_ret", retData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "sshRun_ret", retData, "")
 }
 
 func sshUploadCmd(sendUserId, decData string) {
@@ -96,12 +96,12 @@ func sshUploadCmd(sendUserId, decData string) {
 		message := fmt.Sprintf("upload failed: %v\n", err)
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshUpload_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshUpload_ret", retData, "")
 		return
 	} else {
 		output := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "sshUpload_ret", retData)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "sshUpload_ret", retData, "")
 	}
 }
 
@@ -120,13 +120,13 @@ func sshDownloadCmd(sendUserId, decData string) {
 		message := fmt.Sprintf("download failed: %v", err)
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshDownload_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshDownload_ret", retData, "")
 		return
 	}
 	if fileInfo.IsDir() {
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, "the requested file is a directory")
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshDownload_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshDownload_ret", retData, "")
 		return
 	}
 
@@ -137,7 +137,7 @@ func sshDownloadCmd(sendUserId, decData string) {
 	remainSize := fileMetaInfo.RemainSize
 	metaInfo, err := json.Marshal(fileMetaInfo)
 	data, _ := crypto.Encrypt(metaInfo, []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "fileMetaInfo", data)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "fileMetaInfo", data, "")
 	// 发送文件分片
 	if client.SshClient == nil {
 		if err = client.Connect(); err != nil {
@@ -158,7 +158,7 @@ func sshDownloadCmd(sendUserId, decData string) {
 			return
 		}
 		encData, _ := crypto.Encrypt(sliceData, []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "sliceData", encData)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "sliceData", encData, "")
 	}
 	// 处理最后一个分片
 	sliceData := make([]byte, remainSize)
@@ -167,7 +167,7 @@ func sshDownloadCmd(sendUserId, decData string) {
 		return
 	}
 	encData, _ := crypto.Encrypt(sliceData, []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "sliceData", encData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "sliceData", encData, "")
 }
 
 func sshTunnelStartCmd(clientId, decData string) {
@@ -184,7 +184,7 @@ func sshTunnelStartCmd(clientId, decData string) {
 	if err != nil {
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, err.Error())
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData)
+		common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData, "")
 		return
 	}
 
@@ -198,21 +198,21 @@ func sshTunnelStartCmd(clientId, decData string) {
 	if err != nil {
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, "tunnel open failed")
 		retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData)
+		common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData, "")
 		return
 	}
 	for _, recordList := range sshopt.SshTunnelRecordLists {
 		if recordList.SshTunnelBaseRecord.Target == target && recordList.SshTunnelBaseRecord.Source == source {
 			output := colorcode.OutputMessage(colorcode.SIGN_FAIL, "the tunnel is repeated")
 			retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-			common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData)
+			common.SendFailMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData, "")
 			return
 		}
 	}
 	message := fmt.Sprintf("tunnel open successfully: %s --> %s", target, source)
 	output := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, message)
 	retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-	common.SendSuccessMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData)
+	common.SendSuccessMsg(clientId, common.ClientId, "sshTunnelStart_ret", retData, "")
 	sshTunnelBaseRecord := sshopt.SshTunnelBaseRecord{
 		Uid:      util.GenUUID(),
 		ClientId: common.ClientId,
@@ -226,7 +226,7 @@ func sshTunnelStartCmd(clientId, decData string) {
 	sshopt.SshTunnelRecordLists = append(sshopt.SshTunnelRecordLists, sshTunnelRecord)
 	marshal, _ := json.Marshal(sshTunnelBaseRecord)
 	data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-	common.SendSuccessMsg("Server", common.ClientId, "sshTunnelAdd", data)
+	common.SendSuccessMsg("Server", common.ClientId, "sshTunnelAdd", data, "")
 }
 
 func sshTunnelCloseCmd(decData string) {
@@ -243,5 +243,5 @@ func sshTunnelCloseCmd(decData string) {
 		sshopt.SshTunnelRecordLists = append(sshopt.SshTunnelRecordLists[:index], sshopt.SshTunnelRecordLists[index+1:]...)
 	}
 	data, _ := crypto.Encrypt([]byte(decData), []byte(config.AesKey))
-	common.SendSuccessMsg("Server", common.ClientId, "sshTunnelDel", data)
+	common.SendSuccessMsg("Server", common.ClientId, "sshTunnelDel", data, "")
 }

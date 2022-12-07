@@ -41,7 +41,7 @@ func SendMouseInfoMsg(clientId, sendUserId string, mouseInfo MouseInfo) common.H
 		return common.HttpRetData{}
 	}
 	data := decMouseInfo
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 // 获取鼠标位置

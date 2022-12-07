@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 )
 
-func SendExecShellMsg(clientId, cmdStr string) common.HttpRetData {
+func SendExecShellMsg(clientId, cmdStr, msgId string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "execPowershell"
 	cmdInfo := &common.CmdInfo{
@@ -16,6 +16,6 @@ func SendExecShellMsg(clientId, cmdStr string) common.HttpRetData {
 	}
 	cmdData, _ := json.Marshal(cmdInfo)
 	data, _ := crypto.Encrypt(cmdData, []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, msgId)
 	return retData
 }

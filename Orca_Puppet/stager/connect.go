@@ -13,6 +13,7 @@ import (
 )
 
 func Init() {
+	runtime.GC()
 	done := make(chan bool)
 	common.Ws = wsc.New(api.CONN_SERVER_API + config.SystemId)
 	// 可自定义配置，不使用默认配置
@@ -65,6 +66,7 @@ func Init() {
 	})
 	common.Ws.OnTextMessageReceived(func(message string) {
 		//log.Println("OnTextMessageReceived: ", message)
+		debug.DebugPrint("OnTextMessageReceived: " + message)
 		SettleMsg(message)
 		runtime.GC()
 	})

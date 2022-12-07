@@ -37,7 +37,7 @@ var getAdminCmd = &grumble.Command{
 		}
 		adminMsgData, _ := json.Marshal(adminMsg)
 		data, _ := crypto.Encrypt(adminMsgData, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "getAdmin", data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "getAdmin", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "get admin request failed")
 			return nil

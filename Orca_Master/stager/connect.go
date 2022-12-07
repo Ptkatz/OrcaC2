@@ -67,7 +67,7 @@ func Init() {
 	})
 	common.Ws.OnTextMessageReceived(func(message string) {
 		//fmt.Println("OnTextMessageReceived: ", message)
-		SettleMsg(message, common.Ws)
+		SettleMsg(message)
 		runtime.GC()
 	})
 	common.Ws.OnBinaryMessageReceived(func(data []byte) {

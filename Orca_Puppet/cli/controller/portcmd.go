@@ -26,7 +26,7 @@ func portScanCmd(sendUserId, decData string) {
 	if err := engine.Parser(); err != nil {
 		outputMsg, _ := json.Marshal(err.Error())
 		retData, _ := crypto.Encrypt(outputMsg, []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "portScan_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "portScan_ret", retData, "")
 		return
 	}
 	engine.Run()
@@ -34,7 +34,7 @@ func portScanCmd(sendUserId, decData string) {
 	engine.Wg.Wait()
 	outputMsg, _ := json.Marshal(portscanopt.ResultEvents)
 	retData, _ := crypto.Encrypt(outputMsg, []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "portScan_ret", retData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "portScan_ret", retData, "")
 	if portscanopt.Writer != nil {
 		portscanopt.Writer.Close()
 	}
@@ -48,11 +48,11 @@ func portCrackCmd(sendUserId, decData string) {
 		msg := fmt.Sprintf("Could not create runner: %v", err)
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, msg)
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "portCrack_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "portCrack_ret", retData, "")
 		return
 	}
 	outputMsg := newRunner.Run()
 	fmt.Println(outputMsg)
 	retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "portCrack_ret", retData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "portCrack_ret", retData, "")
 }

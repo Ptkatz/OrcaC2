@@ -22,5 +22,5 @@ func SendDownloadRequestMsg(clientId, sendUserId, destFile, saveFile string, ssh
 	}
 	sshDownloadStructData, _ := json.Marshal(sshDownloadStruct)
 	data, _ := crypto.Encrypt(sshDownloadStructData, []byte(config.AesKey))
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }

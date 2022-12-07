@@ -17,7 +17,7 @@ type ScreenShotMetaInfo struct {
 func SendScreenshotRequestMsg(clientId, sendUserId string) common.HttpRetData {
 	msg := "screenshot"
 	data := ""
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 func GetMetaInfo(metaInfoMsg string) ScreenShotMetaInfo {

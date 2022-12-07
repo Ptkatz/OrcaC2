@@ -20,7 +20,7 @@ var selectCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		SelectId = c.Args.Int("id")
 		// 发送命令获取HostList
-		common.SendSuccessMsg("Server", common.ClientId, "listHosts", "")
+		common.SendSuccessMsg("Server", common.ClientId, "listHosts", "", "")
 		// 从管道中接收消息
 		select {
 		case msg := <-common.DefaultMsgChan:

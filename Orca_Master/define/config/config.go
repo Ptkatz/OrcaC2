@@ -1,11 +1,18 @@
 package config
 
+import (
+	"Orca_Master/tools/util"
+	"encoding/base64"
+)
+
 var AesKey = ""
 
 const (
-	Version  = "0.10.7"
-	SystemId = "OrcaC2_" + Version
+	Version = "0.10.8"
+	sysver  = "OrcaC2_" + Version
 )
+
+var SystemId = util.Md5(base64.StdEncoding.EncodeToString([]byte(sysver)))
 
 const Logo = "                                ,;;;;;;,                           \n" +
 	"                           {;g##7    9####h;;;;,,                  \n" +

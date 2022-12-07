@@ -20,14 +20,14 @@ type ScreenSize struct {
 func SendRemoteDesktopRequesMsg(clientId, sendUserId string) common.HttpRetData {
 	msg := "screenStream"
 	data := ""
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 // 发送请求获取屏幕分辨率
 func SendScreenSizeRequestMsg(clientId, sendUserId string) common.HttpRetData {
 	msg := "getScreenSize"
 	data := ""
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 // 获取屏幕分辨率
@@ -53,7 +53,7 @@ func GetScreenSize(clientId, sendUserId string) (int, int) {
 func SendNextScreenRequestMsg(clientId, sendUserId string) common.HttpRetData {
 	msg := "nextScreen"
 	data := ""
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 // 获取屏幕截图

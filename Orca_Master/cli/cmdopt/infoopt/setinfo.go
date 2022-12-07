@@ -40,7 +40,7 @@ type SystemInfo struct {
 func PrintClientInfoTable(info Info) {
 	fmt.Println("Client Info:")
 	clientInfo := info.ClientInfo
-	common.SendSuccessMsg("Server", common.ClientId, "ipSearch", clientInfo.ExternalIp)
+	common.SendSuccessMsg("Server", common.ClientId, "ipSearch", clientInfo.ExternalIp, "")
 	select {
 	case msg := <-common.DefaultMsgChan:
 		_, _, addr := common.SettleRetDataNotDec(msg)

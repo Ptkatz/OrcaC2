@@ -38,7 +38,7 @@ func hostCmd(decData string) {
 	}
 	sqlmgmt.AddHost(hostInfo)
 	data, _ := crypto.Encrypt([]byte(decData), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2System(hostInfo.SystemId, "Server", retcode.ONLINE_MESSAGE_CODE, "online", data)
+	SendMessage2System(hostInfo.SystemId, "Server", retcode.ONLINE_MESSAGE_CODE, "online", data, util.GenUUID())
 	return
 }
 
@@ -54,13 +54,13 @@ func ipSearchCmd(data string, clientId string) {
 	q := qqwry.NewQQwry()
 	r := q.Find(data)
 	retData := fmt.Sprintf("%s %s", r.Country, r.Area)
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "ipSearch_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "ipSearch_ret", &retData, "")
 }
 
 func listCmd(clientId string) {
 	hosts := sqlmgmt.ListHosts()
 	hostsStr := string(hosts)
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "listHosts_ret", &hostsStr)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "listHosts_ret", &hostsStr, "")
 }
 
 func proxyServerStartCmd(decData, clientId string) {
@@ -90,19 +90,19 @@ func proxyServerStartCmd(decData, clientId string) {
 	}
 	if err != nil {
 		retData := fmt.Sprintf("main NewServer fail %s", err.Error())
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "proxyServerStart_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "proxyServerStart_ret", &retData, "")
 		return
 	}
 	proxyopt.ProxyServerLists = append(proxyopt.ProxyServerLists, proxyServer)
 	retData := "proxy server start!"
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyServerStart_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyServerStart_ret", &retData, "")
 }
 
 func proxyServerListCmd(clientId string) {
 	proxyList := proxyopt.ProxyServerLists
 	marshal, _ := json.Marshal(proxyList)
 	data, _ := crypto.Encrypt(marshal, []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyServerList_ret", &data)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyServerList_ret", &data, "")
 }
 
 func proxyServerCloseCmd(decData string) {
@@ -133,7 +133,7 @@ func proxyClientListCmd(clientId string) {
 	proxyLists := sqlmgmt.ListProxy()
 	proxyListsStr := string(proxyLists)
 	fmt.Println(proxyListsStr)
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyClientList_ret", &proxyListsStr)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "proxyClientList_ret", &proxyListsStr, "")
 }
 
 func proxyClientCloseCmd(decData string) {
@@ -151,11 +151,11 @@ func sshConnTestCmd(clientId, decData string) {
 	if err != nil {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, err.Error())
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTestConn_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTestConn_ret", &retData, "")
 	} else {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "ssh connection is successful")
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTestConn_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTestConn_ret", &retData, "")
 	}
 }
 
@@ -173,13 +173,13 @@ func sshRunCmd(clientId, decData string) {
 		message := fmt.Sprintf("failed to run shell: %v", err)
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshRun_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshRun_ret", &retData, "")
 		return
 	}
 	message := fmt.Sprintf("'%v' back info: \n%v", cmd, backinfo)
 	outputMsg := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, message)
 	retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshRun_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshRun_ret", &retData, "")
 }
 
 func sshUploadCmd(clientId, decData string) {
@@ -218,12 +218,12 @@ func sshUploadCmd(clientId, decData string) {
 		message := fmt.Sprintf("upload failed: %v", err)
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshUpload_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshUpload_ret", &retData, "")
 		return
 	} else {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshUpload_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshUpload_ret", &retData, "")
 	}
 }
 
@@ -242,13 +242,13 @@ func sshDownloadCmd(clientId, decData string) {
 		message := fmt.Sprintf("download failed: %v", err)
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, message)
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshDownload_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshDownload_ret", &retData, "")
 		return
 	}
 	if fileInfo.IsDir() {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, "the requested file is a directory")
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshDownload_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshDownload_ret", &retData, "")
 		return
 	}
 
@@ -259,7 +259,7 @@ func sshDownloadCmd(clientId, decData string) {
 	remainSize := fileMetaInfo.RemainSize
 	metaInfo, err := json.Marshal(fileMetaInfo)
 	data, _ := crypto.Encrypt(metaInfo, []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "fileMetaInfo", &data)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "fileMetaInfo", &data, "")
 	// 发送文件分片
 	if client.SshClient == nil {
 		if err = client.Connect(); err != nil {
@@ -281,7 +281,7 @@ func sshDownloadCmd(clientId, decData string) {
 		}
 		encData, _ := crypto.Encrypt(sliceData, []byte(setting.CommonSetting.CryptoKey))
 		encMsg, _ := crypto.Encrypt([]byte("sliceData"), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.SUCCESS, encMsg, &encData)
+		SendMessage2Client(clientId, "Server", retcode.SUCCESS, encMsg, &encData, "")
 	}
 	// 处理最后一个分片
 	sliceData := make([]byte, remainSize)
@@ -291,7 +291,7 @@ func sshDownloadCmd(clientId, decData string) {
 	}
 	encData, _ := crypto.Encrypt(sliceData, []byte(setting.CommonSetting.CryptoKey))
 	encMsg, _ := crypto.Encrypt([]byte("sliceData"), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, encMsg, &encData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, encMsg, &encData, "")
 }
 
 func sshTunnelStartCmd(clientId, decData string) {
@@ -308,7 +308,7 @@ func sshTunnelStartCmd(clientId, decData string) {
 	if err != nil {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, err.Error())
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData, "")
 		return
 	}
 
@@ -320,21 +320,21 @@ func sshTunnelStartCmd(clientId, decData string) {
 	if err != nil {
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, "tunnel open failed")
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData, "")
 		return
 	}
 	for _, recordList := range sshopt.SshTunnelRecordLists {
 		if recordList.SshTunnelBaseRecord.Target == target && recordList.SshTunnelBaseRecord.Source == source {
 			outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, "the tunnel is repeated")
 			retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-			SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData)
+			SendMessage2Client(clientId, "Server", retcode.FAIL, "sshTunnelStart_ret", &retData, "")
 			return
 		}
 	}
 	message := fmt.Sprintf("tunnel open successfully: %s --> %s", target, source)
 	outputMsg := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, message)
 	retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTunnelStart_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTunnelStart_ret", &retData, "")
 	sshTunnelBaseRecord := sshopt.SshTunnelBaseRecord{
 		Uid:      util.GenUUID(),
 		ClientId: "Server",
@@ -353,7 +353,7 @@ func sshTunnelListCmd(clientId string) {
 	sshTunnelLists := sqlmgmt.ListSshTunnel()
 	sshTunnelListsStr := string(sshTunnelLists)
 	fmt.Println(sshTunnelListsStr)
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTunnelList_ret", &sshTunnelListsStr)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "sshTunnelList_ret", &sshTunnelListsStr, "")
 }
 
 func sshTunnelCloseCmd(decData string) {
@@ -396,7 +396,7 @@ func portScanCmd(clientId, decData string) {
 	if err := engine.Parser(); err != nil {
 		outputMsg, _ := json.Marshal(err.Error())
 		retData, _ := crypto.Encrypt(outputMsg, []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "portScan_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "portScan_ret", &retData, "")
 		return
 	}
 	engine.Run()
@@ -404,7 +404,7 @@ func portScanCmd(clientId, decData string) {
 	engine.Wg.Wait()
 	outputMsg, _ := json.Marshal(portscanopt.ResultEvents)
 	retData, _ := crypto.Encrypt(outputMsg, []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "portScan_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "portScan_ret", &retData, "")
 	if portscanopt.Writer != nil {
 		portscanopt.Writer.Close()
 	}
@@ -418,12 +418,12 @@ func portCrackCmd(clientId, decData string) {
 		msg := fmt.Sprintf("Could not create runner: %v", err)
 		outputMsg := colorcode.OutputMessage(colorcode.SIGN_FAIL, msg)
 		retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "portCrack_ret", &retData)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "portCrack_ret", &retData, "")
 		return
 	}
 	outputMsg := newRunner.Run()
 	retData, _ := crypto.Encrypt([]byte(outputMsg), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "portCrack_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "portCrack_ret", &retData, "")
 }
 
 func fileUploadCmd(clientId, decData string) {
@@ -467,7 +467,7 @@ func fileUploadCmd(clientId, decData string) {
 		case metaData := <-m:
 			pSaveFile.Write(metaData.([]byte))
 		case <-time.After(5 * time.Second):
-			SendMessage2Client(clientId, "Server", retcode.FAIL, "file upload failed", nil)
+			SendMessage2Client(clientId, "Server", retcode.FAIL, "file upload failed", nil, "")
 			setchannel.DeleteFileSliceDataChan(clientId)
 			return
 		}
@@ -476,11 +476,11 @@ func fileUploadCmd(clientId, decData string) {
 	if md5sum == saveFileMd5 {
 		data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.SUCCESS, "fileUpload_ret", &outputMsg)
+		SendMessage2Client(clientId, "Server", retcode.SUCCESS, "fileUpload_ret", &outputMsg, "")
 	} else {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "file upload failed")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(setting.CommonSetting.CryptoKey))
-		SendMessage2Client(clientId, "Server", retcode.FAIL, "fileUpload_ret", &outputMsg)
+		SendMessage2Client(clientId, "Server", retcode.FAIL, "fileUpload_ret", &outputMsg, "")
 	}
 }
 
@@ -500,6 +500,6 @@ func powershellListCmd(clientId, decData string) {
 	}
 	data, _ := json.Marshal(powershellLoadeds)
 	retData := string(data)
-	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "powershellList_ret", &retData)
+	SendMessage2Client(clientId, "Server", retcode.SUCCESS, "powershellList_ret", &retData, "")
 
 }

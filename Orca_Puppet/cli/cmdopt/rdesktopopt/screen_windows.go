@@ -25,5 +25,5 @@ func SendScreenSize(clientId string) {
 	msg := "screenSize"
 	sendUserId := common.ClientId
 
-	common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }

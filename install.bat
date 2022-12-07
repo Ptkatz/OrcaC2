@@ -19,9 +19,7 @@ set GOOS=windows
 cd Orca_Puppet\ && go build -o ..\out\master\puppet\Orca_Puppet_win_x86.exe -ldflags "-s -w" && cd ..
 
 
-
-
-echo x86-stub.c needs to be compiled using visualstudio (msvc).
+rem x86-stub.c needs to be compiled using visualstudio (msvc).
 
 xcopy /s /y Orca_Master\3rd_party\ out\master\3rd_party\
 xcopy /s /y Orca_Server\db\ out\server\db\

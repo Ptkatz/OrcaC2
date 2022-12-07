@@ -17,6 +17,15 @@ func GetClientId(message string) string {
 	return clientId
 }
 
+func GetMsgId(message string) string {
+	retData := RetData{}
+	err := json.Unmarshal([]byte(message), &retData)
+	if err != nil {
+		return ""
+	}
+	return retData.MessageId
+}
+
 func SettleRetData(message string) (string, string, string) {
 	msg, sendUserId, data := SettleRetDataNotDec(message)
 	decData, _ := crypto.Decrypt(data, []byte(config.AesKey))

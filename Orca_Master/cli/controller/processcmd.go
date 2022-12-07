@@ -32,7 +32,7 @@ var processListCmd = &grumble.Command{
 		f.Int("i", "pid", -1, "pid or ppid for search")
 	},
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "")
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "message request failed")
 			return nil
@@ -73,7 +73,7 @@ var processKillCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		pid := c.Args.Int("pid")
 		data, _ := crypto.Encrypt([]byte(strconv.Itoa(pid)), []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processKill", data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processKill", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "message request failed")
 			return nil

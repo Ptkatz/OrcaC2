@@ -56,6 +56,7 @@ func init() {
 	App.AddCommand(powershellCmd)
 	App.AddCommand(dumpCmd)
 	App.AddCommand(pluginCmd)
+	App.AddCommand(reverseCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)
@@ -98,6 +99,7 @@ func init() {
 	powershellListCmd.AddCommand(powershellListOptionsCmd)
 	pluginCmd.AddCommand(mimikatzCmd)
 	pluginCmd.AddCommand(fscanCmd)
+	reverseCmd.AddCommand(reverseMeterperterCmd)
 	RemoveCommand()
 }
 
@@ -109,6 +111,9 @@ func AddCommand() {
 	App.Commands().Add(closeClientCmd)
 	App.Commands().Add(infoCmd)
 	App.Commands().Add(smbCmd)
+	App.Commands().Add(screenCmd)
+	App.Commands().Add(pluginCmd)
+	App.Commands().Add(reverseCmd)
 
 	if SelectVer[:7] == "windows" {
 		App.Commands().Add(keyloggerCmd)
@@ -138,6 +143,9 @@ func RemoveCommand() {
 	App.Commands().Remove("info")
 	App.Commands().Remove("smb")
 	App.Commands().Remove("dump")
+	App.Commands().Remove("screen")
+	App.Commands().Remove("plugin")
+	App.Commands().Remove("reverse")
 }
 
 func filterStringWithPrefix(strs []string, prefix string) []string {

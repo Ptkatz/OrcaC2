@@ -58,7 +58,7 @@ var execShellcodeCmd = &grumble.Command{
 		}
 		// 返回1，说明pid为0，默认获取explorer.exe的pid
 		if execopt.JudgeLoadType(loadFunc, pid) == 1 {
-			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "")
+			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "", "")
 			if retData.Code != retcode.SUCCESS {
 				colorcode.PrintMessage(colorcode.SIGN_FAIL, "process request failed")
 				return nil
@@ -127,7 +127,7 @@ var execPECmd = &grumble.Command{
 		}
 		// 返回1，说明pid为0，默认获取explorer.exe的pid
 		if execopt.JudgeLoadType(loadFunc, pid) == 1 {
-			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "")
+			retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "processList", "", "")
 			if retData.Code != retcode.SUCCESS {
 				colorcode.PrintMessage(colorcode.SIGN_FAIL, "process request failed")
 				return nil

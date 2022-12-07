@@ -31,5 +31,5 @@ func RetPtyResult(resBuffer []byte, clientId string) {
 	if err != nil {
 		return
 	}
-	common.SendSuccessMsg(clientId, common.ClientId, "execPty_ret", encResBuffer)
+	common.SendSuccessMsg(clientId, common.ClientId, "execPty_ret", encResBuffer, "")
 }

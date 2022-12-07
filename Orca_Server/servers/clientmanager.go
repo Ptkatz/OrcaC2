@@ -96,7 +96,7 @@ func (manager *ClientManager) EventDisconnect(client *Client) {
 	}).Info("客户端已断开")
 	sqlmgmt.DelRecordByClientId(client.ClientId)
 	output, _ := crypto.Encrypt([]byte(client.ClientId), []byte(setting.CommonSetting.CryptoKey))
-	SendMessage2System(client.SystemId, "Server", retcode.OFFLINE_MESSAGE_CODE, "offline", output)
+	SendMessage2System(client.SystemId, "Server", retcode.OFFLINE_MESSAGE_CODE, "offline", output, "")
 	//标记销毁
 	client.IsDeleted = true
 	client = nil

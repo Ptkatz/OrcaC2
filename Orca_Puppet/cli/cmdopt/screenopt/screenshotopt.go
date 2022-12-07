@@ -69,7 +69,7 @@ func SendScreenMetaMsg(clientId, metaData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "screenSend"
 	data := metaData
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 
@@ -78,7 +78,7 @@ func SendScreenSliceMsg(clientId string, sliceData []byte) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "screenSliceData"
 	data := hex.EncodeToString(sliceData)
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 

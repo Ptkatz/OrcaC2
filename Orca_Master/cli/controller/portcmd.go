@@ -69,7 +69,7 @@ var portScanCmd = &grumble.Command{
 		}
 		marshal, _ := json.Marshal(scanCmdMsg)
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "portScan", data)
+		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "portScan", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -143,7 +143,7 @@ var portCrackCmd = &grumble.Command{
 		options := portcrackopt.ParseOptions(input, inputFile, module, user, pass, userFile, passFile, threads, timeout, delay, crackAll, "")
 		marshal, _ := json.Marshal(options)
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "portCrack", data)
+		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "portCrack", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil

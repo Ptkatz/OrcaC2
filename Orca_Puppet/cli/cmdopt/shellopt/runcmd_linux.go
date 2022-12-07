@@ -69,10 +69,10 @@ func ExecCmd(command string) string {
 	return resBuffer
 }
 
-func RetExecOutput(resBuffer, clientId string) {
+func RetExecOutput(resBuffer, clientId, msgId string) {
 	encResBuffer, err := crypto.Encrypt([]byte(resBuffer), []byte(config.AesKey))
 	if err != nil {
 		return
 	}
-	common.SendSuccessMsg(clientId, common.ClientId, "execShell_ret", encResBuffer)
+	common.SendSuccessMsg(clientId, common.ClientId, "execShell_ret", encResBuffer, msgId)
 }

@@ -5,6 +5,7 @@ import (
 	"Orca_Master/cli/common"
 	"Orca_Master/define/colorcode"
 	"Orca_Master/define/retcode"
+	"Orca_Master/tools/util"
 	"github.com/desertbit/grumble"
 	"path/filepath"
 	"strings"
@@ -43,6 +44,8 @@ var shellCmd = &grumble.Command{
 		return []string{}
 	},
 	Run: func(c *grumble.Context) error {
+		messageId := util.GenUUID()
+		common.MessageQueue = append(common.MessageQueue, messageId)
 		timeout := c.Flags.Int("timeout")
 		listFlag := c.Flags.Bool("list")
 		if listFlag {
@@ -61,7 +64,7 @@ var shellCmd = &grumble.Command{
 		cmdStr := strings.Join(command, " ")
 
 		// 发送命令消息
-		retData := shellopt.SendExecShellMsg(SelectClientId, cmdStr)
+		retData := shellopt.SendExecShellMsg(SelectClientId, cmdStr, messageId)
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "shell request failed")
 			return nil
@@ -71,6 +74,7 @@ var shellCmd = &grumble.Command{
 		select {
 		case msg := <-common.ExecShellMsgChan:
 			shellopt.PrintShellOutput(msg)
+			common.MessageQueue = common.MessageQueue[1:]
 		case <-time.After(time.Duration(10+timeout) * time.Second):
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request timed out")
 			return nil

@@ -159,7 +159,7 @@ var smbExecCmd = &grumble.Command{
 		}
 		mysmb, _ := json.Marshal(smbcmd)
 		data, _ := crypto.Encrypt(mysmb, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "smbExec", data)
+		retData := common.SendSuccessMsg(SelectClientId, common.ClientId, "smbExec", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil

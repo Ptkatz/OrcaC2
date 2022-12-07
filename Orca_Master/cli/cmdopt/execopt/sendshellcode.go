@@ -51,7 +51,7 @@ func SendShellcodeMetaMsg(clientId, metaData string) common.HttpRetData {
 	sendUserId := common.ClientId
 	msg := "shellcode"
 	data := metaData
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 
@@ -60,7 +60,7 @@ func SendShellcodeSliceMsg(clientId string, sliceData []byte) common.HttpRetData
 	sendUserId := common.ClientId
 	msg := "shellcodeSliceData"
 	data, _ := crypto.Encrypt(sliceData, []byte(config.AesKey))
-	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data)
+	retData := common.SendSuccessMsg(clientId, sendUserId, msg, data, "")
 	return retData
 }
 

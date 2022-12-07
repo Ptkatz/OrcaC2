@@ -65,7 +65,7 @@ var sshSetCmd = &grumble.Command{
 		sshopt.SshSet(node, host, user, pass)
 		myssh, _ := json.Marshal(sshopt.MySsh)
 		data, _ := crypto.Encrypt(myssh, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshConnTest", data)
+		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshConnTest", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -116,7 +116,7 @@ var sshRunCmd = &grumble.Command{
 		}
 		myssh, _ := json.Marshal(sshcmd)
 		data, _ := crypto.Encrypt(myssh, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshRun", data)
+		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshRun", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -296,7 +296,7 @@ var sshTunnelStartCmd = &grumble.Command{
 		}
 		marshal, _ := json.Marshal(sshTunnelStruct)
 		data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshTunnelStart", data)
+		retData := common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshTunnelStart", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -319,7 +319,7 @@ var sshTunnelListCmd = &grumble.Command{
 	Help:  "list ssh tunnel",
 	Usage: "ssh tunnel list [-h | --help]",
 	Run: func(c *grumble.Context) error {
-		retData := common.SendSuccessMsg("Server", common.ClientId, "sshTunnelList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "sshTunnelList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -346,7 +346,7 @@ var sshTunnelCloseCmd = &grumble.Command{
 	Run: func(c *grumble.Context) error {
 		tunnelId := c.Args.Int("id")
 		var uid string
-		retData := common.SendSuccessMsg("Server", common.ClientId, "sshTunnelList", "")
+		retData := common.SendSuccessMsg("Server", common.ClientId, "sshTunnelList", "", "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil
@@ -372,7 +372,7 @@ var sshTunnelCloseCmd = &grumble.Command{
 			return nil
 		}
 		data, _ := crypto.Encrypt([]byte(uid), []byte(config.AesKey))
-		retData = common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshTunnelClose", data)
+		retData = common.SendSuccessMsg(sshopt.MySsh.Node, common.ClientId, "sshTunnelClose", data, "")
 		if retData.Code != retcode.SUCCESS {
 			colorcode.PrintMessage(colorcode.SIGN_FAIL, "request failed")
 			return nil

