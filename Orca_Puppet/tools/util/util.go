@@ -84,10 +84,6 @@ func GetExecPathEx() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	filepath.Abs(file)
-	if err != nil {
-		return "", err
-	}
 	return filepath.Abs(file)
 }
 

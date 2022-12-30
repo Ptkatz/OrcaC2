@@ -30,24 +30,25 @@
 - Websocket通信，json格式传输数据，消息与数据采用AES-CBC加密+Base64编码
 - 远程命令控制（增加命令备忘录功能，可以快速选择长命令）
 - 文件上传/下载
-- 屏幕截图（控制端为Windows系统）
-- 远程屏幕控制（基于截图流，可控制键盘与鼠标）（控制端为Windows系统）
+- 屏幕截图（被控端为Windows系统）
+- 远程屏幕控制（基于截图流，可控制键盘与鼠标）（被控端为Windows系统）
 - 键盘记录
 - 可查询被控端与被控主机基本信息（查询ip纯真库定位外网ip所对应的地理区域）
 - 进程枚举/进程终止
-- 可交互式终端（控制端为linux系统）
-- 隐藏进程（在使用`ps`命令时显示进程名为进程列表中任意进程，并能够删除自身程序）（控制端为linux系统）
-- 绕过UAC，获取管理员权限（控制端为Windows系统）
-- CLR内存加载.Net程序集（控制端为Windows系统）
-- 远程加载Powershell模块（控制端为Windows系统）
-- 远程Shellcode、PE加载（支持的注入方式：CreateThread、CreateRemoteThread、RtlCreateUserThread、EtwpCreateEtwThread）（控制端为Windows系统）
+- 可交互式终端（被控端为linux系统）
+- 隐藏进程（在使用`ps`命令时显示进程名为进程列表中任意进程，并能够删除自身程序）（被控端为linux系统）
+- 绕过UAC，获取管理员权限（被控端为Windows系统）
+- CLR内存加载.Net程序集（被控端为Windows系统）
+- 远程加载Powershell模块（被控端为Windows系统）
+- 远程Shellcode、PE加载（支持的注入方式：CreateThread、CreateRemoteThread、RtlCreateUserThread、EtwpCreateEtwThread）（被控端为Windows系统）
 - 正/反向代理、socks5正/反向代理（支持的协议：tcp、rudp(可靠udp)、ricmp(可靠icmp)、rhttp(可靠http)、kcp、quic）
 - 多协程端口扫描（指纹识别端口信息）
 - 多协程端口爆破（支持ftp、ssh、wmi、wmihash、smb、mssql、oracle、mysql、rdp、postgres、redis、memcached、mongodb、snmp）
 - 远程ssh命令执行/文件上传/文件下载/ssh隧道
 - 远程smb命令执行(无回显)/文件上传（通过rpc服务执行命令，类似wmiexec；通过ipc$上传文件，类似psexec）
-- 使用MiniDumpWriteDump API 提取Lsass.dmp（控制端为Windows系统）
-- CreateProcessWithPipe方式加载执行mimikatz、fscan（控制端为Windows系统）；memfd方式加载执行fscan（控制端为linux系统）
+- 使用MiniDumpWriteDump API 提取Lsass.dmp（被控端为Windows系统）
+- CreateProcessWithPipe方式加载执行mimikatz、fscan（被控端为Windows系统）；memfd方式加载执行fscan（被控端为linux系统）
+- 持久化（计划任务、注册表启动项、服务）（被控端为Windows系统）
 - 反弹meterpreter
 
 
@@ -127,7 +128,7 @@ Orca_Master.exe -u <用户名> -p <密码> -H <Server端IP:端口>
 
 ```console
 C:\Users\blood\Desktop\OrcaC2\out\master>Orca_Master_win_x64.exe -u admin -p 123456
-OrcaC2 Master 0.10.8
+OrcaC2 Master 0.10.9
 https://github.com/Ptkatz/OrcaC2
                                 ,;;;;;;,
                            {;g##7    9####h;;;;,,
@@ -195,6 +196,7 @@ Commands:
   info             get basic information of remote host
   keylogger        get information entered by the remote host through the keyboard
   list, ls         list hosts
+  persist          permission maintenance
   plugin           load plugin (mimikatz｜fscan)
   port             use port scan or port brute
   powershell       manage powershell script
@@ -205,7 +207,7 @@ Commands:
   select           select the host id waiting to be operated
   shell, sh        send command to remote host
   smb              lateral movement through the ipc$ pipe
-  ssh              connects to target host over the SSH protocolst over the SSH protocol
+  ssh              connects to target host over the SSH protocol
 
 Orca[admin] → 10.10.10.10 »
 ```

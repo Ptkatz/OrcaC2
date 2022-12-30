@@ -123,6 +123,15 @@ func SettleMsg(message string) {
 	case "reverseMeterpreter":
 		setchannel.CmdMsgChan <- message
 		return
+	case "persistTaskschAdd":
+		setchannel.CmdMsgChan <- message
+		return
+	case "persistRegistryAdd":
+		setchannel.CmdMsgChan <- message
+		return
+	case "persistSvcAdd":
+		setchannel.CmdMsgChan <- message
+		return
 
 	case "sliceData":
 		m, exist := setchannel.GetFileSliceDataChan(sendUserId)

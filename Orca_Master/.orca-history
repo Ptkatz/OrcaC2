@@ -1,0 +1,39 @@
+ls
+lls
+ls
+select 1
+persist service -n ggg
+ls
+select 1
+persist service -n ggg
+persist service -n ggg -s
+l
+ls
+info
+ls
+select 2
+info
+getadmin
+ls
+select 3
+info
+ls
+select 1
+close
+ls
+select 2
+select 1
+info
+getadmin
+select 2
+getadmin
+ls
+select 3
+info
+ls
+close
+select 2
+close
+ls
+select 1
+close

@@ -10,6 +10,7 @@ require (
 	github.com/OneOfOne/xxhash v1.2.8
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
+	github.com/capnspacehook/taskmaster v0.0.0-20210519235353-1629df7c85e9
 	github.com/cheggaaa/pb/v3 v3.1.0
 	github.com/creack/pty v1.1.18
 	github.com/go-sql-driver/mysql v1.6.0
@@ -47,6 +48,8 @@ require (
 	github.com/gen2brain/shm v0.0.0-20200228170931-49f9650110c5 // indirect
 	github.com/jezek/xgb v0.0.0-20210312150743-0e0f116e1240 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/rickb777/date v1.14.2 // indirect
+	github.com/rickb777/plural v1.2.2 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 

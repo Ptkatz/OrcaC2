@@ -57,6 +57,7 @@ func init() {
 	App.AddCommand(dumpCmd)
 	App.AddCommand(pluginCmd)
 	App.AddCommand(reverseCmd)
+	App.AddCommand(persistCmd)
 	fileCmd.AddCommand(fileUploadCmd)
 	fileCmd.AddCommand(fileDownloadCmd)
 	processCmd.AddCommand(processListCmd)
@@ -100,6 +101,9 @@ func init() {
 	pluginCmd.AddCommand(mimikatzCmd)
 	pluginCmd.AddCommand(fscanCmd)
 	reverseCmd.AddCommand(reverseMeterperterCmd)
+	persistCmd.AddCommand(persistTaskschCmd)
+	persistCmd.AddCommand(persistRegistryCmd)
+	persistCmd.AddCommand(persistSvcCmd)
 	RemoveCommand()
 }
 

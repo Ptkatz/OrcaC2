@@ -10,7 +10,7 @@ var (
 )
 
 const (
-	Version = "0.10.8"
+	Version = "0.10.9"
 	sysver  = "OrcaC2_" + Version
 )
 

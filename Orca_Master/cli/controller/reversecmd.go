@@ -17,7 +17,7 @@ import (
 var reverseCmd = &grumble.Command{
 	Name:  "reverse",
 	Help:  "reverse shell",
-	Usage: "reverse meterpreter [-h | --help]",
+	Usage: "reverse [-h | --help]",
 }
 
 var reverseMeterperterCmd = &grumble.Command{
